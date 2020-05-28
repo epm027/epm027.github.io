@@ -1,4 +1,5 @@
 html{
     border: 100px solid;
-    border-color: coral;
 }
+
+div {border-color: coral;}
