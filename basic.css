@@ -1,3 +1,4 @@
 html{
-    border: 100px solid blue;
+    border: 100px solid;
+    border-color: coral;
 }
