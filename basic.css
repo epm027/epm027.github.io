@@ -3,3 +3,7 @@ div {
     border-width:5px;
     border-color:red;
 }
+
+html{
+    border: 100px solid;
+}
