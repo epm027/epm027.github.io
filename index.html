@@ -1,88 +1,169 @@
-<!DOCTYPE html>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<link rel="icon" href="Images/big_e.png">
+<title>Ethan Marzban</title>
 
-<head style = "background: blue">
-  <title>Ethan Marzban</title>
-  <link href='https://fonts.googleapis.com/css?family=Abel' rel='stylesheet'>
-  <link rel="icon" href="Images/big_e.png">
-  <style>
-    body{font-family: 'Abel';font-size: 16px}
-  </style>
-</head>
+<style>
+  body {
+    font-family: 'Verdana';
+    font-size: 16px;
+    margin: 15px; padding-right: 3em; padding-left: 3em; padding-top: 2em;
+    background-image: url('Images/background1.png');
+    background-repeat: no-repeat;
+    background-size: 0.3;
+    background-attachment: fixed;
+    background-position: center;
+    line-height: 25px;
+  }
+  table {
+    border-spacing: 20px;
+    font-size: 16px;
+    line-height: 25px;
+  }
+  .collapsible {
+  background-color: #eeeeee9f;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 16px;
+  font-family: "Lexend Peta"
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsible:hover {
+  background-color: #ccccccf0;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f19f;
+}
+
+.collapsible:after {
+  content: '\02795'; /* Unicode character for "plus" sign (+) */
+  font-size: 13px;
+  color: white;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+
+</style>
 
 <html>
-<body style = "margin: 15px; padding-right: 2em; padding-left: 2em; padding-top: 1em">
-  <table>
-    <tbody>
-        <tr>
-          <td>
-            <h1>Ethan Marzban</h1>
-            <h2>PhD Student, UC Santa Barbara</h2>
-          </td>
-          <td>
-            <img src="Images/3d_gaussian.png" alt="3D Gaussian" width = "300">
-          </td>
-          <td>
-            <img src="Images/cropped.gif" alt="Animated Gamma" width = "300">
-          </td>
-        </tr>
-    </tbody>
-  <table>
-<p> Hello! I recently completed my undergraduate degree at UC Berkeley (Class of 2020) in Statistics.
-Starting in Fall 2020 I will be a PhD Student in the Department of Statistics and
-Applied Probability at UCSB; this website will be updated in the coming months accordingly. </p>
+  <head>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lexend+Peta">
+  </head>
+<body>
 
-<h3 style = "background-color:#9fa5f5; padding:1px"> Publications </h3>
+  <span style = "font-size:48px; font-family:Lexend Peta;">Ethan P. Marzban</span>
+  <br>
+  <br>
+  <span style = "font-size:20px; font-family:Lexend Peta;">PhD Student; Department of Statistics and Applied Probability</span>
+  <br>
+  <span style = "font-size:20px; font-family:Lexend Peta;">University of California, Santa Barbara</span>
 
-<ul>
-  <li>
-    <p> <u> All Models are Wrong: Concepts of Statistical Learning (CSL)</u>, by Sanchez, G. and Marzban, E.
-      <form action="http://allmodelsarewrong.github.io/" style='display:inline;'>
-        <input style = "font-family: Abel" type="submit" value="Click for the Full Textbook" />
-      </form>
-    </p>
-      <p> While at UC Berkeley, I had the pleasure of working with Dr. Gaston Sanchez to co-author an
+  <br>
+  <br>
+
+  <p> Hello! I started in the the Department of Statistics and Applied Probability
+  at the University of California, Santa Barbara as a PhD Student in Fall 2020.
+  Prior to that, I completed my Undergraduate Degree at the University of California,
+  Berkeley (also in Statistics). </p>
+
+
+<!-- <h3 style = "background-color:rgba(202, 210, 222, 0.3); padding:2px; opacity"> Publications </h3> -->
+<button type="button" class="collapsible">Publications</button>
+<div class="content">
+<table style="width:100%">
+<!-- CSL -->
+<tr>
+	<td colspan="2"><u> All Models are Wrong: Concepts of Statistical Learning (CSL)</u>, by Sanchez, G. and Marzban, E.</td>
+</tr>
+<tr>
+	<td>
+    <form action="http://allmodelsarewrong.github.io/" style='display:inline;'>
+      <input style = "font-family: Lexend Peta" type="submit" value="Click for the Full Textbook" />
+    </form>
+    </td>
+    <td>
+     <p> While at UC Berkeley, I had the pleasure of working with Dr. Gaston Sanchez to co-author an
       electronic Machine Learning textbook, modeled after class notes from Stat 154 (the designated
-      Machine Learning class in the Statistics Department at UC Berkeley). The textbook is freely available for use, and is updated/revised from time to time.</p>
-  </li>
-</ul>
+      Machine Learning class in the Statistics Department at UC Berkeley). The textbook is freely
+      available for use, and is updated/revised from time to time. </p>
+    </td>
+</tr>
+</table>
+</div>
 
-<h3 style = "background-color:#9fa5f5; padding:1px"> Other Contributions </h3>
+<br>
+<br>
 
-<ul>
-  <li>
-      <p> <u> Statistics Undergraduate Student Association (SUSA),</u> at UC Berkeley
-        <form action="https://susa-ucb.github.io/" style='display:inline;'>
-          <input style = "font-family: Abel" type="submit" value="Click for SUSA's Website" />
-        </form>
-      </p>
+
+<button type="button" class="collapsible">Other Contributions</button>
+<div class="content">
+<table style="width:100%">
+<!-- SUSA -->
+<tr>
+	<td colspan="2"><u> Statistics Undergraduate Student Association (SUSA),</u> at UC Berkeley</td>
+</tr>
+<tr>
+	<td>
+    <form action="https://susa-ucb.github.io/" style='display:inline;'>
+      <input style = "font-family: Lexend Peta" type="submit" value="Click for SUSA's Website" />
+    </form>
+    </td>
+    <td>
       <p> I was fortunate enough to serve as a founding member of (and also Secretary for) the Statistics Undergraduate Student Association
       (SUSA) at UC Berkeley, which is the officially supported student association of the Statistics Department at UC Berkeley. Additionally,
       I wrote a handful of exam review sheets, which can be found on the official SUSA website. </p>
-  </li>
+    </td>
+</tr>
 
-  <li>
-      <p> <u> Music 198: Chamber Music For Fun</u>, at UC Berkeley </p>
+<!-- CSL -->
+<tr>
+	<td colspan="2"><u> Music 198: Chamber Music For Fun</u>, at UC Berkeley</td>
+</tr>
+<tr>
+	  <td>
+    </td>
+    <td>
       <p> From August 2018 until my graduaton in May 2020, I served as one of three "facilitators" (akin to instructors) for Music 198, which is a one-unit class
       (taken for a P/NP grade) in which students of any level of musical experience can come together and engage collaboratively in Chamber Music.
       Duties as a facilitator included judging auditions, organizing the final recitals, and other administrative work. </p>
-  </li>
+    </td>
+</tr>
+</table>
+</div>
 
-</ul>
 
-<h3 style = "background-color:#9fa5f5; padding:1px"> Resources </h3>
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
 
-<ul>
-  <li>
-      <p> Nothing yet; stay tuned, as I plan to update this website frequently! </p>
-  </li>
-  <li>
-      <p> <a href = "/stat001">Stat 001</a>, a website for a <strong> fake </strong> course I created (mainly as practice
-        in html writing).
-  </li>
-</ul>
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+</script>
 
 
 </body>
+
 </html>
