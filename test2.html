@@ -18,6 +18,30 @@
     font-size: 16px;
     line-height: 25px;
   }
+  .collapsible {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsible:hover {
+  background-color: #ccc;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
 </style>
 
 <html>
@@ -43,8 +67,9 @@
   Berkeley (also in Statistics). </p>
 
 
-<h3 style = "background-color:rgba(202, 210, 222, 0.3); padding:2px; opacity"> Publications </h3>
-
+<!-- <h3 style = "background-color:rgba(202, 210, 222, 0.3); padding:2px; opacity"> Publications </h3> -->
+<button type="button" class="collapsible">Open Collapsible</button>
+<div class="content">
 <table style="width:100%">
 <!-- CSL -->
 <tr>
@@ -64,42 +89,7 @@
     </td>
 </tr>
 </table>
-
-<h3 style = "background-color:rgba(202, 210, 222, 0.3); padding:2px; opacity"> Other Contributions </h3>
-
-<table style="width:100%">
-<!-- SUSA -->
-<tr>
-	<td colspan="2"><u> Statistics Undergraduate Student Association (SUSA),</u> at UC Berkeley</td>
-</tr>
-<tr>
-	<td>
-    <form action="https://susa-ucb.github.io/" style='display:inline;'>
-      <input style = "font-family: Lexend Peta" type="submit" value="Click for SUSA's Website" />
-    </form>
-    </td>
-    <td>
-      <p> I was fortunate enough to serve as a founding member of (and also Secretary for) the Statistics Undergraduate Student Association
-      (SUSA) at UC Berkeley, which is the officially supported student association of the Statistics Department at UC Berkeley. Additionally,
-      I wrote a handful of exam review sheets, which can be found on the official SUSA website. </p>
-    </td>
-</tr>
-
-<!-- CSL -->
-<tr>
-	<td colspan="2"><u> Music 198: Chamber Music For Fun</u>, at UC Berkeley</td>
-</tr>
-<tr>
-	  <td>
-    </td>
-    <td>
-      <p> From August 2018 until my graduaton in May 2020, I served as one of three "facilitators" (akin to instructors) for Music 198, which is a one-unit class
-      (taken for a P/NP grade) in which students of any level of musical experience can come together and engage collaboratively in Chamber Music.
-      Duties as a facilitator included judging auditions, organizing the final recitals, and other administrative work. </p>
-    </td>
-</tr>
-</table>
-
+</div>
 </body>
 
 </html>
