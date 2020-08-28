@@ -19,7 +19,7 @@
     line-height: 25px;
   }
   .collapsible {
-  background-color: #eeeeee7f;
+  background-color: #eeeeeef0;
   color: #444;
   cursor: pointer;
   padding: 18px;
@@ -41,20 +41,7 @@
   padding: 0 18px;
   display: none;
   overflow: hidden;
-  transition: max-height 0.2s ease-out;
   background-color: #f1f1f19f;
-}
-
-.collapsible:after {
-  content: '\02795'; /* Unicode character for "plus" sign (+) */
-  font-size: 13px;
-  color: white;
-  float: right;
-  margin-left: 5px;
-}
-
-.active:after {
-  content: "\2796"; /* Unicode character for "minus" sign (-) */
 }
 </style>
 
@@ -81,7 +68,7 @@
   Berkeley (also in Statistics). </p>
 
 
-
+<!-- <h3 style = "background-color:rgba(202, 210, 222, 0.3); padding:2px; opacity"> Publications </h3> -->
 <button type="button" class="collapsible">Publications</button>
 <div class="content">
 <table style="width:100%">
@@ -105,45 +92,6 @@
 </table>
 </div>
 
-<br>
-<br>
-
-
-<button type="button" class="collapsible">Other Contributions</button>
-<div class="content">
-<table style="width:100%">
-<!-- SUSA -->
-<tr>
-	<td colspan="2"><u> Statistics Undergraduate Student Association (SUSA),</u> at UC Berkeley</td>
-</tr>
-<tr>
-	<td>
-    <form action="https://susa-ucb.github.io/" style='display:inline;'>
-      <input style = "font-family: Lexend Peta" type="submit" value="Click for SUSA's Website" />
-    </form>
-    </td>
-    <td>
-      <p> I was fortunate enough to serve as a founding member of (and also Secretary for) the Statistics Undergraduate Student Association
-      (SUSA) at UC Berkeley, which is the officially supported student association of the Statistics Department at UC Berkeley. Additionally,
-      I wrote a handful of exam review sheets, which can be found on the official SUSA website. </p>
-    </td>
-</tr>
-
-<!-- CSL -->
-<tr>
-	<td colspan="2"><u> Music 198: Chamber Music For Fun</u>, at UC Berkeley</td>
-</tr>
-<tr>
-	  <td>
-    </td>
-    <td>
-      <p> From August 2018 until my graduaton in May 2020, I served as one of three "facilitators" (akin to instructors) for Music 198, which is a one-unit class
-      (taken for a P/NP grade) in which students of any level of musical experience can come together and engage collaboratively in Chamber Music.
-      Duties as a facilitator included judging auditions, organizing the final recitals, and other administrative work. </p>
-    </td>
-</tr>
-</table>
-</div>
 
 <script>
 var coll = document.getElementsByClassName("collapsible");
@@ -153,10 +101,10 @@ for (i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function() {
     this.classList.toggle("active");
     var content = this.nextElementSibling;
-    if (content.style.maxHeight){
-      content.style.maxHeight = null;
+    if (content.style.display === "block") {
+      content.style.display = "none";
     } else {
-      content.style.maxHeight = content.scrollHeight + "px";
+      content.style.display = "block";
     }
   });
 }
