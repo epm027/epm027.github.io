@@ -81,7 +81,7 @@
 <br>
 
 <!-- <h3 style = "background-color:rgba(202, 210, 222, 0.3); padding:2px; opacity"> Publications </h3> -->
-<button type="button" class="collapsible">Publications</button>
+<button class="collapsible">Publications</button>
 <div class="content">
 <table style="width:100%">
 <!-- CSL -->
@@ -216,7 +216,7 @@
 </div>
 
 
-<script>
+<!-- <script>
 var coll = document.getElementsByClassName("collapsible");
 var i;
 
@@ -228,6 +228,23 @@ for (i = 0; i < coll.length; i++) {
       content.style.display = "none";
     } else {
       content.style.display = "block";
+    }
+  });
+}
+</script> -->
+
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
     }
   });
 }
