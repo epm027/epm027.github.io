@@ -8,6 +8,43 @@
 body {
     font-family: 'Actor';font-size: 18px;
 }
+.collapsible {
+background-color: #eeeeee9f;
+color: #444;
+cursor: pointer;
+padding: 18px;
+width: 100%;
+border: none;
+text-align: left;
+outline: none;
+font-size: 16px;
+font-family: "Lexend Peta"
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsible:hover {
+background-color: #ccccccf0;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.content {
+padding: 0 18px;
+display: none;
+overflow: hidden;
+background-color: #f1f1f19f;
+}
+
+.collapsible:after {
+content: '\02795'; /* Unicode character for "plus" sign (+) */
+font-size: 13px;
+color: white;
+float: right;
+margin-left: 5px;
+}
+
+.active:after {
+content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
 </style>
 
 <link rel="icon" href="Images/dice_transparent.png">
@@ -39,6 +76,31 @@ There are also some additional formulas here:
 </ol>
 
 <i>Study Guides maintained by <a href = "https://epm027.github.io/"> Ethan Marzban </a>; please direct inquiries <a href = "mailto:emarzban@berkeley.edu?subject=[SUSA] Review Materials">here </a></i>
+
+<button type="button" class="collapsible">Publications</button>
+<div class="content">
+
+  OMG HELLO!
+
+</div>
+
+
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+</script>
 
 </body>
 </html>
