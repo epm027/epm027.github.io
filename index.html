@@ -38,6 +38,7 @@
   padding: 0 18px;
   display: none;
   overflow: hidden;
+  transition: max-height 0.2s ease-out;
   background-color: #f1f1f19f;
 }
 
@@ -224,6 +225,23 @@ for (i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function() {
     this.classList.toggle("active");
     var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+  });
+}
+</script>
+
+<!-- <script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
     if (content.style.display === "block") {
       content.style.display = "none";
     } else {
@@ -231,7 +249,7 @@ for (i = 0; i < coll.length; i++) {
     }
   });
 }
-</script>
+</script> -->
 
 
 </body>
