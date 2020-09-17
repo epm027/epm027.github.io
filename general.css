@@ -1,7 +1,7 @@
 body {
   font-family: 'Merriweather';
   font-size: 24px;
-  margin: 5ex; padding: 5ex;
+  margin: 5ex; padding: 5ex; padding-top: 1ex;
   background: url('Images/background2.png') center / auto 749px;
   background-attachment: fixed;
   background-repeat: no-repeat;
