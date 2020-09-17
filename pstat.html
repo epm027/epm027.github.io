@@ -2,6 +2,20 @@
 <title>PSTAT Graduate Committee</title>
 
 <style>
+#container {
+  width: 10px;
+  height: 10px;
+  position: relative;
+}
+#animate {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  opacity: 1;
+}
+</style>
+
+<style>
   body {
     font-family: 'Merriweather';
     font-size: 16px;
@@ -18,5 +32,27 @@
   </head>
 
 <h1> PSTAT Graduate Committee </h1>
+
+<div id ="container">
+  <div id ="animate">Hello</div>
+</div>
+
+
+<script>
+function myMove() {
+  var elem = document.getElementById("animate");
+  var op = 0;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (op == 1) {
+      clearInterval(id);
+    } else {
+      op = op + 0.01;
+      elem.style.opacity = op;
+    }
+  }
+}
+</script>
+
 </body>
 </html>
