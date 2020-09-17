@@ -48,7 +48,7 @@ body {
 
 .topnav {
   overflow: hidden;
-  background-color: #333;
+  background-color: #064991;
 }
 
 .topnav a {
@@ -66,6 +66,6 @@ body {
 }
 
 .topnav a.active {
-  background-color: #4CAF50;
-  color: white;
+  background-color: #f7dd68;
+  color: #064991;
 }
