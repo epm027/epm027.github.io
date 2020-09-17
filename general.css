@@ -8,28 +8,40 @@ body {
 #container {
   width: 90%;
   position: relative;
+  margin: 0;
+  padding: 0;
 }
 #container2 {
   width: 90%;
   position: relative;
+  margin: 0;
+  padding: 0;
 }
 #animate {
   width: 90%;
   position: relative;
   opacity: 0;
+  margin: 0;
+  padding: 0;
 }
 #animate2 {
   width: 90%;
   position: relative;
   opacity: 0;
+  margin: 0;
+  padding: 0;
 }
 #animate3 {
   width: 90%;
   position: relative;
   opacity: 0;
+  margin: 0;
+  padding: 0;
 }
 #animate4 {
   width: 90%;
   position: relative;
   opacity: 0;
+  margin: 0;
+  padding: 0;
 }
