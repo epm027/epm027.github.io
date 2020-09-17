@@ -14,17 +14,21 @@
     <h1 id ="animate">UCSB: PSTAT</h1>
   </div>
   <div id ="container">
-    <h1 id ="animate">Graduate</h1>
+    <h1 id ="animate2">Graduate</h1>
   </div>
   <div id ="container">
-    <h1 id ="animate">Committee</h1>
+    <h1 id ="animate3">Committee</h1>
   </div>
 
 <br>
 <br>
 <br>
 
-<p>Welcome to the party!</p>
+
+<div id ="container2">
+  <p id = "animate4">
+    Welcome to the party!
+  </p>
 
 <!-- Scripts for fade-ins -->
 <script>
@@ -83,6 +87,24 @@ function myMove3() {
   }
 }
 setTimeout(function() {myMove3(); }, 2000)
+</script>
+
+
+<script>
+function myMove4() {
+  var elem = document.getElementById("animate4");
+  var op = 0;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (op == 1) {
+      clearInterval(id);
+    } else {
+      op = op + 0.01;
+      elem.style.opacity = op;
+    }
+  }
+}
+setTimeout(function() {myMove4(); }, 3000)
 </script>
 
 </body>
