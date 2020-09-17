@@ -20,19 +20,19 @@ body {
 #animate {
   width: 750px;
   height: 35px;
-  position: absolute;
+  position: relative;
   opacity: 0;
 }
 #animate2 {
   width: 750px;
   height: 35px;
-  position: absolute;
+  position: relative;
   opacity: 0;
 }
 #animate3 {
   width: 750px;
   height: 35px;
-  position: absolute;
+  position: relative;
   opacity: 0;
 }
 #animate4 {
