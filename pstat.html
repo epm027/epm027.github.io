@@ -7,18 +7,18 @@
   }
   #container {
     width: 10px;
-    height: 25px;
+    height: 35px;
     position: relative;
   }
   #animate {
     width: 10px;
-    height: 25px;
+    height: 35px;
     position: absolute;
     opacity: 1;
   }
   #animate2 {
     width: 10px;
-    height: 25px;
+    height: 35px;
     position: absolute;
     opacity: 1;
   }
@@ -74,6 +74,10 @@ function myMove() {
     if (op == 1) {
       clearInterval(id);
     } else {
+      i = 0
+      while i < 100 {
+        i += 1
+      }
       op = op + 0.01;
       elem.style.opacity = op;
     }
