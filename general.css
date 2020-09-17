@@ -38,6 +38,6 @@ body {
 #animate4 {
   width: 750px;
   height: 35px;
-  position: absolute;
+  position: relative;
   opacity: 0;
 }
