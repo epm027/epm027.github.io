@@ -1,7 +1,7 @@
 body {
   font-family: 'Merriweather';
   font-size: 24px;
-  margin: 1em; padding-right: 2em; padding-left: 2em; padding-top: 2em;
+  margin: 50em; padding-right: 2em; padding-left: 2em; padding-top: 2em;
 }
 
 
@@ -9,39 +9,39 @@ body {
   width: 90%;
   position: relative;
   margin: 0;
-  padding: -1em;
+  padding: -5em;
 }
 #container2 {
   width: 90%;
   position: relative;
   margin: 0;
-  padding: -1em;
+  padding: -5em;
 }
 #animate {
   width: 90%;
   position: relative;
   opacity: 0;
   margin: 0;
-  padding: -1em;
+  padding: -5em;
 }
 #animate2 {
   width: 90%;
   position: relative;
   opacity: 0;
   margin: 0;
-  padding: -1em;
+  padding: -5em;
 }
 #animate3 {
   width: 90%;
   position: relative;
   opacity: 0;
   margin: 0;
-  padding: -1em;
+  padding: -5em;
 }
 #animate4 {
   width: 90%;
   position: relative;
   opacity: 0;
   margin: 0;
-  padding: -1em;
+  padding: -5em;
 }
