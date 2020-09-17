@@ -44,7 +44,7 @@
     <h1 id ="animate">PSTAT</h1>
   </div>
   <div id ="container">
-    <h1 id ="animate2">Hello</h1>
+    <h1 id ="animate2">Graduate</h1>
   </div>
 
 
@@ -67,6 +67,10 @@ myMove()
 
 <script>
 function myMove2() {
+  i = 0
+  while (i < 10e6) {
+    i += 1
+  }
   var elem = document.getElementById("animate2");
   var op = 0;
   var id = setInterval(frame, 10);
@@ -74,10 +78,6 @@ function myMove2() {
     if (op == 1) {
       clearInterval(id);
     } else {
-      i = 0
-      while (i < 10e6) {
-        i += 1
-      }
       op = op + 0.01;
       elem.style.opacity = op;
     }
