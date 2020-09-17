@@ -9,35 +9,35 @@ body {
 }
 #container {
   width: 90%;
-  height: 20px;
+  height: 5px;
   position: relative;
 }
 #container2 {
   width: 90%;
-  height: 20px;
+  height: 5px;
   position: relative;
 }
 #animate {
   width: 90%;
-  height: 20px;
+  height: 5px;
   position: relative;
   opacity: 0;
 }
 #animate2 {
   width: 90%;
-  height: 20px;
+  height: 5px;
   position: relative;
   opacity: 0;
 }
 #animate3 {
   width: 90%;
-  height: 20px;
+  height: 5px;
   position: relative;
   opacity: 0;
 }
 #animate4 {
   width: 90%;
-  height: 20px;
+  height: 5px;
   position: relative;
   opacity: 0;
 }
