@@ -46,26 +46,41 @@ body {
   padding: -5em;
 }
 
-.topnav {
-  overflow: hidden;
-  background-color: #333;
+li{
+  list-style-type: none;
 }
 
-.topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
+a{
   text-decoration: none;
-  font-size: 17px;
 }
 
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
+nav{
+  width: 100vw;
 }
 
-.topnav a.active {
-  background-color: #4CAF50;
-  color: white;
+nav{
+  width: 100vw;
+  background-color: #D6EFFF;
+}
+
+ul{
+  margin: 0;
+  padding: 0;
+
+  /*this option by default dispose the elements in a row (flex-direction: row)*/
+  display: flex;
+}
+
+li{
+  list-style-type: none;
+
+  /*when I specify 2 values to margin, the first one is for the top and bottom side, the second for the left and right side*/
+  margin: 0 2vw;
+}
+
+li{
+  list-style-type: none;
+  margin: 0 2vw;
+  /* our font-size will be 3% of the height of the viewport */
+  font-size: 3vh;
 }
