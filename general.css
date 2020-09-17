@@ -9,39 +9,39 @@ body {
   width: 90%;
   position: relative;
   margin: 0;
-  padding: 0;
+  padding: -1em;
 }
 #container2 {
   width: 90%;
   position: relative;
   margin: 0;
-  padding: 0;
+  padding: -1em;
 }
 #animate {
   width: 90%;
   position: relative;
   opacity: 0;
   margin: 0;
-  padding: 0;
+  padding: -1em;
 }
 #animate2 {
   width: 90%;
   position: relative;
   opacity: 0;
   margin: 0;
-  padding: 0;
+  padding: -1em;
 }
 #animate3 {
   width: 90%;
   position: relative;
   opacity: 0;
   margin: 0;
-  padding: 0;
+  padding: -1em;
 }
 #animate4 {
   width: 90%;
   position: relative;
   opacity: 0;
   margin: 0;
-  padding: 0;
+  padding: -1em;
 }
