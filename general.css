@@ -14,20 +14,14 @@ body {
   position: relative;
 }
 #animate {
-  width: 50px;
-  height: 35px;
   position: absolute;
   opacity: 0;
 }
 #animate2 {
-  width: 50px;
-  height: 35px;
   position: absolute;
   opacity: 0;
 }
 #animate3 {
-  width: 50px;
-  height: 35px;
   position: absolute;
   opacity: 0;
 }
