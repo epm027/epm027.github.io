@@ -8,35 +8,35 @@ body {
   font-size: 18px
 }
 #container {
-  width: 750px;
+  width: 90vw;
   height: 35px;
   position: relative;
 }
 #container2 {
-  width: 750px;
+  width: 90vw;
   height: 35px;
   position: relative;
 }
 #animate {
-  width: 750px;
+  width: 90vw;
   height: 35px;
   position: relative;
   opacity: 0;
 }
 #animate2 {
-  width: 750px;
+  width: 90vw;
   height: 35px;
   position: relative;
   opacity: 0;
 }
 #animate3 {
-  width: 750px;
+  width: 90vw;
   height: 35px;
   position: relative;
   opacity: 0;
 }
 #animate4 {
-  width: 750px;
+  width: 90vw;
   height: 35px;
   position: relative;
   opacity: 0;
