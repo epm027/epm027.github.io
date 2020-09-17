@@ -8,10 +8,10 @@ body {
   font-size: 18px
 }
 #container {
-  position: relative;
+  position: absolute;
 }
 #container2 {
-  position: relative;
+  position: absolute;
 }
 #animate {
   position: absolute;
