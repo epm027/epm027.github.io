@@ -8,6 +8,7 @@ body {
   font-size: 18px
 }
 #container {
+  height: 30px;
   position: absolute;
 }
 #container2 {
