@@ -1,40 +1,40 @@
 body {
   font-family: 'Merriweather';
   font-size: 24px;
-  margin: 15ex; padding-right: 2em; padding-left: 2em; padding-top: 2em;
+  margin: 10ex; padding-right: 2em; padding-left: 2em; padding-top: 2em;
 }
 
 #container {
   width: 90%;
-  height: 5ex;
+  height: 0ex;
   position: relative;
 }
 #container2 {
   width: 90%;
-  height: 5ex;
+  height: 0ex;
   position: relative;
 }
 #animate {
   width: 90%;
-  height: 5ex;
+  height: 0ex;
   position: relative;
   opacity: 0;
 }
 #animate2 {
   width: 90%;
-  height: 5ex;
+  height: 0ex;
   position: relative;
   opacity: 0;
 }
 #animate3 {
   width: 90%;
-  height: 5ex;
+  height: 0ex;
   position: relative;
   opacity: 0;
 }
 #animate4 {
   width: 90%;
-  height: 5ex;
+  height: 0ex;
   position: relative;
   opacity: 0;
 }
