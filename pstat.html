@@ -58,14 +58,7 @@ function myMove() {
       elem.style.opacity = op;
     }
   }
-  stage += 1
-}
-if(stage == 1){
-  myMove()
-}
-else if (stage == 2) {
-  setTimeout(function() {myMove2(); }, 700)
-}
+myMove()
 </script>
 
 <script>
@@ -82,7 +75,7 @@ function myMove2() {
     }
   }
 }
-setTimeout(function() {myMove2(); }, 1400)
+setTimeout(function() {myMove2(); }, 700)
 </script>
 
 <script>
@@ -99,7 +92,7 @@ function myMove3() {
     }
   }
 }
-setTimeout(function() {myMove3(); }, 2100)
+setTimeout(function() {myMove3(); }, 1400)
 </script>
 
 
@@ -117,7 +110,7 @@ function myMove4() {
     }
   }
 }
-setTimeout(function() {myMove4(); }, 2800)
+setTimeout(function() {myMove4(); }, 2100)
 </script>
 
 </body>
