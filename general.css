@@ -12,6 +12,10 @@ body {
   height: 35px;
   position: relative;
 }
+#container2 {
+  height: 35px;
+  position: relative;
+}
 #animate {
   width: 10px;
   height: 35px;
