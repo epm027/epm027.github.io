@@ -8,7 +8,7 @@ body {
   font-size: 18px
 }
 #container {
-  width: 10px;
+  width: 100px;
   height: 35px;
   position: relative;
 }
@@ -18,19 +18,19 @@ body {
   position: relative;
 }
 #animate {
-  width: 10px;
+  width: 100px;
   height: 35px;
   position: absolute;
   opacity: 0;
 }
 #animate2 {
-  width: 10px;
+  width: 100px;
   height: 35px;
   position: absolute;
   opacity: 0;
 }
 #animate3 {
-  width: 10px;
+  width: 100px;
   height: 35px;
   position: absolute;
   opacity: 0;
