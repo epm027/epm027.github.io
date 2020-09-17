@@ -5,9 +5,6 @@
   .style1{
     font-size: 18px
   }
-  .delay{
-    animation-delay: 2s;
-  }
   #container {
     width: 10px;
     height: 35px;
@@ -23,8 +20,7 @@
     width: 10px;
     height: 35px;
     position: absolute;
-    opacity: 1;
-    animation-delay: 2s;
+    opacity: 0;
   }
 </style>
 
@@ -47,8 +43,8 @@
   <div id ="container">
     <h1 id ="animate">PSTAT</h1>
   </div>
-  <div id ="container" class = "delay">
-    <h1 id ="animate2">Haa</h1>
+  <div id ="container">
+    <h1 id ="animate2">Oh</h1>
   </div>
 
 
@@ -83,7 +79,7 @@ function myMove2() {
     }
   }
 }
-setTimeout(function() {myMove2(); }, 5000)
+setTimeout(function() {myMove2(); }, 1000)
 </script>
 
 </body>
