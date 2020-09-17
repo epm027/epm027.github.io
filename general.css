@@ -31,6 +31,8 @@ body {
   opacity: 0;
 }
 #animate4 {
+  width: 10px;
+  height: 35px;
   position: absolute;
   opacity: 0;
 }
