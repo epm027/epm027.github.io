@@ -7,35 +7,35 @@ body {
 
 #container {
   width: 90%;
-  height: 0em;
+  height: -10em;
   position: relative;
 }
 #container2 {
   width: 90%;
-  height: 0em;
+  height: -10em;
   position: relative;
 }
 #animate {
   width: 90%;
-  height: 0em;
+  height: -10em;
   position: relative;
   opacity: 0;
 }
 #animate2 {
   width: 90%;
-  height: 0em;
+  height: -10em;
   position: relative;
   opacity: 0;
 }
 #animate3 {
   width: 90%;
-  height: 0em;
+  height: -10em;
   position: relative;
   opacity: 0;
 }
 #animate4 {
   width: 90%;
-  height: 0em;
+  height: -10em;
   position: relative;
   opacity: 0;
 }
