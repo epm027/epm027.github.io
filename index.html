@@ -93,17 +93,21 @@
       </div>
     </div>
   </td>
-    <td style="border-left: 6px solid #cfcbc8; padding-left: 20px">
-      <span style = "font-size:48px; font-family:Montserrat;">E t h a n</span>
-      <br>
-      <br>
-      <br>
-      <span style = "font-size:48px; font-family:Montserrat;">P.</span>
-      <br>
-      <br>
-      <br>
-      <span style = "font-size:48px; font-family:Montserrat;">M a r z b a n</span>
-    </td>
+    <div id ="container">
+      <div id = "animate2">
+        <td style="border-left: 6px solid #cfcbc8; padding-left: 20px">
+          <span style = "font-size:48px; font-family:Montserrat;">E t h a n</span>
+          <br>
+          <br>
+          <br>
+          <span style = "font-size:48px; font-family:Montserrat;">P.</span>
+          <br>
+          <br>
+          <br>
+          <span style = "font-size:48px; font-family:Montserrat;">M a r z b a n</span>
+        </td>
+      </div>
+    </div>
 
 </tr>
 </table>
@@ -317,6 +321,21 @@ function fadeIn() {
   }
 }
 fadeIn()
+
+function fadeIn_delay() {
+  var elem = document.getElementById("animate");
+  var op = 0;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (op == 1) {
+      clearInterval(id);
+    } else {
+      op = op + 0.01;
+      elem.style.opacity = op;
+    }
+  }
+}
+setTimeout(function() {fadeIn_delay(); }, 500)
 
 
 </script>
