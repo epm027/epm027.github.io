@@ -308,7 +308,7 @@ function fadeIn() {
   var op = 0;
   var id = setInterval(frame, 10);
   function frame() {
-    if (op <= 1) {
+    if (op == 1) {
       clearInterval(id);
     } else {
       op = op + 0.01;
