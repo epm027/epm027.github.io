@@ -77,6 +77,14 @@
     padding: -5em;
   }
 
+  #animate3 {
+    width: 100%;
+    position: relative;
+    opacity: 0;
+    margin: 0;
+    padding: -5em;
+  }
+
 
 </style>
 
@@ -121,6 +129,9 @@
 </table>
 
 <br>
+
+<div id ="container">
+  <div id = "animate2">
 
 <span style = "font-size:34px; font-family:Montserrat; line-height:45px">PhD Student</span>
 <br>
@@ -298,6 +309,8 @@
   </table>
 </div>
 
+</div>
+</div>
 
 <script>
 var coll = document.getElementsByClassName("collapsible");
@@ -345,6 +358,20 @@ function fadeIn_delay() {
 }
 setTimeout(function() {fadeIn_delay(); }, 500)
 
+function fadeIn_delay_2() {
+  var elem = document.getElementById("animate3");
+  var op = 0;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (op == 1) {
+      clearInterval(id);
+    } else {
+      op = op + 0.01;
+      elem.style.opacity = op;
+    }
+  }
+}
+setTimeout(function() {fadeIn_delay_2(); }, 1000)
 
 </script>
 
