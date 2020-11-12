@@ -54,6 +54,22 @@
     content: "\2796"; /* Unicode character for "minus" sign (-) */
   }
 
+  #container {
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding: -5em;
+  }
+
+  #animate {
+    width: 100%;
+    position: relative;
+    opacity: 0;
+    margin: 0;
+    padding: -5em;
+  }
+
+
 </style>
 
 <html>
@@ -71,7 +87,11 @@
 <tr>
 
 	<td>
-    <img src="/Images/e_modified.png" alt="E logo" width = "130">
+    <div id ="container">
+      <div id = "animatenew">
+        <img src="/Images/e_modified.png" alt="E logo" width = "130">
+      </div>
+    </div>
   </td>
     <td style="border-left: 6px solid #cfcbc8; padding-left: 20px">
       <span style = "font-size:48px; font-family:Montserrat;">E t h a n</span>
@@ -282,6 +302,23 @@ for (i = 0; i < coll.length; i++) {
     }
   });
 }
+
+function fadeIn() {
+  var elem = document.getElementById("animate");
+  var op = 0;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (op <= 1) {
+      clearInterval(id);
+    } else {
+      op = op + 0.01;
+      elem.style.opacity = op;
+    }
+  }
+}
+fadeIn()
+
+
 </script>
 
 <!-- <script>
