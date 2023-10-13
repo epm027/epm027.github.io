@@ -1,0 +1,19 @@
+/*-- scss:defaults --*/
+
+// fonts
+
+@import url('https://fonts.googleapis.com/css2?family=AR+One+Sans&family=Roboto:wght@300&display=swap');
+
+$font-family-sans-serif: "AR One Sans", sans-serif;
+$presentation-heading-color: #4870b5;
+$presentation-title-slide-text-align: "left";
+
+/*-- scss:rules --*/
+
+details>summary {
+  font-size: 0.75em;
+}
+
+.small {
+  font-size: 0.75em;
+}
