@@ -145,7 +145,7 @@ Each row of the data matrix corresponds to a unique [observational unit]{style="
 
 ::: {style="font-size:27px"}
 |    **Variable**     |                                **Description**                                 |
-|:-------------------:|:------------------------------------------------------------------------------:|
+|:---------------:|:-----------------------------------------------------:|
 |      `species`      |          The species of penguin (either Adelie, Chinstrap, or Gentoo)          |
 |      `island`       | The island on which the penguin was found (either Biscoe, Dream, or Torgersen) |
 |  `bill_length_mm`   |                 The length (millimeters) of the penguin's bill                 |
@@ -971,7 +971,7 @@ data.frame(x, y) %>%
 
 ::: fragment
 | **Variable Name** |                                      **Description**                                      |
-|:-----------------:|:-----------------------------------------------------------------------------------------:|
+|:--------------:|:------------------------------------------------------:|
 |    `stdy_hrs`     | average amount of time (in hrs) a student spent studying for a particular class each week |
 |     `ltr_grd`     |     the final letter grade (`A+`, `A`, `A-`, etc.) the student received in the class      |
 :::
