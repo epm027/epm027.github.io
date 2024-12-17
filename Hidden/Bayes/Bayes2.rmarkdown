@@ -26,6 +26,7 @@ title-slide-attributes:
     data-background-position: left
 ---
 
+
 ::: hidden
 $$
 \newcommand\R{\mathbb{R}}
@@ -74,14 +75,17 @@ $$
 
 -   We could, however, compute this using a [**simulation**]{style="color:#fa8b2f"}:
 
+
 ```{css echo=FALSE}
 .big-code{
   font-size: 130%
 }
 ```
 
+
 ::: fragment
 ::: big-code
+
 ```{r, echo = T}
 set.seed(27)
 B <- 1000
@@ -90,6 +94,7 @@ x <- sample(1:100, B, replace = T)
 y <- sample(1:100, B, replace = T)
 sum(x <= y) / B
 ```
+
 :::
 :::
 
@@ -105,6 +110,7 @@ sum(x <= y) / B
 
 ::: fragment
 ::: big-code
+
 ```{r, echo = T}
 set.seed(27)
 B <- 1000
@@ -114,6 +120,7 @@ y <- sample(1:100, B, replace = T)
 z <- sample(1:100, B, replace = T)
 sum((x <= y) & (y <= z)) / B
 ```
+
 :::
 :::
 
@@ -149,6 +156,7 @@ Let $A$ be an event with probability of occurrence $\Prob(A)$. Let $Y_n$ be defi
 
 ::: fragment
 ::: big-code
+
 ```{r}
 #| echo: TRUE
 library(tidyverse)
@@ -159,6 +167,7 @@ X <- rnorm(5000)
 ifelse((X >= 0) & (X <= 1), 1, 0) %>% 
   mean()
 ```
+
 :::
 :::
 
@@ -166,10 +175,12 @@ ifelse((X >= 0) & (X <= 1), 1, 0) %>%
 
 ::: fragment
 ::: big-code
+
 ```{r}
 #| echo: TRUE
 integrate(dnorm, 0, 1)
 ```
+
 :::
 :::
 
@@ -193,6 +204,7 @@ Consider evaluating the integral $$ I(f) := \int_{0}^{1} f(x) \ \mathrm{d}x $$ L
 
 ::: fragment
 ::: big-code
+
 ```{r}
 #| echo: TRUE
 set.seed(123)
@@ -200,6 +212,7 @@ B <- 5000
 X <- runif(B)
 (1/B) * (1/sqrt(2*pi)) * sum(exp(-X^2 / 2))
 ```
+
 :::
 :::
 
@@ -306,6 +319,7 @@ X <- runif(B)
 
 ## Gamma Distribution
 
+
 ```{ojs}
 viewof alpha_2 = Inputs.range(
   [0.1, 5], 
@@ -394,6 +408,7 @@ chart_2 = {
 
 ```
 
+
 ::: {style="font-size:18px; text-align:right"}
 *Credit to https://observablehq.com/@dswalter/normal-distribution for the base of the original applet code*
 :::
@@ -411,6 +426,7 @@ chart_2 = {
 -   **CDF:** No simple closed-form in general.
 
 ## Beta Distribution
+
 
 ```{ojs}
 viewof alpha_3 = Inputs.range(
@@ -491,6 +507,7 @@ chart_5 = {
   return svg.node();
 }
 ```
+
 
 ::: {style="font-size:18px; text-align:right"}
 *Credit to https://observablehq.com/@dswalter/normal-distribution for the base of the original applet code*
@@ -607,10 +624,12 @@ Assuming we observe 9 heads in our 10 tosses, find the posterior distribution $(
 
 ## Confidence Intervals
 
+
 ```{r dev = "png", dev.args=list(bg="transparent"), fig.height=6}
 source("CI_example.R")
 p1
 ```
+
 
 ## Credible Intervals
 
@@ -657,6 +676,7 @@ then $I$ is the shortest interval such that $\int_{a}^{b} f(x) \ \mathrm{d}x = 1
 
 ## 70% Credible Interval
 
+
 ```{r dev = "png", dev.args=list(bg="transparent")}
 data.frame(x = 0:1) %>%
   ggplot(aes(x = x)) + 
@@ -686,7 +706,9 @@ data.frame(x = 0:1) %>%
   )
 ```
 
+
 ## 70% Credible Interval
+
 
 ```{r dev = "png", dev.args=list(bg="transparent")}
 data.frame(x = 0:1) %>%
@@ -717,9 +739,11 @@ data.frame(x = 0:1) %>%
   )
 ```
 
+
 ## 70% HPD Interval
 
 ::: big-code
+
 ```{r}
 #| echo: TRUE
 library(HDInterval)
@@ -730,9 +754,11 @@ hdi(qbeta,
     shape2 = 4
 )
 ```
+
 :::
 
 ## 70% HPD Interval
+
 
 ```{r dev = "png", dev.args=list(bg="transparent")}
 
@@ -768,6 +794,7 @@ data.frame(x = 0:1) %>%
     legend.title = element_text(size = 24)
   )
 ```
+
 
 ## Two-Parameter Models
 
@@ -869,6 +896,7 @@ Given a random variable $X \sim F_X$, we have that $U := F_X(X) \sim \mathrm{Uni
 
 ::: fragment
 ::: big-code
+
 ```{r}
 #| echo: TRUE
 quant_func <- Vectorize(function(u, beta) {
@@ -880,10 +908,12 @@ set.seed(123)
 U <- runif(500)
 X <- quant_func(U, beta = 1)
 ```
+
 :::
 :::
 
 ## Inversion Sampling: Example
+
 
 ```{r dev = "png", dev.args=list(bg="transparent")}
 
@@ -911,6 +941,7 @@ data.frame(X) %>%
   )
 
 ```
+
 
 ## Grid Approximation {style="font-size:32px"}
 
@@ -941,11 +972,13 @@ data.frame(X) %>%
 **Step 1:**
 
 ::: big-code
+
 ```{r}
 #| echo: True
 N <- 6
 theta_grid <- seq(0, 1, length = N)
 ```
+
 :::
 :::
 
@@ -955,11 +988,13 @@ theta_grid <- seq(0, 1, length = N)
 **Step 2:**
 
 ::: big-code
+
 ```{r}
 #| echo: True
 discretized_prior <- dbeta(theta_grid, 2, 2)
 discretized_likelihood <- dbinom(9, 10, theta_grid)
 ```
+
 :::
 :::
 
@@ -969,6 +1004,7 @@ discretized_likelihood <- dbinom(9, 10, theta_grid)
 **Step 3:**
 
 ::: big-code
+
 ```{r}
 #| echo: True
 
@@ -977,6 +1013,7 @@ unnormalized_post <- discretized_prior *  discretized_likelihood
 post <- unnormalized_post / sum(unnormalized_post)
 round(post, 2)
 ```
+
 :::
 :::
 
@@ -986,6 +1023,7 @@ round(post, 2)
 **Step 4:**
 
 ::: big-code
+
 ```{r}
 #| echo: True
 set.seed(123)
@@ -994,10 +1032,12 @@ post_sample <- sample(theta_grid,
                       prob = post,
                       replace = T)
 ```
+
 :::
 :::
 
 ::: fragment
+
 ```{r dev = "png", dev.args=list(bg="transparent")}
 data.frame(post_sample) %>%
   ggplot(aes(x = post_sample)) +
@@ -1023,12 +1063,14 @@ data.frame(post_sample) %>%
   ) +
   xlim(c(0, 1))
 ```
+
 :::
 
 ------------------------------------------------------------------------
 
 ::: fragment
 ::: big-code
+
 ```{r}
 #| echo: True
 # Step 1
@@ -1051,12 +1093,14 @@ post_sample <- sample(theta_grid,
                       prob = post,
                       replace = T)
 ```
+
 :::
 :::
 
 ------------------------------------------------------------------------
 
 ::: fragment
+
 ```{r dev = "png", dev.args=list(bg="transparent")}
 data.frame(post_sample) %>%
   ggplot(aes(x = post_sample)) +
@@ -1082,6 +1126,7 @@ data.frame(post_sample) %>%
   ) +
   xlim(c(0, 1))
 ```
+
 :::
 
 ## Pros and Cons
@@ -1133,6 +1178,7 @@ data.frame(post_sample) %>%
 
 ::: fragment
 ::: big-code
+
 ```{r}
 #| echo: True
 library(rstan)
@@ -1150,6 +1196,7 @@ beta_binom_model <- "
   }
 "
 ```
+
 :::
 :::
 
@@ -1174,6 +1221,7 @@ beta_binom_model <- "
 
 ::: fragment
 ::: big-code
+
 ```{r}
 #| echo: True
 library(rstan)
@@ -1186,6 +1234,7 @@ beta_binom_sim <- stan(
   seed = 123
 )
 ```
+
 :::
 :::
 
@@ -1193,10 +1242,12 @@ beta_binom_sim <- stan(
 
 ::: fragment
 ::: big-code
+
 ```{r}
 #| echo: True
 class(beta_binom_sim)
 ```
+
 :::
 :::
 
@@ -1204,10 +1255,12 @@ class(beta_binom_sim)
 
 ::: fragment
 ::: big-code
+
 ```{r}
 #| echo: True
 as.array(beta_binom_sim, pars = "theta") %>% head()
 ```
+
 :::
 :::
 
@@ -1215,6 +1268,7 @@ as.array(beta_binom_sim, pars = "theta") %>% head()
 
 ::: fragment
 ::: big-code
+
 ```{r dev = "png", dev.args=list(bg="transparent")}
 #| echo: False
 library(bayesplot)
@@ -1234,10 +1288,12 @@ mcmc_trace(beta_binom_sim,
     legend.title = element_text(size = 24)
   )
 ```
+
 :::
 :::
 
 ## Posterior Histogram
+
 
 ```{r dev = "png", dev.args=list(bg="transparent")}
 mcmc_hist(beta_binom_sim, pars = "theta") +
@@ -1255,6 +1311,7 @@ mcmc_hist(beta_binom_sim, pars = "theta") +
     legend.title = element_text(size = 24)
   )
 ```
+
 
 ## Burn-In
 
@@ -1327,3 +1384,4 @@ mcmc_hist(beta_binom_sim, pars = "theta") +
     \end{align*} which is the CDF of the $\mathrm{Unif}[0, 1]$ distribution.
 
     -   Direction of inequality does not change, due to monotone increasing nature of $F_X^{-1}(\cdot)$.
+
