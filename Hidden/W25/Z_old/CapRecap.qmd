@@ -1,0 +1,262 @@
+---
+title: "Capture-Recapture"
+subtitle: "Microteaching Presentation"
+institute: "PSTAT 501, Winter 2024"
+author: "Ethan Marzban"
+footer: "UCSB: Department of Statistics and Applied Probability"
+logo: "pstat_logo.svg"
+format: 
+  revealjs:
+    theme: [moon, Styles/slides.scss]
+    multiplex: true
+    transition: fade
+    slide-number: true
+    incremental: true 
+    chalkboard: true
+    html-math-method: mathjax
+    template-partials:
+        - Styles/title-slide.html
+editor: visual
+execute:
+  freeze: auto
+title-slide-attributes:
+    data-background-image: "120b_hex.png"
+    data-background-size: contain
+    data-background-opacity: "0.5"
+    data-background-position: left
+---
+
+::: hidden
+$$
+\newcommand\R{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\1}{1\!\!1}
+\newcommand{\comp}[1]{#1^{\complement}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\SD}{\mathrm{SD}}
+\newcommand{\vect}[1]{\vec{\boldsymbol{#1}}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\usepackage[makeroom]{cancel}
+$$
+:::
+
+## Setup
+
+-   We've all heard the expression: "there are plenty of fish in the sea."
+
+-   But are there?
+
+-   More specifically; how can we find the number of fish in a large lake?
+
+-   One idea: drain the lake.
+
+-   Of course, this is not a feasible solution! We need to be a bit more clever about how we do this. The method we explore here is that of [**Capture-Recapture**]{style="color:#fa8b2f"}.
+
+## General Setup
+
+Suppose the number of fish in the lake is *N* (where *N* is, obviously, unknown).
+
+![](caprecap1.svg){width="65%"}
+
+## General Setup
+
+Start by taking a sample of size *t*, and tagging the fish in the sample. Then replace this sample, and assume that the fish immediately mix with the other untagged fish in the lake.
+
+![](caprecap2.svg){width="65%"}
+
+## General Setup
+
+I then take a second sample, this time of size *m*, and count the number of tagged fish in my new sample (which I call *r*).
+
+![](caprecap3.svg){width="65%"}
+
+## Notation
+
+-   So, to summarize, we have the following quantities:
+
+    -   [***N***]{style="color:#fa8b2f"}: the number of fish (unknown)
+    -   [***t***]{style="color:#fa8b2f"}: the number of tagged fish
+    -   [***m***]{style="color:#fa8b2f"}: the size of the second sample
+    -   [***r***]{style="color:#fa8b2f"}: the number of recaptured fish (i.e. tagged fish present in the second sample).
+
+## Goal
+
+-   Our goal is to estimate *N*.
+
+-   We will do so using Maximum Likelihood Estimation.
+
+-   Let *R* denote the number of recaptured fish in the second sample. What distribution does *R* follow?
+
+    -   Hypergeometric(*N*, *t*, *m*)
+
+-   $\displaystyle \Prob(R = r) = \frac{\binom{t}{r} \binom{N - t}{m - r}}{\binom{N}{m}} =: L_N$
+
+## "Likelihood"
+
+-   I intentionally use a subscript instead of parentheses, as *L~N~* is only really defined for integer *N*.
+
+::: fragment
+```{r dev = "png", dev.args=list(bg="transparent")}
+source("likelihood.R")
+
+data.frame(x, y) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_line(col = "#fa8b2f", size = 1) +
+  theme_bw() +
+  xlab("N") + ylab("Likelihood at N") +
+  ggtitle("Likelihood; t = 40, m = 30, r = 20") +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text = element_text(color = "white"),
+    axis.title = element_text(color = "white"),
+    plot.title = element_text(color = "white", 
+                              size = 20)
+  )
+
+```
+:::
+
+## Maximization
+
+-   *L~N~* is nondifferentiable. But it is still maximizable.
+
+-   Trick: look at the ratio $L_N / L_{N - 1}$.
+
+## Simplification
+
+::: fragment
+\begin{align*}
+    \frac{L_N}{L_{N - 1}}   & = \frac{ \frac{\binom{t}{r} \binom{N - t}{m - r}}{\binom{N}{m} } }{ \frac{\binom{t}{r} \binom{N - t - 1}{m - r}}{\binom{N - 1}{m} } }  =  \frac{ \cancel{ \binom{t}{r} } \binom{N - t}{m - r}}{\binom{N}{m} } \times \frac{\binom{N - 1}{m}}{ \cancel{ \binom{t}{r}  }\binom{N - t - 1}{m - r} } 
+\end{align*}
+:::
+
+::: fragment
+\begin{align*}
+    & = \frac{(N - t)!}{\cancel{(m - r)!} (N - t - m + r)!} \times \frac{\cancel{m! } (N - m)! }{N!}        \\
+        & \hspace{5mm} \times \frac{(N - 1)!}{\cancel{m! } (N - m - 1)!} \times \frac{\cancel{(m - r)!} (N - r - m - r - 1)!}{(N - t - 1)!}  
+\end{align*}
+:::
+
+## Simplification {style="font-size:32px"}
+
+\begin{align*}
+    \frac{L_N}{L_{N - 1}}       & = \frac{(N - t)!}{(N - t - 1)!} \times \frac{(N - m)!}{(N - m - 1)!} \times \frac{(N - t - m - r - 1)!}{(N - t - m + r)!} \\
+        & \hspace{5mm} \times \frac{(N - 1)!}{N!} \\
+\end{align*}
+
+::: fragment
+\begin{align*}
+    & = (N - t) \times (N - m) \times \frac{1}{(N - t - m + r)} \times \frac{1}{N}  \\
+    & = \frac{(N - t)(N - m)}{N (N - t - m + r)} 
+\end{align*}
+:::
+
+## Maximization
+
+-   The values of *N* that maximize *L~N~* will be the values of *N* for which the ratio *L~N~*/*L~N-1~* exceeds 1.
+
+-   Substituting in our expression from the previous slide:
+
+::: fragment
+\begin{align*}
+    (N - t)(N - m)  & > N(N - t - m + r)    \\
+\end{align*}
+:::
+
+::: fragment
+\begin{align*}
+  \cancel{N^2} - \cancel{tN} - \cancel{mT} + tm & > \cancel{N^2} -  \cancel{tN} - \cancel{mT} + Nr    \\
+\end{align*}
+:::
+
+::: fragment
+\begin{align*}
+    N < \frac{mt}{r}    \\
+\end{align*}
+:::
+
+## MLE
+
+-   Thus, our best estimate for *N* is
+
+:::: fragment
+::: callout-tip
+## MLE of *N*
+
+$\displaystyle \widehat{N}_{\mathrm{MLE}} = \lfloor \frac{mt}{r} \rfloor$
+:::
+::::
+
+## Interpretation
+
+-   Let's interpret our result.
+
+-   [**Question:**]{style="color:#fa8b2f"} What possible values can *r* take?
+
+    -   Firstly, *r* cannot be negative. So, what is the upper bound for allowable values of *r*?
+
+    -   [**Answer:**]{style="color:#fa8b2f"} $\min\{m, t\}$.
+
+## Interpretation
+
+```{r}
+caprecap <- function(m, t, r) {
+  return(floor(m * t / r))
+}
+```
+
+```{r dev = "png", dev.args=list(bg="transparent")}
+#| echo: False
+
+m_10 <- c(caprecap(10, 20, 1:10), rep(NA, 10))
+m_20 <- caprecap(20, 20, 1:20)
+m_30 <- caprecap(30, 20, 1:20)
+
+data.frame(x = 1:20) %>%
+  ggplot(aes(x = x)) +
+  geom_point(aes(y = m_10, colour = "10"),
+             size = 3) +
+  geom_line(aes(y = m_10, colour = "10"),
+            linewidth = 1) +
+  geom_point(aes(y = m_20, colour = "20"),
+             size = 3) +
+  geom_line(aes(y = m_20, colour = "20"),
+            linewidth = 1) +
+  geom_point(aes(y = m_30, colour = "30"),
+             size = 3) +
+  geom_line(aes(y = m_30, colour = "30"),
+            linewidth = 1) + 
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text = element_text(color = "white"),
+    axis.title = element_text(color = "white"),
+    plot.title = element_text(color = "white", 
+                              size = 20),
+    legend.text = element_text(color = "white",
+                               size = 18),
+    legend.title = element_text(color = "white",
+                               size = 20)
+  ) +
+  labs(colour = "value of m") +
+  xlab("r") + ylab(expression(hat(N))) +
+  ggtitle(expression(hat(N)~"vs"~r~"holding t = 20 fixed"))
+```
+
+## Interpretation
+
+-   Suppose we keep our two sample sizes (*m* and t) fixed, but imagine increasing the number of recaptured fish (i.e. increasing *r*).
+
+-   What we see is that our estimate for the total number of fish decreases!
+
+-   Why?
+
+## Citations
+
+-   Rice, John. *Mathematical Statistics and Data Analysis*. Brooks/Cole, 2007.
+
+-   `tidyverse` (`R` package)
+
+-   `quarto` (from `Posit`)

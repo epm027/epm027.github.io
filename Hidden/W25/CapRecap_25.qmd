@@ -1,0 +1,329 @@
+---
+title: "PSTAT 501: Microteaching"
+subtitle: An Introduction to Capture-Recapture
+footer: "PSTAT 501: Microteaching; Winter 2025 with Ethan P. Marzban"
+logo: "no_text_logo.png"
+format: 
+  clean-revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    incremental: true 
+    chalkboard: true
+    menu:
+      side: left
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: Ethan P. Marzban
+    affiliations: Department of Statistics and Applied Probability; UCSB <br /> <br />
+institute: Winter 2025
+bibliography: refs.bib
+title-slide-attributes:
+    data-background-image: "no_text_logo.png"
+    data-background-size: "30%"
+    data-background-opacity: "0.5"
+    data-background-position: 80% 50%
+---
+
+
+::: hidden
+$$
+\newcommand\R{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\1}{1\!\!1}
+\newcommand{\comp}[1]{#1^{\complement}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\SD}{\mathrm{SD}}
+\newcommand{\vect}[1]{\vec{\boldsymbol{#1}}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\usepackage[makeroom]{cancel}
+$$
+:::
+
+```{css echo = F}
+.hscroll {
+  height: 100%;
+  max-height: 400px;
+  overflow: scroll;
+}
+
+.hscroll2 {
+  height: 100%;
+  max-height: 300px;
+  overflow: scroll;
+}
+```
+
+```{r setup, echo = F}
+library(tidyverse)
+library(fixest)
+library(modelsummary) # Make sure you have >=v2.0.0
+library(GGally)
+library(ggokabeito)
+```
+
+## Introduction
+### Leadup to Capture-Recapture
+
+-   We’ve all heard the expression: “there are plenty of fish in the sea.”
+
+-   But are there?
+
+-   More specifically; how can we find the number of fish in a large lake?
+
+-   One idea: drain the lake.
+
+-   Of course, this is not a feasible solution! We need to be a bit more clever about how we do this. The method we explore here is that of [**Capture-Recapture**]{.alert}.
+
+
+
+## Introduction
+### Setup
+
+:::{.nonincremental}
+-   Suppose the number of fish in the lake is _N_ (which is unknown, and sought to be estimated)
+:::
+
+![](Images/caprecap1.svg){width=25%}
+
+## Introduction
+### Setup
+
+:::{.nonincremental}
+-   Take a sample of size _t_ and tag the captured fish. Replace the fish, and assume they immediately mix with the other untagged fish in the lake.
+:::
+
+![](Images/caprecap2.svg){width=25%}
+
+## Introduction
+### Setup
+
+:::{.nonincremental}
+-   Then, take a second sample, this time of size _m_, and record the number _r_ of tagged fish in the new sample.
+:::
+
+![](Images/caprecap3.svg){width=25%}
+
+## Introduction
+### Notation Recap
+
+-   So, to summarize, we have the following quantities:
+    -   [_**N**_]{.alert}: the number of fish (unknown)
+    -   [_**t**_]{.alert}: the number of tagged fish
+    -   [_**m**_]{.alert}: the size of the second sample
+    -   [_**r**_]{.alert}: the number of recaptured fish (i.e. tagged fish present in the second sample).
+    
+    
+:::{.fragment}
+:::{.callout-note}
+## Goal 
+
+**Goal:** To estimate _N_ from the quantities _t_, _m_, and _r_.
+:::
+:::
+
+-   We will accomplish this goal via [**maximum likelihood estimation**]{.alert}.
+
+## Estimation
+### Tracking the Number of Recaptured Fish
+
+-   **Question:** if we let _R_ denote the number of recaptured fish in our second sample of size _m_, what distribution does _R_ follow?
+
+    -   **Answer:** _R_ ~ HyperGeom(_N_, _t_, _m_)
+    -   Gives us the pmf of _R_:
+    
+:::{.fragment}
+$$ \mathbb{P}(R = r; \ N, t, m) = \frac{\binom{t}{r} \binom{N - t}{m - r}}{\binom{N}{m}} $$
+:::
+
+-   Again; _t_ and _m_ are deterministic, and data-based. _N_ is unknown; hence, this PMF can be viewed as a [**likelihood**]{.alert} _L_~_N_~
+
+## Estimation
+### "Likelihood"
+
+-   I intentionally use a subscript _N_, so as to indicate that _L_~_N_~ is only defined for integer _N_.
+
+::: fragment
+```{r}
+source("Code/likelihood.R")
+
+data.frame(x, y) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_line(col = "#003660", size = 1) +
+  theme_minimal(base_size = 18) +
+  xlab("N") + ylab("Likelihood at N") +
+  ggtitle("Likelihood; t = 40, m = 30, r = 20") 
+
+```
+:::
+
+
+
+## Estimation
+### Maximization
+
+-   Though _L_~_N_~ is nondifferentiable, it is still maximizable.
+
+    -   This is because if _L_~_N_~ is increasing, the ratio _L_~_N_~/_L_~_N-1_~ will be less than 1; otherwise, it will be greater than or equal to 1.
+    -   Hence, a valid value of _N_ that maximizes _L_~_N_~ is the smallest value of _N_ for which _L_~_N_~/_L_~_N-1_~ exceeds 1.
+    
+    
+:::{.fragment}
+:::{.callout-caution}
+## **Caution**
+
+Because the likelihood is discrete, the MLE may not be unique. In the case of multiple maximizing values of _N_, we will simply take our estimate to be the smallest of these maximizing values.
+:::
+:::
+
+
+## Estimation
+### Simplification of the Ratio
+
+
+::: fragment
+\begin{align*}
+    \frac{L_N}{L_{N - 1}}   & = \frac{ \frac{\binom{t}{r} \binom{N - t}{m - r}}{\binom{N}{m} } }{ \frac{\binom{t}{r} \binom{N - t - 1}{m - r}}{\binom{N - 1}{m} } }  =  \frac{ \cancel{ \binom{t}{r} } \binom{N - t}{m - r}}{\binom{N}{m} } \times \frac{\binom{N - 1}{m}}{ \cancel{ \binom{t}{r}  }\binom{N - t - 1}{m - r} } 
+\end{align*}
+:::
+
+::: fragment
+\begin{align*}
+    & = \frac{(N - t)!}{\cancel{(m - r)!} (N - t - m + r)!} \times \frac{\cancel{m! } (N - m)! }{N!}        \\
+        & \hspace{5mm} \times \frac{(N - 1)!}{\cancel{m! } (N - m - 1)!} \times \frac{\cancel{(m - r)!} (N - r - m - r - 1)!}{(N - t - 1)!}  
+\end{align*}
+:::
+
+
+
+## Estimation
+### Simplification of the Ratio
+
+\begin{align*}
+    \frac{L_N}{L_{N - 1}}       & = \frac{(N - t)!}{(N - t - 1)!} \times \frac{(N - m)!}{(N - m - 1)!} \times \frac{(N - t - m - r - 1)!}{(N - t - m + r)!} \\
+        & \hspace{5mm} \times \frac{(N - 1)!}{N!} \\
+\end{align*}
+
+::: fragment
+\begin{align*}
+    & = (N - t) \times (N - m) \times \frac{1}{(N - t - m + r)} \times \frac{1}{N}  \\
+    & = \frac{(N - t)(N - m)}{N (N - t - m + r)} 
+\end{align*}
+:::
+
+
+
+## Estimation
+### Maximization
+
+-   Now, again, we seek the values of _N_ for which this ratio exceeds 1:
+
+
+::: fragment
+\begin{align*}
+    (N - t)(N - m)  & \geq N(N - t - m + r)    \\
+\end{align*}
+:::
+
+::: fragment
+\begin{align*}
+  \cancel{N^2} - \cancel{tN} - \cancel{mT} + tm & \geq \cancel{N^2} -  \cancel{tN} - \cancel{mT} + Nr    \\
+\end{align*}
+:::
+
+::: fragment
+\begin{align*}
+    N \leq \frac{mt}{r}    \\
+\end{align*}
+:::
+
+
+:::: fragment
+::: callout-tip
+## MLE of *N*
+
+$\displaystyle \widehat{N}_{\mathrm{MLE}} = \lfloor \frac{mt}{r} \rfloor$
+:::
+::::
+
+
+## Interpretation
+### Range of Values
+
+-   Like any good statistician, we should interpret our result.
+
+-   **Question:** What possible values can _r_ take?
+    -   Clearly _r_ cannot be negative. So what is an upper bound for _r_?
+    -   **Answer:** $\min\{m, t\}$
+
+-   This enables us to produce some long-run plots:
+
+
+
+## Interpretation
+### Plots
+
+
+```{r}
+caprecap <- function(m, t, r) {
+  return(floor(m * t / r))
+}
+```
+
+```{r}
+#| echo: False
+
+m_10 <- c(caprecap(10, 20, 1:10), rep(NA, 10))
+m_20 <- caprecap(20, 20, 1:20)
+m_30 <- caprecap(30, 20, 1:20)
+
+data.frame(x = 1:20) %>%
+  ggplot(aes(x = x)) +
+  geom_point(aes(y = m_10, colour = "10"),
+             size = 3) +
+  geom_line(aes(y = m_10, colour = "10"),
+            linewidth = 1) +
+  geom_point(aes(y = m_20, colour = "20"),
+             size = 3) +
+  geom_line(aes(y = m_20, colour = "20"),
+            linewidth = 1) +
+  geom_point(aes(y = m_30, colour = "30"),
+             size = 3) +
+  geom_line(aes(y = m_30, colour = "30"),
+            linewidth = 1) + 
+  theme_minimal(base_size = 18) +
+  labs(colour = "value of m") +
+  xlab("r") + ylab(expression(hat(N))) +
+  ggtitle(expression(hat(N)~"vs"~r~"holding t = 20 fixed")) +
+  scale_color_okabe_ito() 
+```
+
+
+
+## Interpretation
+### Asymptotics
+
+-   Suppose we keep our two sample sizes (*m* and t) fixed, but imagine increasing the number of recaptured fish (i.e. increasing *r*).
+
+-   What we see is that our estimate for the total number of fish decreases!
+
+-   Why?
+
+# Thanks for Listening! {background-color="#40666e"}
+
+
+---
+nocite: |
+  @rice, @tidyverse, @quarto
+---
+
+## References
+
+::: {#refs}
+:::
