@@ -1,0 +1,302 @@
+---
+title: "Week 2 Discussion Section"
+subtitle: "PSTAT 120B, Spring 2025, with Dr. Brian Wainwright"
+footer: "PSTAT 120B Sp25; Discussion Section 2, © Ethan P. Marzban"
+logo: "Images/logo.png"
+format: 
+  clean-revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    incremental: true 
+    chalkboard: true
+    include-before: [ '<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {enableAssistiveMml: false}});</script>']
+    menu:
+      side: left
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: Ethan P. Marzban
+    affiliations: Department of Statistics and Applied Probability; UCSB <br /> <br />
+institute: "April 8, 2025"
+title-slide-attributes:
+    data-background-image: "Images/logo.png"
+    data-background-size: "35%"
+    data-background-opacity: "0.5"
+    data-background-position: 80% 50%
+code-annotations: hover
+---
+
+::: hidden
+$$
+\newcommand\R{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\1}{1\!\!1}
+\newcommand{\comp}[1]{#1^{\complement}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\SD}{\mathrm{SD}}
+\newcommand{\vect}[1]{\vec{\boldsymbol{#1}}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Corr}{\mathrm{Corr}}
+\usepackage[makeroom]{cancel}
+$$
+:::
+
+```{css echo = F}
+.hscroll {
+  height: 100%;
+  max-height: 600px;
+  max-width: 2000px;
+  overflow: scroll;
+}
+
+.hscroll2 {
+  height: 100%;
+  max-height: 300px;
+  overflow: scroll;
+}
+
+.hscroll3 {
+  max-width: 2rem;
+  overflow: scroll;
+}
+```
+
+```{r setup, echo = F}
+library(tidyverse)
+library(countdown)
+library(fixest)
+library(modelsummary) # Make sure you have >=v2.0.0
+library(GGally)
+library(ggokabeito)
+library(reshape2)
+library(pander)
+library(gridExtra)
+library(cowplot)
+library(readxl)      # for reading in Excel files
+library(plotly)
+```
+
+## {{< fa circle-info >}} Reminders
+
+::: {.nonincremental}
+-   Homework 0 is due next Sunday (April 20) by 11:59pm
+    -   There will _not_ be a revision for HW00
+    
+-   Your first submission for Homework 1 is also due next Sunday (April 20) by 11:59pm
+    -   I encourage you to finish Homework 0 early, to give you as much time to work on Homework 1 as possible.
+    -   There _will_ be a revision for HW01 due the following Sunday, which will also be the due date for the initial submission of HW02.
+:::
+
+    
+
+## {{< fa clone >}} Joint Distributions
+### Random Vectors
+
+-   Recall: a random variable is a mapping from the outcome space to the real line.
+
+-   More generally: if $\Omega$ consists of _n_ tuples, we can define a [**random vector**]{.alert} as a mapping from $\Omega$ to $\R^n$
+    -   Essentially, a random vector is just a collection of random variables.
+    
+-   A [**bivariate**]{.alert} random vector is a _pair_ of random variables. These could both be discrete, both be continuous, or a mix of discrete and continuous.
+
+## {{< fa clone >}} Joint Distributions
+### Continuous Case
+
+-   If $\vect{X} := (X_1, \cdots, X_n)$ is an _n_-dimensional random vector where each random variable is continuous, it is summarized by a [**joint PDF**]{.alert}
+\begin{align*}
+  f_{\vect{X}}(\vect{x})  & := f_{X_1, X_2, \cdots, X_n}(x_1, x_2, \cdots, x_n)
+\end{align*}
+
+-   Properties: nonnegativity and integrating to unity.
+
+-   The [**marginal**]{.alert} PDF of _X_~_i_~ is found by integrating the joint PMF over all variables other than _x_~_i_~. For example, given a bivariate random vector $(X, Y)$:
+    $$ f_X(x) = \int_{\R} f_{X, Y}(x, y) \ \mathrm{d}y; \qquad f_Y(y) = \int_{\R} f_{X, Y}(x, y) \ \mathrm{d}x $$
+    
+    
+## {{< fa clone >}} Joint Distributions
+### Continuous Case
+
+-   The multivariate analog of the LOTUS states
+$$ \E[g(\vect{X})] = \int_{\R^n} f_{\vect{X}}(\vect{x}) \ \mathrm{d}\vect{x}$$
+where the notation $\int_{\R^n} (\cdots) \ \mathrm{d}\vect{x}$ is a shorthand for an _n_-dimensional integral.
+    -   E.g. given a trivariate random vector $(X, Y, Z)$, then
+    $$ \E[X \sqrt{Y} + Z] = \iiint_{\R^3} (x \sqrt{y} + z) \cdot f_{X, Y, Z}(x, y, z) \ \mathrm{d}E$$
+    
+-   $\Prob(\vect{X} \in B) = \int_{B} f_{\vect{X}}(\vect{x}) \ \mathrm{d}\vect{x}$
+
+## {{< fa pencil >}} Exercise 1
+
+::: {.callout-tip}
+## **Exercise 1**
+Let $(X, Y)$ be a continuous random vector with joint density given by
+$$ f_{X, Y}(x, y) = \begin{cases} c(x + y) & \text{if } 0 \leq x \leq y \leq 1 \\ 0 & \text{otherwise} \\ \end{cases} $$
+
+::: {.nonincremental}
+a)  Find the value of _c_ that ensures _f_~_X_,_Y_~(_x_, _y_) is a valid joint density function.
+
+b)  Calculate $\Prob(X + Y \leq 1)$.
+
+c)  Calculate $\E\left[ \frac{1}{X + Y} \right]$. \textbf{Hint:} Draw a picture, and use geometry.
+:::
+:::
+
+## {{< fa clone >}} Joint Distributions
+### An Example
+
+```{r}
+#| echo: False
+#| message: False
+
+n <- 250
+
+f <- Vectorize(function(x, y){
+  if((0 <= x) & (x <= 1) & (0 <= y) & (y <= 1) & (x <= y)) {
+    return(2 * (x + y))
+  } else {
+    return(0)
+  }
+})
+
+x <- seq(-0.5, 1.5, length = n)
+y <- seq(-0.5, 1.5, length = n)
+
+z <- matrix(rep(NA, n^2), nrow = n)
+for(i in 1:n) {
+  for(j in 1:n) {
+    z[i, j] <- f(x[i], y[j])
+  }
+}
+
+plot_ly(x = ~x, y = ~y, z = ~z)  %>%
+  add_surface(
+    contours = list(
+      z = list(
+        show = TRUE,
+        usecolormap = TRUE,
+        highlightcolor="#ff0000",
+        project = list(z = TRUE)
+      ),
+      x = list(
+        show = TRUE,
+        usecolormap = TRUE,
+        highlightcolor="#ff0000",
+        project = list(z = TRUE)
+      ),
+      y = list(
+        show = TRUE,
+        usecolormap = TRUE,
+        highlightcolor="#ff0000",
+        project = list(z = TRUE)
+      )
+    )
+  ) %>%
+  layout(
+    height = 525,
+    margin = list(t = 0, b = 0)
+  )
+```
+
+
+## {{< fa clone >}} Covariance and Correlation
+### Measures of Relation
+
+-   Recall, from PSTAT 120A, that [**covariance**]{.alert} and [**correlation**]{.alert} are measures of how related two random variables are.
+
+-   By definition:
+\begin{align*}
+  \Cov(X, Y)  & := \E\left\{ (X - \E[X]) (Y - \E[Y]) \right\}   \\
+              & = \E[XY] - \E[X] \cdot \E[Y]  \\[5mm]
+  \Corr(X, Y) & := \frac{\Cov(X, Y)}{\SD(X) \cdot \SD(Y)}
+\end{align*}
+
+-   Covariances are unbounded; correlations are bounded between -1 and 1, inclusive.
+
+## {{< fa clone >}} Covariance and Correlation
+### Bilinearity of Covariances
+
+::: {.fragment}
+::: {.callout-important}
+## **Bilinearity of Covariance**
+
+$$ \Cov\left( \sum_{i=1}^{n} a_i X_i \ , \ \sum_{j=1}^{n} b_j Y_j \right) = \sum_{i=1}^{n} \sum_{j=1}^{n} a_i b_j \Cov(X_i, Y_j) $$
+:::
+:::
+
+::: {.fragment}
+::: {.callout-tip}
+## **Exercise 2**
+Show that
+$$ \Var\left( \sum_{i=1}^{n} a_i X_i \right) = \sum_{i=1}^{n} a_i^2 \Var(X_i) + 2 \sum_{i < j} \Cov(X_i, X_j) $$ 
+:::
+:::
+
+## {{< fa clone >}} Conditional Considerations
+### Example
+
+-   Roll a fair die; for every spot showing, toss a fair coin. Let _X_ denote the number of heads.
+
+-   Is _X_ Binomially distributed? 
+    -   No; we don't have a fixed number of trials.
+    
+-   But, _if_ we knew how many coins were tossed, then _X_ _would_ be binomially distributed.
+
+-   Let _N_ denote the result of the die roll;
+$$ (X \mid N = n) \sim \mathrm{Bin}(n, \ 1/2) $$
+
+-   In other words: $\Prob(X = x \mid N = n) = \binom{n}{x} \left( \frac{1}{2} \right)^n$
+
+
+## {{< fa clone >}} Conditional Considerations
+### Definitions
+
+::: {.callout-note}
+## **Definition:** Conditional PMF
+
+Given random variables _X_ and _Y_ with joint PMF _p_~_X_,_Y_~(_x_, _y_), the [**conditional PMF**]{.alert} of _X_ given _Y_ is 
+$$ p_{X \mid Y}(x \mid y)  := \frac{p_{X, Y}(x, y)}{p_Y(y)} $$
+provided _p_~_Y_~(_y_) ≠ 0. If _p_~_Y_~(_y_) = 0, _p_~_X_|_Y_~(_x_|_y_) is undefined.
+:::
+
+
+::: {.callout-note}
+## **Definition:** Conditional PDF
+
+Given random variables _X_ and _Y_ with joint PDF _f_~_X_,_Y_~(_x_, _y_), the [**conditional PDF**]{.alert} of _X_ given _Y_ is 
+$$ f_{X \mid Y}(x \mid y)  := \frac{f_{X, Y}(x, y)}{f_Y(y)} $$
+provided _f_~_Y_~(_y_) ≠ 0. If _f_~_Y_~(_y_) = 0, _f_~_X_|_Y_~(_x_|_y_) is undefined.
+:::
+
+
+## {{< fa clone >}} Conditional Considerations
+### Conditional Expectation
+
+-   Given a conditional density $f_{X \mid Y}(x \mid y)$:
+$$ \Prob(X \in B \mid Y = y) = \int_{B} f_{X \mid Y}(x \mid y) \ \mathrm{d}x $$
+    -   Note that the "traditional" definition of conditional probability doesn't apply to $\Prob(X \in B \mid Y = y)$, since the event $\{Y = y\}$ has zero probability if _Y_ is continuous.
+    
+-   Conditional LOTUS: $\displaystyle \E[g(X) \mid Y = y] := \int_{\R} g(x) f_{X \mid Y}(x \mid y) \ \mathrm{d}x$
+
+-   Conditional Expectation: $\E[X \mid Y] := g(Y)$, where $g(y) := \E[X \mid Y = y]$.
+
+
+
+## {{< fa pencil >}} Exercise 3
+
+::: {.callout-tip}
+## **Exercise 3**
+A coffee shop records the proportion of sales that are paid by credit card and the proportion that are paid in cash. Letting _X_ denote the proportion of sales by card and _Y_ denote the proportion of sales in cash, the joint density of _X_ and _Y_ is found to be
+$$ f_{X, Y} = \begin{cases} 6x & \text{if } 0 \leq x \leq 1, \ 0 \leq y \leq 1, \ 0 \leq x + y \leq 1 \\ 0 & \text{otherwise} \end{cases} $$
+(Note that _X_ and _Y_ must sum to a value less than 1, by their definitions.)
+
+::: {.nonincremental}
+a)  If 50\% of sales are made in cash, what is the probability that fewer than 25\% of sales are made by card?
+
+b)  If 50\% of sales are made in cash, what is the expected proportion of sales made by card?
+:::
+:::
