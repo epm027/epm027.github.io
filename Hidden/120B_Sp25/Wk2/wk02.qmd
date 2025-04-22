@@ -123,7 +123,7 @@ library(plotly)
 ### Continuous Case
 
 -   The multivariate analog of the LOTUS states
-$$ \E[g(\vect{X})] = \int_{\R^n} f_{\vect{X}}(\vect{x}) \ \mathrm{d}\vect{x}$$
+$$ \E[g(\vect{X})] = \int_{\R^n} g(\vect{x}) f_{\vect{X}}(\vect{x}) \ \mathrm{d}\vect{x}$$
 where the notation $\int_{\R^n} (\cdots) \ \mathrm{d}\vect{x}$ is a shorthand for an _n_-dimensional integral.
     -   E.g. given a trivariate random vector $(X, Y, Z)$, then
     $$ \E[X \sqrt{Y} + Z] = \iiint_{\R^3} (x \sqrt{y} + z) \cdot f_{X, Y, Z}(x, y, z) \ \mathrm{d}E$$
@@ -232,7 +232,7 @@ $$ \Cov\left( \sum_{i=1}^{n} a_i X_i \ , \ \sum_{j=1}^{n} b_j Y_j \right) = \sum
 ::: {.callout-tip}
 ## **Exercise 2**
 Show that
-$$ \Var\left( \sum_{i=1}^{n} a_i X_i \right) = \sum_{i=1}^{n} a_i^2 \Var(X_i) + 2 \sum_{i < j} \Cov(X_i, X_j) $$ 
+$$ \Var\left( \sum_{i=1}^{n} a_i X_i \right) = \sum_{i=1}^{n} a_i^2 \Var(X_i) + 2 \sum_{i < j} a_i a_j \Cov(X_i, X_j) $$ 
 :::
 :::
 

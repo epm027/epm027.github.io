@@ -1,0 +1,180 @@
+---
+title: "Week 4 Discussion Section"
+subtitle: "PSTAT 120B, Spring 2025, with Dr. Brian Wainwright"
+footer: "PSTAT 120B Sp25; Discussion Section 4, © Ethan P. Marzban"
+logo: "Images/logo.png"
+format: 
+  clean-revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    incremental: true 
+    chalkboard: true
+    include-before: [ '<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {enableAssistiveMml: false}});</script>']
+    menu:
+      side: left
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: Ethan P. Marzban
+    affiliations: Department of Statistics and Applied Probability; UCSB <br /> <br />
+institute: "April 1, 2025"
+title-slide-attributes:
+    data-background-image: "Images/logo.png"
+    data-background-size: "35%"
+    data-background-opacity: "0.5"
+    data-background-position: 80% 50%
+code-annotations: hover
+---
+
+::: hidden
+$$
+\newcommand\R{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\1}{1\!\!1}
+\newcommand{\comp}[1]{#1^{\complement}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\SD}{\mathrm{SD}}
+\newcommand{\vect}[1]{\vec{\boldsymbol{#1}}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Corr}{\mathrm{Corr}}
+\usepackage[makeroom]{cancel}
+$$
+:::
+
+```{css echo = F}
+.hscroll {
+  height: 100%;
+  max-height: 600px;
+  max-width: 2000px;
+  overflow: scroll;
+}
+
+.hscroll2 {
+  height: 100%;
+  max-height: 300px;
+  overflow: scroll;
+}
+
+.hscroll3 {
+  max-width: 2rem;
+  overflow: scroll;
+}
+```
+
+```{r setup, echo = F}
+library(tidyverse)
+library(countdown)
+library(fixest)
+library(modelsummary) # Make sure you have >=v2.0.0
+library(GGally)
+library(ggokabeito)
+library(reshape2)
+library(pander)
+library(gridExtra)
+library(cowplot)
+library(readxl)      # for reading in Excel files
+library(plotly)
+```
+
+
+## {{< fa cat >}} Cats!
+
+-   What is the average weight of all cats in the world?
+    -   Call this quantity _µ_.
+
+-   Can't answer directly; impossible to reach every single cat in the world.
+
+-   But, we _can_ take a sample of 10 cats and record their weights.
+
+-   We can do this as many times as we like.
+
+::: {.fragment}
+::: {.callout-tip}
+## **Goal**
+
+To use our samples to say something about the population.
+:::
+:::
+
+
+## {{< fa cat >}} Cats!
+
+![](Images/Sampling0.svg)
+
+## {{< fa cat >}} Cats!
+
+![](Images/Sampling1.svg)
+
+## {{< fa cat >}} Cats!
+
+![](Images/Sampling2.svg)
+
+## {{< fa cat >}} Cats!
+
+![](Images/Sampling3.svg)
+
+
+## {{< fa cat >}} Cats!
+
+-   Each sample we take will likely be comprised of different values.
+
+-   Let _Y_~_i_~ denote the weight of a randomly-selected cat. Random or deterministic?
+    -   Random.
+    
+-   Let _y_~_i_~ denote the weight of a specific cat (e.g. Kitty). Random or deterministic?
+    -   Deterministic.
+    
+-   Denote $\vect{Y} := \{Y_i\}_{i=1}^{n}$ to be our [**random sample**]{.alert}; let $\vect{y} := \{y_i\}_{i=1}^{n}$ be a [**realization**]{.alert} (aka an [**observed instance**]{.alert}) of our sample $\vect{Y}$.
+
+
+## {{< fa calculator >}} Statistics
+
+::: {.callout-note}
+## **Definition:** Statistic
+
+A [**statistic**]{.alert} is a function of a random sample: $T := T(Y_1, \cdots, Y_n) := T(\vect{Y})$. The distribution of a statistic is called its [**sampling distribution**]{.alert}.
+:::
+
+-   Example: the [**sample mean**]{.alert} $\overline{Y}_n := n^{-1} \sum_{i=1}^{n} Y_i$
+    -   Again, this is random; for example, different samples of 10 cats will have different average weights.
+    
+-   Example: the [**sample maximum**]{.alert} $Y_{(n)} := \max_{1 \leq i \leq n}\{Y_i\}$.
+    -   E.g. in a sample of _n_ cats, how much did the _heaviest_ cat weigh?
+    
+-   Example: the [**sample minimum**]{.alert} $Y_{(1)} := \min_{1 \leq i \leq n}\{Y_i\}$.
+    -   E.g. in a sample of _n_ cats, how much did the _lightest_ cat weigh?
+    
+    
+## {{< fa chart-simple >}} Sampling Distributions
+
+-   Note that sampling distributions are just transformations of random variables!
+    -   This is why we covered transformations at the start of this course.
+    
+-   Over the next few lectures, we'll start by assuming a normally-distributed population.
+    -   This will enable us to derive certain sampling distributions for certain statistics.
+    
+-   We'll then relax the normality assumption, and show that the sample mean has a large-sample approximation for its sampling distribution.
+    -   This result is known as the [**Central Limit Theorem**]{.alert}
+    
+    
+## {{< fa spell-check >}} Terminology
+### Check Yourself!
+
+::: {.callout-tip}
+## **Check Yourself**
+
+For each of the following quantities, classify them as either a statistic or a population parameter and, consequently, as random or deterministic. 
+
+::: {.nonincremental}
+a)  The average commute time (in minutes) among all UCSB students.
+b)  The maximum height among a sample of 10 coconut trees.
+c)  The standard devaition among the heights of all US citizens.
+d)  The proportion of FIV-positive cats currently housed at the Santa Barbara Humane Society.
+:::
+:::
