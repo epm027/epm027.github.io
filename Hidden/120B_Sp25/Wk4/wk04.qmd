@@ -20,7 +20,7 @@ html-math-method:
 author:
   - name: Ethan P. Marzban
     affiliations: Department of Statistics and Applied Probability; UCSB <br /> <br />
-institute: "April 1, 2025"
+institute: "April 22, 2025"
 title-slide-attributes:
     data-background-image: "Images/logo.png"
     data-background-size: "35%"
