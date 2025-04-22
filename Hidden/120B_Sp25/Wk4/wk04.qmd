@@ -162,19 +162,3 @@ A [**statistic**]{.alert} is a function of a random sample: $T := T(Y_1, \cdots,
 -   We'll then relax the normality assumption, and show that the sample mean has a large-sample approximation for its sampling distribution.
     -   This result is known as the [**Central Limit Theorem**]{.alert}
     
-    
-## {{< fa spell-check >}} Terminology
-### Check Yourself!
-
-::: {.callout-tip}
-## **Check Yourself**
-
-For each of the following quantities, classify them as either a statistic or a population parameter and, consequently, as random or deterministic. 
-
-::: {.nonincremental}
-a)  The average commute time (in minutes) among all UCSB students.
-b)  The maximum height among a sample of 10 coconut trees.
-c)  The standard devaition among the heights of all US citizens.
-d)  The proportion of FIV-positive cats currently housed at the Santa Barbara Humane Society.
-:::
-:::
