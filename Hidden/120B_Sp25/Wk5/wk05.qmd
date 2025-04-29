@@ -1,0 +1,243 @@
+---
+title: "Week 5 Discussion Section"
+subtitle: "PSTAT 120B, Spring 2025, with Dr. Brian Wainwright"
+footer: "PSTAT 120B Sp25; Discussion Section 5, © Ethan P. Marzban"
+logo: "Images/logo.png"
+format: 
+  clean-revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    incremental: true 
+    chalkboard: true
+    include-before: [ '<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {enableAssistiveMml: false}});</script>']
+    menu:
+      side: left
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: Ethan P. Marzban
+    affiliations: Department of Statistics and Applied Probability; UCSB <br /> <br />
+institute: "April 29, 2025"
+title-slide-attributes:
+    data-background-image: "Images/logo.png"
+    data-background-size: "35%"
+    data-background-opacity: "0.5"
+    data-background-position: 80% 50%
+code-annotations: hover
+---
+
+::: hidden
+$$
+\newcommand\R{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\1}{1\!\!1}
+\newcommand{\comp}[1]{#1^{\complement}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\SD}{\mathrm{SD}}
+\newcommand{\vect}[1]{\vec{\boldsymbol{#1}}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Corr}{\mathrm{Corr}}
+\usepackage[makeroom]{cancel}
+$$
+:::
+
+```{css echo = F}
+.hscroll {
+  height: 100%;
+  max-height: 600px;
+  max-width: 2000px;
+  overflow: scroll;
+}
+
+.hscroll2 {
+  height: 100%;
+  max-height: 300px;
+  overflow: scroll;
+}
+
+.hscroll3 {
+  max-width: 2rem;
+  overflow: scroll;
+}
+```
+
+```{r setup, echo = F}
+library(tidyverse)
+library(countdown)
+library(fixest)
+library(modelsummary) # Make sure you have >=v2.0.0
+library(GGally)
+library(ggokabeito)
+library(reshape2)
+library(pander)
+library(gridExtra)
+library(cowplot)
+library(readxl)      # for reading in Excel files
+library(plotly)
+```
+
+
+## {{< fa backward-fast >}} Recap
+### Framework for Statistical Inference
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](Images/Inference.svg)
+:::
+
+::: {.column width="50%"}
+-   **Goal:** to make inferences about a population parameter.
+
+-   To do so, we take random [**samples**]{.alert} from the population.
+
+-   A [**statistic**]{.alert} is a function of a random sample: $T := T(X_1, \cdots, X_n)$
+    -   Statistics, therefore, are random variables; their distributions are called [**sampling distributions**]{.alert}
+
+:::
+
+::::
+
+
+
+## {{< fa backward-fast >}} Recap
+### Inference
+
+-   Inference is, broadly speaking, divided into two subcategories: [**estimation**]{.alert} and [**hypothesis testing**]{.alert}
+
+-   We'll start by talking about estimation, and then later talk about hypothesis testing.
+
+-   In estimation, we specifically seek to _estimate_ the value of a population parameter
+    -   E.g. the true average weight of all cats in the world
+
+-   In fact, let's return to this "average cat weight" example.
+
+
+## {{< fa sign-hanging >}} Estimation
+### General Framework
+
+::: {.callout-tip}
+## **Goal**
+
+To estimate the true average weight of all cats in the world.
+:::
+
+-   Last week, we talked about taking samples of cats and recording their weights.
+
+-   It seems natural that the average of our _sampled_ cat weights should correspond, in some way, to the average of _all_ cats in the world.
+
+-   This is the basic idea behind estimation: we'll use _statistics_ (functions of our sample) to estimate the true value of a parameter.
+    -   E.g. using the _sample_ average cat weight to say something about the true _population_ average cat weight.
+
+## {{< fa sign-hanging >}} Estimation
+### General Framework
+
+-   Three key terms:
+    -   [**Estimand:**]{.alert} another word for the parameter we are trying to estimate.
+    -   [**Estimator:**]{.alert} a statistic being used to estimate the estimand.
+        -   Another way to think about this: a "rule" used to estimate the parameter.
+    -   [**Estimate:**]{.alert} a particular _realization_ (i.e. _observed instance_) of an estimator.
+    
+## {{< fa sign-hanging >}} Estimation
+### Example
+
+::: {.callout-tip}
+## **Example**
+
+A vet wishes to estimate the true weight of all cats in the world. She takes a sample of 10 cats, and finds their average weight to be 9.12 lbs.
+:::
+
+-   The **estimand** is the true average weight of all cats in the world (which we can call µ).
+
+-   The **estimator** is the sample mean: we are using sample means to estimate µ.
+
+-   The **estimate** in this scenario is 9.12 lbs, as this is a particular realization of our estimator.
+
+## {{< fa pencil >}} Your Turn!
+
+::: {.callout-tip}
+## **Your Turn!**
+
+Work with your neighbors on the Warm-Up Problem from this week's worksheet. 
+:::
+
+```{r}
+#| echo: False
+#| eval: True
+
+countdown(minutes = 4L, font_size = "6rem")
+```
+
+## {{< fa sign-hanging >}} Estimation
+### Desirable Properties of Estimators
+
+-   There are potentially _many_ estimators we can use to estimate a particular parameter.
+
+-   As such, it is necessary to establish a notion of what makes a "good" estimator (or, equivalently, what makes one estimator "better" than another).
+
+-   One notion is [**unbiasedness**]{.alert}: an estimator $\widehat{\theta}_n$ for $\theta$ is said to be _unbiased_ if $\E[\widehat{\theta}_n] = \theta$.
+    -   "On average, the estimator gets it right."
+    -   Mathematically: means the sampling distribution is centered at the right (true) value.
+  
+
+## {{< fa sign-hanging >}} Estimation
+### An Analogy
+
+-   Unbiasedness, however, is often not enough. To motivate why, let's take a look at an analogy.
+
+-   An analogy is often drawn between estimation and hitting a bullseye.
+    -   The bullseye is akin to our estimand, and estimates are represented by shots fired at the target. 
+    -   The estimator is, therefore, akin to the marskperson.
+    
+-   An unbiased estimator is analogous to a marksperson for whom the average location of shots is the bullseye.
+
+## {{< fa sign-hanging >}} Estimation
+### Two Markspersons
+
+-   Which of the following markspersons are "better"? 
+
+:::: {.columns}
+
+::: {.column width="50%"}
+::: {.fragment style="text-align:center"}
+![](Images/mark1.svg){width="50%"}
+
+**Marksperson 1**
+:::
+:::
+
+
+::: {.column width="50%"}
+::: {.fragment style="text-align:center"}
+![](Images/mark2.svg){width="50%"}
+
+**Marksperson 2**
+:::
+:::
+
+::::
+
+
+
+## {{< fa sign-hanging >}} Estimation
+### Two Markspersons
+
+-   So, unbiasedness is not enough; we'd also like small _variance_.
+
+-   To that end, we introduce the [**mean squared-error**]{.alert} (MSE) of an estimator:
+$$ \mathrm{MSE}(\widehat{\theta}_n, \theta) := \E\left[(\widehat{\theta}_n - \theta)^2 \right] $$
+
+::: {.fragment}
+::: {.callout-important}
+## **Bias-Variance Decomposition**
+$$ \mathrm{MSE}(\widehat{\theta}_n, \theta) := \mathrm{Bias}^2(\widehat{\theta}_n, \theta) + \Var(\widehat{\theta}_n) $$
+
+where $\mathrm{Bias}(\widehat{\theta}_n, \theta) := \E[\widehat{\theta}_n] - \theta$.
+:::
+:::
