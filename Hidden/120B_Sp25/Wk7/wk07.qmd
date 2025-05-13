@@ -1,0 +1,219 @@
+---
+title: "Week 7 Discussion Section"
+subtitle: "PSTAT 120B, Spring 2025, with Dr. Brian Wainwright"
+footer: "PSTAT 120B Sp25; Discussion Section 7, © Ethan P. Marzban"
+logo: "Images/logo.png"
+format: 
+  clean-revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    incremental: true 
+    chalkboard: true
+    include-before: [ '<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {enableAssistiveMml: false}});</script>']
+    menu:
+      side: left
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: Ethan P. Marzban
+    affiliations: Department of Statistics and Applied Probability; UCSB <br /> <br />
+institute: "May 13, 2025"
+title-slide-attributes:
+    data-background-image: "Images/logo.png"
+    data-background-size: "35%"
+    data-background-opacity: "0.5"
+    data-background-position: 80% 50%
+code-annotations: hover
+---
+
+::: hidden
+$$
+\newcommand\R{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\1}{1\!\!1}
+\newcommand{\comp}[1]{#1^{\complement}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\SD}{\mathrm{SD}}
+\newcommand{\vect}[1]{\vec{\boldsymbol{#1}}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Corr}{\mathrm{Corr}}
+\usepackage[makeroom]{cancel}
+\newcommand{\probto}{\stackrel{\mathrm{p}}{\longrightarrow}}
+\newcommand{\iid}{\stackrel{\mathrm{i.i.d.}}{\sim}}
+\newcommand{\Lik}{\mathcal{L}}
+$$
+:::
+
+```{css echo = F}
+.hscroll {
+  height: 100%;
+  max-height: 600px;
+  max-width: 2000px;
+  overflow: scroll;
+}
+
+.hscroll2 {
+  height: 100%;
+  max-height: 300px;
+  overflow: scroll;
+}
+
+.hscroll3 {
+  max-width: 2rem;
+  overflow: scroll;
+}
+```
+
+```{r setup, echo = F}
+library(tidyverse)
+library(countdown)
+library(fixest)
+library(modelsummary) # Make sure you have >=v2.0.0
+library(GGally)
+library(ggokabeito)
+library(reshape2)
+library(pander)
+library(gridExtra)
+library(cowplot)
+library(readxl)      # for reading in Excel files
+library(plotly)
+```
+
+
+## {{< fa bullhorn >}} Announcements
+
+-   Congrats on finishing the [**Midterm Exam:**]{.bg style="--col: #f5e287"}!
+    -   The grader is hard at work grading your exams, and is expected to complete grading sometime within the next few days.
+    -   If you don't score as well as you had hoped, [**don't panic**]{.alert}- there is still plenty of time to start studying for the Final Exam!
+  
+-   Homework 4 Initial Submission is due **this Sunday** (May 18, 2025)
+
+
+    
+## {{< fa percent >}} Likelihood {style="font-size:28px"}
+### Two Different Kinds
+
+-   Suppose the weight of a randomly-selected cat follows a distribution with density _f_(_y_; _µ_).
+
+-   I take a random cat off the street, and find its weight to be 8.5 lbs (_y_~_i_~)
+    -   Given this, how likely is it that the true average weight of all cats in the world is, say, 7.5 lbs (_µ_)?
+    -   The answer to this is the [**likelihood _of the observation_ _y_~_i_~**]{.alert} ; $\mathcal{L}(\mu; y_i) = f(y_i; \mu)$
+    
+-   I take an i.i.d. sample of 3 (_n_) cats off the street, and find their weights to be 8.2 lbs, 9.5 lbs, and 7.0 lbs (_y_~1~, _y_~2~, _y_~3~)
+    -   Given this, how likely is it that the true average weight of all cats in the world is, say, 7.5 lbs (_µ_)?
+    -   The answer to this is the [**likelihood _of the sample_ (_y_~1~, _y_~2~, _y_~3~,)**]{.alert} ; $\mathcal{L}(\mu; y_1, y_2, y_3) = f(y_1; \mu) \cdot f(y_2; \mu) \cdot f(y_3; \mu)$
+
+
+## {{< fa cat >}} Cats!
+### Likelihood Functions
+
+```{r}
+lik1 <- function(mu, x1, x2, x3) {
+  return(
+    (2*pi)^(-3) * exp(-1/8 * (
+      (x1 - mu)^2 + (x2 - mu)^2 + (x3 - mu)^2
+    ))
+  )
+}
+
+data.frame(x = 0:24) %>%
+  ggplot(aes(x = x)) +
+  stat_function(fun = lik1,
+                n = 600,
+                linewidth = 1,
+                args = list(x1 = 8.2, x2 = 16.2, x3 = 14.1),
+                aes(col = "(8.2, 16.2, 14.1)")) +
+  stat_function(fun = lik1,
+                n = 600,
+                linewidth = 1,
+                args = list(x1 = 15.2, x2 = 15.9, x3 = 24.2),
+                aes(col = "(15.2, 15.9, 24.2)")) +
+  stat_function(fun = lik1,
+                n = 600,
+                linewidth = 1,
+                args = list(x1 = 4.2, x2 = 12.2, x3 = 11.5),
+                aes(col = "(4.2, 12.2, 11.5)")) +
+  xlab(bquote(mu)) +
+  ylab(bquote("Likelihood at"~~mu)) +
+  theme_minimal(base_size = 16) +
+  labs(colour = "sample") + 
+  ggtitle("Likelihood Curves; Cat Weight Example")
+```
+
+
+## {{< fa clock >}} Wait Times
+### Another Likelihood Example
+
+-   Here's another example: wait times at a Café are assumed to follow an Exponential distribution with parameter $\beta$. 
+
+-   Likelihood: $\Lik(\beta; y_1, \cdots, y_n) = \left( \frac{1}{\beta} \right)^n \exp\left\{  - \frac{\sum_{i=1}^{n} y_i}{\beta} \right\}$
+
+::: {.fragment}
+```{r}
+#| fig-height: 4
+lik2 <- function(bet, samp) {
+  return(
+    ifelse(prod(samp > 0) == 1, (1/bet)^length(samp) * exp(-sum(samp)/bet), 0)
+  )
+}
+
+lik3 <- function(bet, sum_samp, n) {
+  return(
+    (1/bet)^n * exp(-sum_samp/bet)
+  )
+}
+
+
+data.frame(x = 0.01:3) %>%
+  ggplot(aes(x = x)) +
+  stat_function(fun = lik3,
+                n = 600,
+                linewidth = 1,
+                args = list(sum_samp = 3.8, n = 10),
+                aes(col = "(3.8, 10)")) +
+  stat_function(fun = lik3,
+                n = 600,
+                linewidth = 1,
+                args = list(sum_samp = 2, n = 4),
+                aes(col = "(2.0, 4)")) +
+  stat_function(fun = lik3,
+                n = 600,
+                linewidth = 1,
+                args = list(sum_samp = 1.5, n = 2),
+                aes(col = "(1.0, 2)")) +
+  xlab(bquote(beta)) +
+  ylab(bquote("Likelihood at"~~beta)) +
+  theme_minimal(base_size = 16) +
+  labs(colour = "sum, size") + 
+  ggtitle("Likelihood Curves; Wait Times Example")
+```
+:::
+
+
+    
+## {{< fa info >}} Fisher Information
+### Two Different Kinds
+
+-   Just like there are two kinds of likelihoods (one for a _single_ observation, and one for a _sample_), there are two kinds of Fisher Information.
+
+-   The [**Fisher Information of an Observation**]{.alert} is given by
+$$ \mathcal{I}(\theta) = - \E\left[\frac{\partial^2}{\partial \theta^2} \ell(\theta; Y_i) \right] $$
+
+-   The [**Fisher Information of a Sample**]{.alert} is given by
+$$ \mathcal{I}_n(\theta) = - \E\left[\frac{\partial^2}{\partial \theta^2} \ell(\theta; Y_i, \cdots, Y_n) \right] = n \mathcal{I}(\theta) $$
+
+
+## {{< fa person-arrow-down-to-line >}} Cramér-Rao Lower Bound {style="font-size:30px"}
+### Definition
+
+-   The [**Cramér-Rao Lower Bound**]{.alert} asserts that, for any estimator $\widehat{\theta}_n$,
+$$ \Var(\widehat{\theta}_n) \geq \frac{\left( \frac{\mathrm{d}}{\mathrm{d}\theta} \E[\widehat{\theta}_n] \right)^2}{n \mathcal{I}(\theta)}$$
+    -   Here, $\mathcal{I}(\theta)$ is the Fisher Information of a _single_ observation.
+    -   We can rewrite the CRLB in terms of the Fisher Information of a _sample_:
+    $$ \Var(\widehat{\theta}_n) \geq \frac{\left( \frac{\mathrm{d}}{\mathrm{d}\theta} \E[\widehat{\theta}_n] \right)^2}{ \mathcal{I}_n(\theta)}$$
