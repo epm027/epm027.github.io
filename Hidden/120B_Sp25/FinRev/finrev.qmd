@@ -1,0 +1,808 @@
+---
+title: "Final Review"
+subtitle: "PSTAT 120B, Spring 2025, with Dr. Brian Wainwright"
+footer: "PSTAT 120B Sp25; Final Exam Review, © Ethan P. Marzban"
+logo: "Images/logo.png"
+format: 
+  clean-revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    incremental: true 
+    chalkboard: true
+    include-before: [ '<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {enableAssistiveMml: false}});</script>']
+    menu:
+      side: left
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: Ethan P. Marzban
+    affiliations: Department of Statistics and Applied Probability; UCSB <br /> <br />
+institute: "May 6, 2025"
+title-slide-attributes:
+    data-background-image: "Images/logo.png"
+    data-background-size: "35%"
+    data-background-opacity: "0.5"
+    data-background-position: 80% 50%
+code-annotations: hover
+---
+
+::: hidden
+$$
+\newcommand\R{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\1}{1\!\!1}
+\newcommand{\comp}[1]{#1^{\complement}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\SD}{\mathrm{SD}}
+\newcommand{\vect}[1]{\vec{\boldsymbol{#1}}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Corr}{\mathrm{Corr}}
+\usepackage[makeroom]{cancel}
+\newcommand{\iid}{\stackrel{\mathrm{i.i.d.}}{\sim}}
+\newcommand{\probto}{\stackrel{\mathrm{p}}{\longrightarrow}}
+\newcommand{\distto}{\stackrel{\mathrm{d}}{\longrightarrow}}
+\newcommand{\Lik}{\mathcal{L}}
+\DeclareMathOperator*{\argmax}{\mathrm{arg} \ \max}
+$$
+:::
+
+```{css echo = F}
+.hscroll {
+  height: 100%;
+  max-height: 600px;
+  max-width: 2000px;
+  overflow: scroll;
+}
+
+.hscroll2 {
+  height: 100%;
+  max-height: 300px;
+  overflow: scroll;
+}
+
+.hscroll3 {
+  max-width: 2rem;
+  overflow: scroll;
+}
+```
+
+```{r setup, echo = F}
+library(tidyverse)
+library(countdown)
+library(fixest)
+library(modelsummary) # Make sure you have >=v2.0.0
+library(GGally)
+library(ggokabeito)
+library(reshape2)
+library(pander)
+library(gridExtra)
+library(cowplot)
+library(readxl)      # for reading in Excel files
+library(plotly)
+```
+
+
+## {{< fa map >}} Roadmap for Today
+
+-   Go through some slides (including some interactive problems)
+
+-   Work through some problems together (on the worksheet; copies can be found at the front of the room)
+
+::: {.fragment}
+::: {.callout-important}
+## **Disclaimer**
+
+I have not seen the exam yet, so I do not know exactly what will or will not be on it. Just because something does or does not show up on these slides doesn't mean it is guaranteed to show up / not show up on the exam.
+:::
+:::
+
+
+::: {.fragment}
+::: {.callout-important}
+## **Disclaimer**
+
+This review is not intended to be comprehensive; I encourage you to consult the lecture notes, textbook, homework, and your own notes.
+:::
+:::
+
+## {{< fa map >}} Roadmap for Today
+
+-   Now, there is _far_ too much material for me to be able to meaningfully cover everything that I think is important for the final.
+
+-   Instead, I've elected to select a couple of topics which I think might be confusing (or topics I'd like to expound upon). I'll go through these relatively quickly, though, as the best way to learn is to practice - so I'd like to leave plenty of time for us to work through some of the problems on the worksheet!
+
+-   Order of coverage:
+    1)    Hypothesis Testing
+    2)    Estimation
+    3)    CI for a Difference in Means (time permitting)
+
+# Hypothesis Testing {background-color="black" background-image="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcThnd3ZxeWJtNmEzYmtwNnVlZGttb3ozZjU0YTJhaGF3ZmU3ZXVmeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6Mbbs879ozZ9Yic0/giphy.gif" background-size="70rem"}
+
+
+## {{< fa cat >}} Cats - Again!
+### Toe Beans...
+
+-   According to a <a href="https://www.quora.com/What-percentage-of-cats-are-born-with-6-toes#:~:text=Your%20average%20domesticated%20cat%20has,the%20litter%20will%20be%20polys." target="_blank">Quora post</a>, the average cat has about a 10% chance of being born with _polydactyly_ 
+
+:::: {.columns}
+::: {.column width="40%"}
+::: {.fragment}
+![Image Source: https://www.treehugger.com/thing-didnt-know-polydactyl-cats-4864197](Images/polydactyl.png)
+:::
+:::
+
+::: {.column width="60%"}
+-   Polydactyly refers to a condition whereby an animal is born with extra digits (e.g. extra fingers in humans, extra toes in cats, etc.)
+
+-   Suppose we wish to assess the validity of the _Quora_ claim, using data.
+    -   Note that we're not necessarily trying to estimate the true incidence of polydactyly among cats!
+:::
+
+::::
+
+
+## {{< fa cat >}} Cats - Again!
+### Toe Beans...
+
+-   Say we collect a simple random sample of 100 cats, and observe 9 polydactyl cats in this sample (i.e. $\widehat{p}$ = 9\%).
+
+-   Does this provide concrete evidence that the _Quora_ claim is incorrect? Not really!
+
+-   But, say our sample of 100 cats contains 80 polydactyl cats ($\widehat{p}_{100}$ = 80\%). Or, say we saw only 1 polydactyl cat in a sample of 100 ($\widehat{p}_{100}$ = 1\%).
+
+-   Now, it is _possible_ that the _Quora_ claim is true and we just happened to get _extraordinarily_ lucky (or unlucky).
+
+-   But, it's probably more likely that we should start to question the validity of the _Quora_ statistic.
+
+## {{< fa magnifying-glass-chart >}} Hypothesis Testing
+### General Framework
+
+-   So where's the cutoff - how many polydactyl cats do we need to observe in a sample of _n_ before we start to question the _Quora_ statistic?
+
+-   This is the general framework of [**hypothesis testing**]{.alert}.
+
+-   We start off with a pair of competing claims, called the [**null hypothesis**]{.alert} and the [**alternative hypothesis**]{.alert}. 
+    -   The null hypothesis is usually set to be the "status quo". For instance, in our polydactyly example, we would set the null hypothesis (denoted _H_~0~, and read "H-naught") to be "10% of cats are polydactyl."
+    -   We'll discuss the choice of alternative in a bit.
+    
+    
+    
+## {{< fa magnifying-glass-chart >}} Hypothesis Testing
+### Tests for the Mean
+
+-   We've only covered testing for the _mean_ in this class, so let's stick with that for today.
+
+-   Our null takes the form **H~0~**: _µ_ = _µ_~0~ for some prespecified value _µ_~0~ (e.g. "the true average weight of all cats is 9.5 lbs;" then _µ_~0~ = 9.5).
+
+-   There are three main choices for an alternative:
+    -   [**Lower-Tailed**]{.alert}: **H~A~**: _µ_ < _µ_~0~
+    -   [**Upper-Tailed**]{.alert}: **H~A~**: _µ_ > _µ_~0~
+    -   [**Two-Tailed**]{.alert} (aka [**Two-Sided**]{.alert}): **H~A~**: _µ_ ≠ _µ_~0~
+    
+    
+## {{< fa magnifying-glass-chart >}} Hypothesis Testing
+### Some notes
+
+-   Note: It is [**ABSOLUTELY CRUCIAL**]{.alert} that there is no overlap between the null and the alternative.
+    -   For example, it would be _incorrect_ to write a lower-tailed alternative as **H~A~**: _µ_ ≤ _µ_~0~
+    -   Conceptually, this is because we need the alternative to be a true _alternative_ to the null; i.e. we cannot have a case where the null and alternative are simultaneously true
+    
+-   Also, to stress, we only ever pick _one_ alternative; on the previous slide I've listed the _possible_ alternatives, but it's up to you (or the problem statement) to pick one.
+
+
+## {{< fa scale-unbalanced >}} States of the World
+
+-   In a given hypothesis testing setting, the null is either true or not (though we won't ever get to know for sure).
+
+-   Independently, our test will either reject the null or not.
+
+-   This leads to four states of the world:
+
+
+:::{.fragment}
+<table>
+  <tr>
+    <td style="border: 0px solid black;"></td>
+    <td style="border: 0px solid black;"></td>
+    <td colspan="2" padding-left:10px; background-color: #c4eef2; style="text-align: center"><b>Result of Test</b></td>
+  </tr>
+  <tr>
+    <td style="border: 0px solid black;"></td>
+    <td style="border: 0px solid black;"></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; width:5cm; text-align: center"><b>Reject</b></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; width:5cm; text-align: center"><b>Fail to Reject</b></td>
+  </tr>
+  <tr>
+    <td style="border: 0px solid black; text-align: center; vertical-align: middle;" rowspan="2"><b><i>H</i><sub>0</sub></b></td>
+    <td style="border: 0px solid black;"><b>True</b></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; text-align:center; color:red"></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; text-align:center"></td>
+  </tr>
+  <tr>
+    <td style="border: 0px solid black;"><b>False</b></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; text-align:center"></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; text-align:center"></td>
+  </tr>
+</table>
+:::
+
+-   Some of these states are good, others are bad. Which are which?
+
+## {{< fa scale-unbalanced >}} States of the World
+
+
+<table>
+  <tr>
+    <td style="border: 0px solid black;"></td>
+    <td style="border: 0px solid black;"></td>
+    <td colspan="2" padding-left:10px; background-color: #c4eef2; style="text-align: center"><b>Result of Test</b></td>
+  </tr>
+  <tr>
+    <td style="border: 0px solid black;"></td>
+    <td style="border: 0px solid black;"></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; width:5cm; text-align: center"><b>Reject</b></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; width:5cm; text-align: center"><b>Fail to Reject</b></td>
+  </tr>
+  <tr>
+    <td style="border: 0px solid black; text-align: center; vertical-align: middle;" rowspan="2"><b><i>H</i><sub>0</sub></b></td>
+    <td style="border: 0px solid black;"><b>True</b></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; text-align:center; color:red"><b>BAD</b></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; text-align:center; color:green"><b>GOOD</b></td>
+  </tr>
+  <tr>
+    <td style="border: 0px solid black;"><b>False</b></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; text-align:center; color:green"><b>GOOD</b></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; text-align:center; color:red"><b>BAD</b></td>
+  </tr>
+  
+</table>
+
+
+- We give names to the two "bad" situations: **Type I** and **Type II** errors.
+
+:::{.fragment}
+<table>
+  <tr>
+    <td style="border: 0px solid black;"></td>
+    <td style="border: 0px solid black;"></td>
+    <td colspan="2" padding-left:10px; background-color: #c4eef2; style="text-align: center"><b>Result of Test</b></td>
+  </tr>
+  <tr>
+    <td style="border: 0px solid black;"></td>
+    <td style="border: 0px solid black;"></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; width:5cm; text-align: center"><b>Reject</b></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; width:5cm; text-align: center"><b>Fail to Reject</b></td>
+  </tr>
+  <tr>
+    <td style="border: 0px solid black; text-align: center; vertical-align: middle;" rowspan="2"><b><i>H</i><sub>0</sub></b></td>
+    <td style="border: 0px solid black;"><b>True</b></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; text-align:center; color:red"><b>Type I Error</b></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; text-align:center; color:green"><b>GOOD</b></td>
+  </tr>
+  <tr>
+    <td style="border: 0px solid black;"><b>False</b></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; text-align:center; color:green"><b>GOOD</b></td>
+    <td style="border: 1px solid black; padding-right:10px;  padding-left:10px; text-align:center; color:red"><b>Type II Error</b></td>
+  </tr>
+  
+</table>
+:::
+
+
+:::{.fragment}
+::: callout-note
+## **Definition:** Type I and Type II errors
+
+:::{.nonincremental}
+::: {style="font-size: 25px"}
+- A [**Type I Error**]{.alert} occurs when we reject $H_0$, when $H_0$ was actually true. 
+- A [**Type II Error**]{.alert} occurs when we fail to reject $H_0$, when $H_0$ was actually false.
+:::
+:::
+:::
+:::
+
+
+## {{< fa scale-unbalanced >}} States of the World
+### Type I and Type II Errors
+
+
+- A common way of interpreting Type I and Type II errors are in the context of the judicial system.
+
+- The US judicial system is built upon a motto of "innocent until proven guilty." As such, the null hypothesis is that a given person is innocent.
+
+- A Type I error represents convicting an innocent person; a Type II error represents letting a guilty person go free.
+
+-   Tradeoff: If we want to reduce the number of times we wrongfully convict an innocent person, we may want to make the conditions for convicting someone even stronger. But, this would have the consequence of having fewer people overall convicted, thereby (and inadvertently) *increasing* the chance we let a guilty person go free
+
+    -   [Controlling for one type of error increses the likelihood of committing the other type.]{.underline}
+
+
+
+## {{< fa scale-unbalanced >}} States of the World
+### Type I and Type II Errors
+
+-   Define $\alpha$ to be the probability of committing a Type I error.
+-   Define $\beta(\theta_A)$ to be the probability of committing a Type II error when the true value of the parameter was $\theta_A$.
+-   Define $Q(\theta_A)$ to be the probability of rejecting the null, when the true value of the paramer is $\theta_A$.
+    -   Called the [**power function**]{.alert}, or just [**power**]{.alert}, of the test.
+
+-   When performing hypothesis testing, we start by fixing $\alpha$ (which we call the [**level**]{.alert}, or [**significance level**]{.alert}, of our test), and then minimize $\beta(\theta)$ subject to this fixed level $\alpha$.
+
+
+
+## {{< fa pencil >}} Example 1
+
+::: {.callout-tip}
+## **Example 1**
+
+Let $Y_1, \cdots, Y_n \iid \mathcal{N}(\mu, 1)$ for some unknown _µ_, and suppose we wish to test **H~0~**: _µ_ = _µ_~0~ vs **H~A~**: _µ_ > _µ_~0~ at a 0.05 level of significance. We propose two tests:
+
+::: {.nonincremental}
+-   **Test 1:** Reject **H~0~** when $Y_1 - \mu_0 > \Phi^{-1}(0.95)$
+-   **Test 2:** Reject **H~0~** when $\frac{\overline{Y}_n - \mu_0}{1/\sqrt{n}} > \Phi^{-1}(0.95)$
+:::
+
+::: {.nonincremental}
+a)    Verify that both tests have a 5\% level of significance.
+b)    Derive expressions for the power functions of both tests.
+:::
+
+:::
+
+## {{< fa pencil >}} Example 1
+### Part (a)
+
+-   Let's focus on Test 1.
+
+-   By definition, the level of the test is the probability of rejecting the null when the null was true.
+
+-   Saying that "the null was true" is saying that the true value of _µ_ is _µ_~0~, in which case $Y_1 \sim \mathcal{N}(\mu_0, 1)$.
+
+-   Hence, the probability of rejecting the null (i.e. that $Y_1 - \mu_0 > \Phi^{-1}(0.95)$) if the null is true is:
+
+::: {.fragment style="font-size:28px"}
+\begin{align*}
+  \Prob_{H_0}(Y_1 - \mu_0 > \Phi^{-1}(0.95)) & = 1 - \Prob_{H_0}(Y_1 - \mu_0 \leq \Phi^{-1}(0.95)) \\
+    & = 1 - \Phi[\Phi^{-1}(0.95)] = 1 - 0.95 = 0.05 \ \checkmark
+\end{align*}
+:::
+
+-   Try Test 2 on your own.
+
+
+## {{< fa pencil >}} Example 1
+### Part (b)
+
+-   We now turn our attention to the power curves. Again, we start with Test 1.
+
+-   _Q_(_µ_~A~) is the probability of rejecting the null when the true value of _µ_ is in fact _µ_~A~. 
+
+-   Saying that "the true value of _µ_ is in fact _µ_~A~" means $Y_1 \sim \mathcal{N}(\mu_A, 1)$. Furthermore, we reject the null when $Y_1 > \Phi^{-1}(0.95)$.
+
+-   Hence,
+
+## {{< fa pencil >}} Example 3
+### Part (b)
+
+::: {.fragment style="font-size:28px"}
+\begin{align*}
+  Q_1(\mu_A) & = \Prob_{\mu_A}(Y_1 - \mu_0 > \Phi^{-1}(0.95)) \\
+  &  = \Prob_{\mu_A}(Y_1 - {\color{blue} \mu_A + \mu_A} -  \mu_0 > \Phi^{-1}(0.95)) \\
+   &  = \Prob_{\mu_A}({\color{red}Y_1 - \mu_A} > \Phi^{-1}(0.95) + (\mu_0 - \mu_A)) \\
+   &  = 1 - \Phi[\Phi^{-1}(0.95) + (\mu_0 - \mu_A)]
+\end{align*}
+:::
+
+-   For test 2:
+
+::: {.fragment style="font-size:28px"}
+\begin{align*}
+  Q_2(\mu_A) & = \Prob_{\mu_A}\left(\frac{\overline{Y}_n - {\color{blue} \mu_A + \mu_A} - \mu_0}{1/\sqrt{n}} > \Phi^{-1}(0.95) \right) \\
+  & = \cdots = 1 - \Phi\left[\Phi^{-1}(0.95) + \sqrt{n}(\mu_0 - \mu_A) \right] 
+\end{align*}
+:::
+
+
+## {{< fa pencil >}} Example 3
+### Part (b)
+
+```{r}
+power1 <- function(mu_0, mu_A){
+  return( 1 - pnorm(
+    qnorm(0.95) + (mu_0 - mu_A)
+  ))
+}
+
+power2 <- function(mu_0, mu_A, n){
+  return( 1 - pnorm(
+    qnorm(0.95) + sqrt(n) * (mu_0 - mu_A)
+  ))
+}
+
+data.frame(x = 0:8) %>% ggplot(aes(x = x)) +
+  stat_function(fun = power1,
+                args = list(mu_0 = 0),
+                aes(colour = "Test 1"),
+                linewidth = 1.25) +
+  stat_function(fun = power2,
+                args = list(mu_0 = 0, n = 10),
+                aes(colour = "Test 2"),
+                linewidth = 1.25) +
+  theme_minimal(base_size = 18) + 
+  xlab(bquote(mu[A])) + ylab("power") + 
+  labs(colour = "Test") +
+  ggtitle(bquote("Power Curves,"~~mu[O]~~"=0"), subtitle = "n = 10 in Test 2")
+```
+
+
+# Estimation {background-color="black" background-image="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjg2emEyamwxMGFvemt4MWh5dHMxNjQ3YXFxbzE4czNlbTlwbXU4cCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT5LMUajJOsjtdPAgU/giphy.gif" background-size="100rem"}
+
+## {{< fa sign-hanging >}} Estimation
+### General Framework
+
+:::: {.columns}
+
+::: {.column width="60%"}
+-   We have a [**population**]{.alert}, governed by a set of [**population parameters**]{.alert} that are unobserved (but that we’d like to make claims about).
+
+-   To make claims about the population parameters, we take a [**sample**]{.alert}.
+
+-   We then use our sample to make [**inferences**]{.alert} (i.e. claims) about the population parameters.
+
+
+:::
+
+::: {.column width="40%"}
+::: {.fragment}
+![](images/Inference.svg)
+:::
+:::
+
+::::
+
+-   Inference can mean either [**estimation**]{.alert} or [**hypothesis testing**]{.alert}.
+
+
+
+## {{< fa sign-hanging >}} Estimation
+### Terminology
+
+-   In estimation, we seek to estimate a particular population parameter.
+
+-   We do so by taking a sample (_Y_~1~, ..., _Y_~_n_~) from the population, and constructing an [**estimator**]{.alert}:
+$$ \widehat{\theta}_n := \widehat{\theta}_n(Y_1, \cdots, Y_n) $$
+
+-   Crucially, an estimator is a _random_ quantity.
+    -   Contrast this with an [**estimate**]{.alert}, which we obtain by plugging specific data into our estimator.
+    -   E.g. we use the _sample mean_ as an estimator for the population mean; after getting a specific set of observations, their numerical sample mean is the estimate.
+    
+    
+## {{< fa sign-hanging >}} Estimation
+### Properties
+
+-   A "good" estimator is one that possesses one (or several) desirable properties, which we can measure in a few different ways:
+    -   [**Unbiasedness**]{.alert}: $\E[\widehat{\theta}_n] = \theta$
+    -   [**Consistency**]{.alert}: $\widehat{\theta}_n \probto \theta$
+    -   [**MVUE**]{.alert}: $\widehat{\theta}_n$ is unbiased and possesses the smallest variance among all posssible unbiased estimators.
+    -   [**MSE:**]{.alert} $\mathrm{MSE}(\widehat{\theta}_n) = \mathrm{Bias}^2(\widehat{\theta}_n) + \Var(\widehat{\theta}_n)$
+        -   **Question:** do we want high or low MSE?
+    -   [**Efficiency**]{.alert}: $\widehat{\theta}_n$ attains the Cramér-Rao Lower Bound
+    
+    
+    
+## {{< fa sign-hanging >}} Estimation
+### Constructing Estimators
+
+-   Most of this is from before the midterm.
+
+-   After the midterm, we asked ourselves: how can we _construct_ estimators?
+
+-   There are two main methods we use:
+    -   The [**Method of Moments**]{.alert} (MoM)
+    -   The method of [**Maximum Likelihood Estimation**]{.alert} (MLE)
+    
+-   Intuition behind the method of moments: our sample moments should closely match the population moments (the sample average cat weight should probably be close to the true average of all cat weights).
+
+    
+## {{< fa sign-hanging >}} Method of Moments
+
+::: {.callout-note}
+## **Method of Moments**
+
+1)    Set up _p_ equations (where _p_ is the number of parameters that are desired to be estimated) of the form
+\begin{align*}
+  M_1   &= \mu_1 \\
+  M_2   & = \mu_2  \\
+  \vdots & \hspace{5mm} \vdots \\
+  M_p   & = \mu_p
+\end{align*}
+where
+$$ M_k := \frac{1}{n} \sum_{i=1}^{n} Y_i^k ; \qquad \mu_k := \E[Y_i^k] $$
+denote the _k_^th^ [**sample moment**]{.alert} and [**population moment**]{.alert}, respectively
+
+2)    Solve the equations for the _p_ parameters; these will be the method of moments estimators for the parameters.
+:::
+
+
+## {{< fa pencil >}} Example 2
+
+::: {.callout-tip}
+## **Example 1**
+
+Let $Y_1, \cdots, Y_n \iid \mathrm{Geom}(p)$. Derive an expression for $\widehat{p}_{\mathrm{MoM}}$, the method of moments estimator for _p_.
+:::
+
+-   We have only one parameter, so we only need to set up one equation.
+
+-   The first population moment is given by $\mu_1 := \E[Y_i] = 1/p$
+
+-   Hence, our method of moments estimator satisfies the equation 
+$$ \overline{Y}_n = \frac{1}{\widehat{p}_{\mathrm{MoM}}} $$
+
+-   When solved for $\widehat{p}_{\mathrm{MoM}}$, we obtain $\boxed{\widehat{p}_{\mathrm{MoM}} = \frac{1}{\overline{Y}_n}}$
+
+
+
+## {{< fa vial >}} Sampling
+### Example: Cats!
+
+![](Images/Sampling0.svg)
+
+
+## {{< fa vial >}} Sampling
+### Example: Cats!
+
+![](Images/Sampling1.svg)
+
+
+## {{< fa vial >}} Sampling
+### Example: Cats!
+
+![](Images/Sampling2.svg)
+
+
+## {{< fa vial >}} Sampling
+### Example: Cats!
+
+![](Images/Sampling3.svg)
+
+
+## {{< fa stairs >}} Leadup
+
+-   Each one of these samples provides some information about _µ_, the true average weight of all cats.
+
+-   For example, suppose we only observed the first sample: 
+$$ \vec{\boldsymbol{y}} = (8.5, \ 12.0, \ 7.5, \ 11.1, ... , \ 8.8, 10.4) $$
+    -   For reference, the average weight of cats in this sample is 9.11 lbs.
+    
+-   Given this sample, how likely do we think it is that the true average weight of all cats is, say, 8 lbs?
+
+-   Given this sample, how likely do we think it is that the true average weight of all cats is, say, 30 lbs?
+
+-   Given this sample, how likely do we think it is that the true average weight of all cats is, say, some arbitrary value _µ_?
+
+
+## {{< fa dice >}} Likelihoods
+
+-   The answer to this last question is precisely the [**likelihood**]{.alert} of a sample.
+
+-   More generally,
+$$ \Lik(\theta; Y_1, \cdots, Y_n) $$
+denotes the likelihood of the true value of the parameter being θ, given observations (_Y_~1~, ..., _Y_~_n_~).
+
+-   Mathematically, the likelihood is just the joint density function of (_Y_~1~, ..., _Y_~_n_~); conceptually, we are now viewing it as a function of θ.
+
+-   As a concrete example, suppose $Y_1, \cdots, Y_n \iid \mathcal{N}(\mu, 1)$ (if it helps, you can think of these at cat weights). 
+
+## {{< fa dice >}} Likelihoods
+### Example
+
+-   Since our sample is stated to be i.i.d.,
+\begin{align*}
+  \Lik(\theta; Y_1, \cdots, Y_n)  & := f_{Y_1, \cdots, Y_n}(y_1, \cdots, y_n ; \theta) \\
+    & = \prod_{i=1}^{n} f_{Y_i}(y_i; \theta)  \\
+    & = \prod_{i=1}^{n} \left[ \frac{1}{\sqrt{2\pi}} \exp\left\{ - \frac{1}{2} (Y_i - \mu)^2 \right\} \right] \\
+    & = \left( \frac{1}{2\pi} \right)^{n/2} \cdot \exp\left\{ - \frac{1}{2} \sum_{i=1}^{n} (\mu - Y_i)^2 \right\} 
+\end{align*}
+
+## {{< fa dice >}} Likelihoods
+### Example
+
+```{r}
+lik1 <- function(mu, x){
+  res <- c()
+  n <- length(x)
+  for(m in mu){
+    res <- c(res, (1 / (2*pi))^(n/2) * exp(-0.5 * sum((m - x)^2)))
+  }
+  return(res)
+}
+
+catwts <- c(8.5, 12.0, 7.5, 11.1, 6.1, 5.5, 9.1, 12.1, 8.8, 10.4)
+
+data.frame(x = 6:12) %>% ggplot(aes(x = x)) +
+  stat_function(fun = lik1, args = list(x = catwts), n = 500, col = "blue",
+                linewidth = 1.25) +
+  theme_minimal(base_size = 18) + xlab(bquote(mu)) + ylab("likelihood") +
+  ggtitle("Likelihood of Cat Weights")
+```
+
+
+## {{< fa dice >}} Likelihoods
+### Example
+
+```{r}
+
+data.frame(x = 6:12) %>% ggplot(aes(x = x)) +
+  stat_function(fun = lik1, args = list(x = c(8.1, 9.2, 10.2, 8.3)), n = 500,
+                aes(colour = "(8.1, 9.2, 10.2, 8.3)"),
+                linewidth = 1.25) +
+  stat_function(fun = lik1, args = list(x = c(11.2, 12.1, 9.1)), n = 500,
+                aes(colour = "(12.2, 12.1, 9.1)"),
+                linewidth = 1.25) +
+  stat_function(fun = lik1, args = list(x = c(7.1, 8.9, 10.2, 11.1)), n = 500,
+                aes(colour = "(6.1, 7.1, 8.9, 10.2, 11.1)"),
+                linewidth = 1.25) +
+  theme_minimal(base_size = 18) + xlab(bquote(mu)) + ylab("likelihood") +
+  ggtitle("Likelihood of Cat Weights") + 
+  labs(colour = "Sample")
+```
+
+## {{< fa dice >}} Likelihoods
+### Example
+
+
+::: {.callout-caution}
+## **Caution**
+
+Though it hasn't always been explicitly stated, there are _two_ types of likelihoods we've been dealing with.
+:::
+
+-   On the one hand, we have the likelihood of an _entire sample_ (_Y_~1~, ..., _Y_~_n_~)
+    -   This is what we discussed above.
+    
+-   On the other hand, we can also talk about the likelihood of a _single observation_ _Y_~_i_~. 
+
+-   Though we can call both a "likelihood," they differ in notation: $\Lik(\theta; Y_1, \cdots, Y_n)$ vs $\Lik(\theta; Y_i)$. 
+
+-   This distinction will become important later.
+
+
+## {{< fa sign-hanging >}} Maximum Likelihood Estimation
+
+-   Consider again the likelihood of a sample; $\Lik(\theta; Y_1, \cdots, Y_n)$. 
+
+-   Recall that this represents how likely any specified value of θ is to be the truth, given the data (_Y_~1~, ..., _Y_~_n_~).
+
+-   A good guess for the true value of θ, therefore, is perhaps the one that was _most_ likely to have been the case, given the data we observed.
+    -   In other words, the value that _maximizes_ the likelihood.
+    
+::: {.fragment}
+::: {.callout-note}
+## **Definition:** [**Maximum Likelihood Estimator**]{.alert}
+
+$$ \widehat{\theta}_{\mathrm{MLE}} := \argmax_{\theta} \left\{ \Lik(\theta; Y_1, \cdots, Y_n) \right\} $$
+:::
+:::
+
+-   Sometimes it's more convenient to work with the [**log-likelihood**]{.alert}, though it is not always necessary.
+    
+    
+## {{< fa pencil >}} Example 3
+
+::: {.callout-tip}
+## **Example 3**
+
+Let $Y_1, \cdots, Y_n \iid \mathcal{N}(\mu, 1)$. Derive an expression for $\widehat{\mu}_{\mathrm{MLE}}$, the maximum likelihood estimator for _µ_.
+:::
+
+-   We already found the likelihood above.
+
+-   The log-likelihood is given by
+$$ \ell(\mu; Y_1, \cdots, Y_n) = -\frac{n}{2} \ln(2\pi) - \frac{1}{2} \sum_{i=1}^{n}(Y_i - \mu)^2 $$
+
+-   The [**score function**]{.alert} is given by
+$$ \frac{\partial}{\partial \mu} \ell(\theta; Y_1, \cdots, Y_n) = \sum_{i=1}^{n} (Y_i - \mu) = n \overline{Y}_n - n \mu$$
+
+
+## {{< fa pencil >}} Example 2
+
+::: {.callout-tip}
+## **Example 2**
+
+Let $Y_1, \cdots, Y_n \iid \mathcal{N}(\mu, 1)$. Derive an expression for $\widehat{\mu}_{\mathrm{MLE}}$, the maximum likelihood estimator for _µ_.
+:::
+
+::: {.nonincremental}
+-   Setting this equal to zero and solving for _µ_ reveals that a critical value of the likelihood is given by $\mu = \overline{Y}_n$.
+:::
+
+-   The second derivative of the log-likelihood is given by
+$$\frac{\partial^2}{\partial \mu^2} \ell(\theta; Y_1, \cdots, Y_n) = - n $$
+which is negative everywhere; hence the critical value we found above must be a maximum.
+
+-   Thus, $\boxed{\widehat{\mu}_{\mathrm{MLE}} = \overline{Y}_n}$
+
+
+## {{< fa sign-hanging >}} Maximum Likelihood Estimation
+
+-   If the support of the population distribution depends on the parameter of interest, the likelihood will be nondifferentiable (with respect to the parameter of interest).
+
+-   In such cases, the likelihood must be maximized by inspection - there's an example of this on the worksheet we'll go over later today.
+
+
+::: {.fragment}
+::: {.callout-important}
+## **Theorem**
+
+Under regularity,
+$$ Z := \frac{t(\widehat{\theta}_n) - t(\theta)}
+{\sqrt{ \left. \left[\frac{\partial t(\theta)}{\partial \theta} \right]^2 \middle/   \mathcal{I}_n(\theta) \right.}}  \rightsquigarrow \mathcal{N}(0, 1)$$
+:::
+:::
+
+
+## {{< fa info >}} Fisher Information
+
+::: {.callout-note}
+## **Definition:** [**Fisher Information**]{.alert}
+
+Under regularity, the [**Fisher Information**]{.alert} of a sample (_Y_~1~, ..., _Y_~_n_~) is given by
+$$ \mathcal{I}_n(\theta) = - \E\left[ \frac{\partial^2}{\partial \theta^2} \ell(\theta; Y_1, \cdots, Y_n) \right] $$
+
+Under regularity, the [**Fisher Information**]{.alert} of an observation _Y_~_i_~
+$$ \mathcal{I}_1(\theta) = - \E\left[ \frac{\partial^2}{\partial \theta^2} \ell(\theta; Y_i) \right] $$
+:::
+
+::: {.fragment}
+::: {.callout-important}
+## **Theorem**
+Assuming an i.i.d. sample,
+$$ \mathcal{I}_n(\theta) = n \mathcal{I}_1(\theta) $$
+:::
+:::
+
+## {{< fa info >}} Fisher Information
+
+-   I highlight this because I know it can be confusing at times why we sometimes multiply by _n_ and sometimes do not.
+
+-   The reason for this is, again, the difference between the likelihood for a _sample_ and the likelihood for a _single observation_.
+
+-   For example, to find the asymptotic variance of the MLE, we can either:
+    -   Find the Fisher Information of a single observation and multiply by _n_
+    -   Find the Fisher Information of the sample and _not_ multiply by _n_
+    -   The second approach will typically involve dealing with sums/products; the first will not (but you will have to remember to multiply by _n_ in the end).
+    
+
+# Two-Sample Confidence Intervals {background-color="black" background-image="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExazA0ODVhOW1uam5jcjJ3OXc4a2UzY290M3M1eDNwczUxeHQ2MW1maSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l2JdTZL6GzeFgKhyg/giphy.gif" background-size="70rem"}
+
+
+## {{< fa stairs >}} Leadup
+
+-   Do UCSB students have, on average, the same commute times as SBCC students?
+
+-   We assume we have two samples, (_X_~1~, ..., _X_<sub>_n_<sub>_x_</sub></sub>) and (_Y_~1~, ..., _Y_<sub>_n_<sub>_y_</sub></sub>) from two normal distributions, with means _µ_~_x_~ and _µ_~_y_~, respectively.
+    -   For example, the _X_'s might represent UCSB commute times and the _Y_'s might represent SBCC commute times.
+    
+-   To construct a confidence interval for (_µ_~_x_~ - _µ_~_y_~), we just need to plug into one of the formulas from the Week 8 Part 2 slide deck; the only question is _which one_?
+
+-   The answer depends on the assumptions we make (or the problem tells us to make).
+
+
+## {{< fa cash-register >}} Confidence Interval for a Difference in Means
+
+-   **Population Variances:** are the population variances assumed to be the same?
+    -   E.g. are the variances among _all_ UCSB commute times the same as the variances among _all_ SBCC commute times?
+    -   Note; this isn't the same as checking whether the _sample_ variances are equal!
+    
+-   If we assume they are the same, we first **pool** the sample variances and then use the _z_-distribution to construct our CI.
+
+-   If we assume they are different, we **do not pool** the sample variances, and use the _t_-distribution. 
+    -   The degrees of freedom is taken to be the minimum of  (_n_<sub>_x_</sub> - 1) and (_n_<sub>_y_</sub> - 1).
