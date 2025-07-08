@@ -1,0 +1,660 @@
+---
+title: "PSTAT 100: Lecture 09"
+subtitle: "Introduction to Inferential Statistics"
+footer: "PSTAT 100 - Data Science: Concepts and Analysis, Summer 2025 with Ethan P. Marzban"
+logo: "Images/logo.svg"
+format: 
+  clean-revealjs:
+    theme: ../slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    incremental: true 
+    chalkboard: true
+    include-before: [ '<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {enableAssistiveMml: false}});</script>']
+    menu:
+      side: left
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: Ethan P. Marzban
+    affiliations: Department of Statistics and Applied Probability; UCSB <br /> <br />
+institute: Summer Session A, 2025
+title-slide-attributes:
+    data-background-image: "Images/logo.svg"
+    data-background-size: "30%"
+    data-background-opacity: "0.5"
+    data-background-position: 80% 50%
+code-annotations: hover
+---
+
+
+$$
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand\R{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\1}{1\!\!1}
+\newcommand{\comp}[1]{#1^{\complement}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\SD}{\mathrm{SD}}
+\newcommand{\vect}[1]{\vec{\boldsymbol{#1}}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\iid}{\stackrel{\mathrm{i.i.d.}}{\sim}}
+$$
+
+
+```{css echo = F}
+.hscroll {
+  height: 100%;
+  max-height: 600px;
+  max-width: 2000px;
+  overflow: scroll;
+}
+
+.hscroll2 {
+  height: 100%;
+  max-height: 300px;
+  overflow: scroll;
+}
+
+.hscroll3 {
+  max-width: 2rem;
+  overflow: scroll;
+}
+```
+
+```{r setup, echo = F}
+library(tidyverse)
+library(countdown)
+library(fixest)
+library(modelsummary) # Make sure you have >=v2.0.0
+library(GGally)
+library(ggokabeito)
+library(reshape2)
+library(pander)
+library(gridExtra)
+library(cowplot)
+```
+
+## {{< fa stairs >}} Leadup
+
+-   So far, we've spent a lot of time _describing_ and _analyzing_ data.
+    -   Semantics vs structure; visualizations; designing studies; collecting data etc.
+
+-   Indeed, much of what we have done is a part of [**descriptive statistics**]{.alert} which, in a sense, is the branch of statistics devoted to _describing_ data.
+
+-   Now, yesterday we started talking about how samples are taken from a _population_.
+
+-   Assuming appropriate scope of inference, do we have enough statistical tools to use our data to actually say something about the population?
+
+-   With our current tools: no. 
+    -   But, this is where [**inferential statistics**]{.alert} comes into play.
+    
+    
+
+## {{< fa dice >}} Probability vs. Statistics
+### An Illustration
+
+-   Consider a bucket comprised of blue and gold marbles, and suppose we know how many blue and gold marbles there are.
+    -   From this bucket, we take a sample of marbles.
+    
+:::: {.columns}
+
+::: {.column width="40%"}
+::: {.fragment}
+![](images/prob_vs_stat_1.svg)
+:::
+:::
+
+::: {.column width="60%"}
+-   We then use our information of the configuration of marbles in the bucket to inform us about what's in our hand.
+    -   E.g. what's the expected number of gold marbles in our hand?
+    -   E.g. what's the probability that we have more than 3 blue marbles in our hand?
+:::
+
+::::
+
+
+
+## {{< fa dice >}} Probability vs. Statistics
+### An Illustration
+
+-   Consider now the opposite scenario: we do _not_ know anything about the configuration of marbles in the bucket. All we have is a sample of, say, 11 blue and 6 gold marbles drawn from this bucket.
+    
+:::: {.columns}
+
+::: {.column width="40%"}
+::: {.fragment}
+![](images/prob_vs_stat_2.svg)
+:::
+:::
+
+::: {.column width="60%"}
+-   We then use our information on the configuration of marbles in our _hand_ to inform us about what's in the _bucket_.
+    -   E.g. what's the expected number of gold marbles in the bucket?
+    -   E.g. what's the probability that there are more than 3 blue marbles in the bucket?
+:::
+
+::::
+
+
+
+
+## {{< fa magnifying-glass-chart >}} Statistical Inference
+### General Framework
+
+-   Now, instead of marbles in a bucket, imagine _units_ in our _sampled population_.
+
+
+:::: {.columns}
+
+::: {.column width="60%"}
+-   We have a [**population**]{.alert}, governed by a set of [**population parameters**]{.alert} that are unobserved (but that we’d like to make claims about).
+
+-   To make claims about the population parameters, we take a [**sample**]{.alert}.
+
+-   We then use our sample to make [**inferences**]{.alert} (i.e. claims) about the population parameters.
+
+
+:::
+
+::: {.column width="40%"}
+::: {.fragment}
+![](images/inference.svg)
+:::
+:::
+
+::::
+
+
+## {{< fa cat >}} Example: Cats
+
+-   As an example, suppose we wish to determine the true average weight of all cats in the world. Call this quantity _µ_.
+
+-   Clearly, a census is impossible here; we cannot weigh every single cat in the world and average their weights.
+
+-   Instead, we can take repeated _samples_ (say, SRSes) of _n_ cats and use these samples to say something about _µ_.
+
+-   Let's establish some notation.
+    -   Define _Y_~_i_~ to be the weight of a randomly-selected cat. This is _random_.
+    -   Define _y_~_i_~ to be the weight of a specific cat (e.g. Kitty). This is _deterministic_.
+    
+    
+
+## {{< fa cat >}} Cats!
+
+![](Images/Sampling0.svg)
+
+## {{< fa cat >}} Cats!
+
+![](Images/Sampling1.svg)
+
+## {{< fa cat >}} Cats!
+
+![](Images/Sampling2.svg)
+
+## {{< fa cat >}} Cats!
+
+![](Images/Sampling3.svg)
+
+
+## {{< fa cat >}} Cats!
+
+-   A _random sample_ of cat weights is then a collection $\{Y_1, \cdots, Y_n\}$ of random variables (in this case, random cat weights).
+    -   A particular _realization_ of a sample is then $\{y_1, \cdots, y_n\}$.
+    
+-   Doesn't it seem tempting to use the average weight of our _sampled_ cats to say something about the average weight of _all_ cats (_µ_)?
+
+-   Indeed, we can define the [**sample mean**]{.alert} to be
+$$ \overline{Y}_n := \frac{1}{n} \sum_{i=1}^{n} Y_i $$
+a quantity you should hopefully recognize from PSTAT 120A!
+
+
+## {{< fa diagram-project >}} Statistics and Estimators
+
+-   We define a [**statistic**]{.alert} to be a function of our random sample $(Y_1, \cdots, Y_n)$.
+    -   Example: **sample mean**: $\overline{Y}_n := \frac{1}{n} \sum_{i=1}^{n} Y_i$
+    -   Example: **sample variance**: $S_n^2 := \frac{1}{n - 1} \sum_{i=1}^{n} (Y_i - \overline{Y}_n)^2$
+    -   Example: **sample maximum**: $Y_{(n)} := \max\{Y_1, \cdots, Y_n\}$
+    
+-   By definition, statistics are random variables.
+    -   For example, different samples of cat weights will have potentially different observed averages, variances, and maxima.
+    -   The distribution of a statistic is called its [**sampling distribution**]{.alert}
+    
+-   A statistic used in service of estimating a population parameter is called an [**estimator**]{.alert}, and the value of an estimator corresponding to a particualar realized sample is called an [**estimate**]{.alert}
+
+## {{< fa diagram-project >}} Statistics and Estimators
+### Example
+
+::: {.callout-tip}
+## **Example**
+
+A vet wishes to estimate the true weight of all cats in the world. She takes a sample of 10 cats, and finds their average weight to be 9.12 lbs.
+:::
+
+-   The **population parameter** is the true average weight of all cats in the world (which we can call _µ_).
+
+-   The **estimator** is the sample mean: we are using sample means to estimate µ.
+
+-   The **estimate** in this scenario is 9.12 lbs, as this is a particular realization of our estimator.
+
+## {{< fa chart-simple >}} Sampling Distributions
+
+-   As we will soon see, it's often very useful to derive the sampling distribution of a particular statistic.
+
+-   There are two main ways to derive sampling distributions: using a **simulation-based** approach, and using a **theoretical** approach. Let's start off with a simulation-based approach. 
+
+-   To make things more concrete, suppose $Y_1, \cdots, Y_n \iid \mathcal{N}(\mu, 1)$.
+    -   If it's helpful, you can again think of _Y_~_i_~ as the weight of a randomly-selected cat; now, we're saying that this random variable follows a normal distribution with mean _µ_ and variance 1, and that cat weights are independent across cats.
+    
+
+::: {.fragment}
+::: {.callout-tip}
+## **Goal**
+
+Determine the sampling distribution of $\overline{Y}_n := n^{-1} \sum_{i=1}^{n} Y_i$.
+:::
+:::
+
+
+## {{< fa chart-simple >}} Sampling Distributions {style="font-size:30px"}
+### Normal Example
+
+-   Recall that the whole notion of a sampling distribution arises because our statistics (in this case, the sample mean) are _random_.
+    -   Different samples of cats will yield different observed sample mean weights
+    -   In essence, the sampling distribution seeks to capture the _randomness_ or _variability_ present in a statistic.
+    
+-   With computer technology, we can try to capture this variability _empirically_:
+    1)    Simulate taking a sample of _n_ cats, and record the average weight
+    2)    Repeat this a very large number of times, and examine the distribution of the sample means.
+    
+-   This distribution should, in theory, give us a good sense of the sampling distribution of the sample mean!
+
+## {{< fa chart-simple >}} Sampling Distributions
+### Normal Example
+
+-   The first question is: how do we simulate taking a sample of cats?
+
+-   Because we are assuming the weight of a randomly-selected cat follows a normal distribution, we can use `R`'s built-in `rnorm()` function. 
+
+-   For example, to draw a sample of size 10 from a $\mathcal{N}(10.2, 1)$ distribution, we would run
+
+::: {.fragment}
+```{r}
+#| echo: True
+
+set.seed(100)   ## for reproducibility
+rnorm(n = 10, mean = 10.2, sd = 1) %>% round(3)
+```
+:::
+
+-   Again, in the context of our cat-weight example, these values represent a hypothetical collection of the weights of 10 different cats. 
+
+## {{< fa chart-simple >}} Sampling Distributions
+### Normal Example
+
+```{r}
+#| echo: True
+#| code-fold: True
+
+set.seed(100)   ## for reproducibility
+
+means_10 <- c()
+n <- 10         ## sample size
+B <- 1000       ## number of samples
+for(b in 1:B){
+  means_10 <- c(means_10,rnorm(n, 10.2, 1) %>% mean())
+}
+```
+
+```{r}
+
+p1 <- data.frame(x = means_10) %>% ggplot(aes(x = means_10)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 15, col = "white") +
+  theme_minimal(base_size = 18) + ggtitle("Histogram of Sample Means; n = 10") +
+  xlab("means") +
+  xlim(c(9.2, 11))  + ylim(c(0, 3.5))
+
+p1
+```
+
+## {{< fa chart-simple >}} Sampling Distributions
+### Normal Example
+
+```{r}
+#| echo: True
+#| code-fold: True
+
+set.seed(100)   ## for reproducibility
+
+means_50 <- c()
+n <- 50         ## sample size
+B <- 1000       ## number of samples
+for(b in 1:B){
+  means_50 <- c(means_50,rnorm(n, 10.2, 1) %>% mean())
+}
+```
+
+```{r}
+p2 <- data.frame(x = means_50) %>% ggplot(aes(x = means_50)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 15, col = "white") +
+  theme_minimal(base_size = 18) + ggtitle("Histogram of Sample Means; n = 50")  +
+  xlab("means") +
+  xlim(c(9.2, 11)) + ylim(c(0, 3.5))
+
+p2
+```
+
+
+## {{< fa chart-simple >}} Sampling Distributions
+### Normal Example
+
+```{r}
+#| echo: True
+#| code-fold: True
+
+set.seed(100)   ## for reproducibility
+
+means_100 <- c()
+n <- 100         ## sample size
+B <- 1000       ## number of samples
+for(b in 1:B){
+  means_100 <- c(means_100,rnorm(n, 10.2, 1) %>% mean())
+}
+```
+
+```{r}
+p3 <- data.frame(x = means_100) %>% ggplot(aes(x = means_100)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 15, col = "white") +
+  theme_minimal(base_size = 18) + ggtitle("Histogram of Sample Means; n = 100")  +
+  xlab("means") +
+  xlim(c(9.2, 11))  + ylim(c(0, 3.5))
+
+p3
+```
+
+
+## {{< fa chart-simple >}} Sampling Distributions
+### Normal Example
+
+-   Some interesting takeaways:
+    -   Regardless of the sample size, the sampling distribution of $\overline{Y}_n$ appears to be roughly normal.
+    -   Regardless of the sample size, the sampling distribution of $\overline{Y}_n$ appears to centered at the population mean (10.2).
+    -   As the sample size increases, the sampling distribution of $\overline{Y}_n$ becomes more tightly concentrated about the population mean (10.2)
+    
+-   Guess what- this shouldn't be a surprise!
+
+---
+
+## {{< fa chart-simple >}} Sampling Distributions
+### Sample Mean: Normal Population
+
+::: {.callout-important}
+## **Sample Mean of Normally-Distributed Random Variables**
+
+If $Y_1, \cdots, Y_n \iid \mathcal{N}(\mu, \sigma^2)$, then
+$$ \overline{Y}_n := \left( \frac{1}{n} \sum_{i=1}^{n} Y_i \right) \sim \mathcal{N}\left( \mu, \ \frac{\sigma^2}{n} \right) $$
+:::
+
+-   This is a result you saw in PSTAT 120A, and proved using Moment-Generating Functions.
+
+-   In the context of sampling, here's what this says: if we assume a normally-distributed population, then the sampling distribution of the sample mean is also normal.
+
+
+
+
+## {{< fa chart-simple >}} Sampling Distributions
+### Sample Mean: Normal Population
+
+```{r}
+p1 <- p1 + stat_function(fun = dnorm, args = list(mean = 10.2, sd = 1/sqrt(10)),
+                   aes(colour = "N(10.2, 1/sqrt(10)"), linewidth = 1.5) +
+  labs(colour = "Density") + theme(legend.position = "top") +
+  ggtitle("n = 10")
+
+p2 <- p2 + stat_function(fun = dnorm, args = list(mean = 10.2, sd = 1/sqrt(50)),
+                   aes(colour = "N(10.2, 1/sqrt(50)"), linewidth = 1.5) +
+  labs(colour = "Density") + theme(legend.position = "top") +
+  ggtitle("n = 50")
+
+p3 <- p3 + stat_function(fun = dnorm, args = list(mean = 10.2, sd = 1/sqrt(100)),
+                   aes(colour = "N(10.2, 1/sqrt(100)"), linewidth = 1.5) +
+  labs(colour = "Density") + theme(legend.position = "top") +
+  ggtitle("n = 100")
+
+grid.arrange(p1, p2, p3, ncol = 3)
+```
+
+## {{< fa chart-simple >}} Sampling Distributions
+### Sample Variance: Normal Population
+
+-   Now, note (again) that our sampling distribution of the sample mean is centered at the true value of the population mean (which, in the simulation, is 10.2).
+
+-   Indeed:
+
+::: {.fragment style="font-size:28px"}
+$$ \mathbb{E}[\overline{Y}_n] = \mathbb{E}\left[ \frac{1}{n} \sum_{i=1}^{n} Y_i \right] = \frac{1}{n} \sum_{i=1}^{n} \E[Y_i] = \frac{1}{n} \sum_{i=1}^{n} (\mu) = \frac{1}{n} \cdot n \mu = \mu $$
+:::
+
+-   So, the expected value of the sample mean $\overline{Y}_n$ is the population mean _µ_: on average, the sample mean will guess the true population mean bang-on.
+
+
+
+## {{< fa toggle-off >}} Bias
+
+-   We define the [**bias**]{.alert} (sometimes called the [**statistical bias**]{.alert}, to distinguish from the forms of bias we talked about yesterday) of an estimator to be the difference between the expected value of the estimator and the parameter it's trying to estimate:
+$$ \mathrm{Bias}(\widehat{\theta}_n, \theta) := \E[\widehat{\theta}_n] - \theta $$
+
+-   For example, based on what we did on the previous slide,
+$$ \mathrm{Bias}(\overline{Y}_n , \mu) = \E[\overline{Y}_n] - \mu = \mu - \mu = 0 $$
+    -   An estimator whose bias is equal to zero is said to be [**unbiased**]{.alert}.
+    -   For example, the sample mean is an unbiased estimator for the population mean.
+
+## {{< fa toggle-off >}} Bias
+
+-   Here are three parameters that arise frequently throughout statistics, and a corresponding unbiased estimator for each:
+
+\
+
+::: {.fragment}
+|**Parameter** <br /> **Name**| **Parameter Symbol** | **Common Estimator** |
+|:---:|:--:|:--------------|
+| Mean | _µ_ | Sample Mean: $\overline{Y}_n := (1/n) \sum_{i=1}^{n} Y_i$ |
+| Variance | σ^2^ | Sample Variance: $S_n^2 := (n-1)^{-1} \sum_{i=1}^{n} (Y_i - \overline{Y}_n)^2$ |
+| Proportion | _p_ | Sample Proportion: $\widehat{P}_n := \mathrm{prop}(\mathrm{success})$ |
+:::
+
+## {{< fa coins >}} Proportions as Means
+    
+-   By the way, like we talked about in lecture yesterday, proportions are actually just a special case of means: specifically, a proportion is just a mean of binary 0/1 values.
+
+-   As an example, imagine tossing a coin:
+
+::: {.fragment}
+![](images/coin_tosses.svg)
+:::
+
+
+## {{< fa pencil >}} Your Turn!
+
+::: {.callout-tip}
+## **Your Turn!**
+
+At _Stellardollar Coffee_, the time _X_ (in minutes) a randomly-selected person spends waiting in line follows a distribution with density function given by
+$$ f_X(x) = \begin{cases} \frac{1}{\beta} e^{-x/\beta} & \text{if } x \geq 0 \\ 0 & \text{otherwise} \\ \end{cases} $$
+
+:::{.nonincremental}
+a)    In terms of _β_, what is the population average wait time? (I.e., what is $\E[X]$?)
+
+b)    If _X_ represents the (random) wait time of a randomly-selected customer from _Stellardollar Coffee_, is _X_^2^ an unbiased estimator for the true average wait time of customers?
+
+c)    If _X_ and _Y_ represent the (random) wait times of two randomly-selected customers, is the average wait time (_X_ + _Y_)/2 an unbiased estimator for the true average wait time of customers?
+
+:::
+
+:::
+
+```{r}
+#| echo: False
+#| eval: True
+
+countdown(minutes = 5L, font_size = "4rem")
+```
+
+## {{< fa repeat >}} Simulations
+
+-   Let's consider again part (c) of the previous "Your Turn" exercise.
+
+-   Specifically, let's see if we can implement a simulation-based approach to answering it.
+
+-   Here's the idea:
+    1)    Simulate the two wait times _X_ and _Y_
+    2)    Compute their average
+    3)    Repeat steps 1 and 2 a large number of times, and compute the _sample_ average of these values
+    
+-   It seems that this final sample average should be close to the true _theoretical_ expectation. 
+    -   Indeed, this is a simple example of a [**Monte Carlo Simulation**]{.alert}
+
+## {{< fa repeat >}} Simulations
+
+```{r}
+#| echo: True
+
+set.seed(100)   ## for reproducibility
+true_beta <- 2  ## for the purposes of simulation
+
+B <- 1000            ## the number of times to run the simulation
+samp_means <- c()    ## initialize a blank vector to store the sample means
+
+for(b in 1:B) {
+  X <- rexp(1, rate = 1/2)     ## simulate the first wait time
+  Y <- rexp(1, rate = 1/2)     ## simulate the second wait time
+  samp_means <- c(samp_means, mean(c(X, Y)))
+}
+```
+
+-   Here's our approximation to $\mathbb{E}[(X + Y)/2]$:
+
+::: {.fragment}
+```{r}
+#| echo: True
+mean(samp_means)
+```
+:::
+
+## {{< fa chart-simple >}} Sampling Distributions
+### Sample Mean: Non-Normal Population
+
+-   Finally, we close out by exploring the sampling distribution of the sample mean, assuming a _non_-normal population.
+
+-   Here is the general algorithm we'll use:
+    1)    Simulate a draw of size _n_ (for different values of _n_) from the Exp(2) distribution
+    2)    Compute the mean of these simulated values
+    3)    Repeat a large number (1000) times, and examine the histogram of resulting sample mean values.
+    
+-   This histogram should give us a general idea of what the sampling distribution of $\overline{Y}_n$ when $Y_1, \cdots, Y_n$ are i.i.d. Exp(2) random variables.
+
+## {{< fa chart-simple >}} Sampling Distributions
+### Sample Mean: Non-Normal Population
+
+```{r}
+set.seed(100)
+
+get_sample_means <- function(n, B) {
+  means <- c()
+  for(b in 1:B){means <- c(means, mean(rexp(n, rate = 1/2)))}
+  return(means)
+}
+
+get_plot <- function(n){
+  data.frame(means = get_sample_means(n, 1000)) %>%
+  ggplot(aes(x = means)) + geom_histogram(aes(y = after_stat(density)),
+                                          col = "white", bins = 15) +
+  theme_minimal(base_size = 18) + 
+  ggtitle(paste0("n = ", n)) + xlab("means")
+}
+
+p1 <- get_plot(10)
+p2 <- get_plot(50)
+p3 <- get_plot(100)
+p4 <- get_plot(500)
+
+grid.arrange(p1, p2, p3, p4, ncol = 2)
+```
+
+## {{< fa chart-simple >}} Sampling Distributions
+### Sample Mean: Non-Normal Population
+
+-   As the sample size increases, the sampling distribution of $\overline{Y}_n$ starts to look more and more like a normal distribution...
+
+-   Again - this is actually old news!
+
+::: {.fragment}
+::: {.callout-important}
+## **Central Limit Theorem**
+
+Given an i.i.d. sample (_Y_~1~, ..., _Y_~_n_~) from a distribution with finite mean _µ _ and finite variance σ^2^, 
+$$ \frac{\sqrt{n}(\overline{Y}_n - \mu)}{\sigma} \stackrel{\cdot}{\sim} \mathcal{N}(0, 1) \quad \iff \quad  \overline{Y}_n \stackrel{\cdot}{\sim} \mathcal{N}\left(\mu, \ \frac{\sigma^2}{n} \right) $$
+
+:::
+:::
+
+-   Here, $\stackrel{\cdot}{\sim}$ can be read as "approximately distributed as"
+
+## {{< fa chart-simple >}} Sampling Distributions
+### Sample Mean: Non-Normal Population
+
+```{r}
+p1 <- p1 + stat_function(fun = dnorm, args = list(mean = 2, sd = 2/sqrt(10)),
+                         linewidth = 1.5,
+                         aes(colour = "N(2, 2/sqrt(10))"))  + theme_minimal(base_size = 10) + theme(legend.position = "top") + labs(colour = "Density")
+
+p2 <- p2 + stat_function(fun = dnorm, args = list(mean = 2, sd = 2/sqrt(50)),
+                         linewidth = 1.5,
+                         aes(colour = "N(2, 2/sqrt(50))"))  + theme_minimal(base_size = 10) + theme(legend.position = "top")  + labs(colour = "Density")
+
+p3 <- p3 + stat_function(fun = dnorm, args = list(mean = 2, sd = 2/sqrt(100)),
+                         linewidth = 1.5,
+                         aes(colour = "N(2, 2/sqrt(100))"))  + theme_minimal(base_size = 10) + theme(legend.position = "top")  + labs(colour = "Density")
+
+p4 <- p4 + stat_function(fun = dnorm, args = list(mean = 2, sd = 2/sqrt(500)),
+                         linewidth = 1.5,
+                         aes(colour = "N(2, 2/sqrt(500))"))  + theme_minimal(base_size = 10) + theme(legend.position = "top")  + labs(colour = "Density")
+
+grid.arrange(p1, p2, p3, p4, ncol = 2)
+```
+
+
+## {{< fa pencil >}} Collective Exercise
+
+::: {.callout-tip}
+## **Let's Work On This Together!**
+
+The amount of time a randomly-selected Santa Barbara MTD bus is delayed is a random variable with mean 4 minutes and standard deviation 3 minutes. 
+
+::: {.nonincremental}
+a)    What is the probability that a randomly-selected bus is _early_? (**Hint:** think about what this means in the context of the problem.)
+
+b)    A collection of 81 independent buses is taken, and the average (mean) amount of delay is recorded. What is the probability that the average amount of delay among these 81 buses lies between 3 minutes and 5 minutes?
+
+:::
+
+:::
+
+
+
+## {{< fa forward-fast >}} Next Time
+
+-   Tomorrow, we'll continue our discussion of estimation.
+    -   We'll further explore the notion of statistical bias
+    -   We'll also introduce **confidence intervals**, which arise _very_ frequently in statistics.
+    
+-   In lab today, you'll get some practice with the sampling techniques we discussed yesterday (and explore the effects of bias), along with some practice with sampling distributions.
+
+-   Please do not forget that the **Mid-Quarter Project** is due [**THIS SUNDAY**]{.alert} (July 13, 2025) by 11:59pm, on Gradescope.
+    -   Only one of your group members needs to submit; on Gradescope, there will be a way for them to include all group member's names.
+    
