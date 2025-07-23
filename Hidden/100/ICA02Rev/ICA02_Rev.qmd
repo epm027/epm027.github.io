@@ -1,0 +1,374 @@
+---
+title: "PSTAT 100: ICA 02 Review"
+subtitle: "Some Extra Questions"
+footer: "PSTAT 100 - Data Science: Concepts and Analysis, Summer 2025 with Ethan P. Marzban"
+logo: "Images/100_hex.png"
+format: 
+  clean-revealjs:
+    theme: ../slides.scss
+    transition: fade
+    slide-number: true
+    incremental: true 
+    chalkboard: true
+    include-before: [ '<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {enableAssistiveMml: false}});</script>']
+    menu:
+      side: left
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: Ethan P. Marzban
+    affiliations: Department of Statistics and Applied Probability; UCSB <br /> <br />
+institute: Summer Session A, 2025
+title-slide-attributes:
+    data-background-image: "Images/100_hex.png"
+    data-background-size: "30%"
+    data-background-opacity: "0.5"
+    data-background-position: 80% 50%
+code-annotations: hover
+---
+
+$$
+\newcommand\R{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\1}{1\!\!1}
+\newcommand{\comp}[1]{#1^{\complement}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\SD}{\mathrm{SD}}
+\newcommand{\vect}[1]{\vec{\boldsymbol{#1}}}
+\newcommand{\tvect}[1]{\vec{\boldsymbol{#1}}^{\mathsf{T}}}
+\newcommand{\hvect}[1]{\widehat{\boldsymbol{#1}}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\tmat}[1]{\mathbf{#1}^{\mathsf{T}}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\DeclareMathOperator*{\argmin}{\mathrm{arg} \ \min}
+\newcommand{\iid}{\stackrel{\mathrm{i.i.d.}}{\sim}}
+$$
+
+```{css echo = F}
+.hscroll {
+  height: 100%;
+  max-height: 600px;
+  max-width: 2000px;
+  overflow: scroll;
+}
+
+.hscroll2 {
+  height: 100%;
+  max-height: 300px;
+  overflow: scroll;
+}
+
+.hscroll3 {
+  max-width: 2rem;
+  overflow: scroll;
+}
+```
+
+```{r setup, echo = F}
+library(tidyverse)
+library(countdown)
+library(fixest)
+library(modelsummary) # Make sure you have >=v2.0.0
+library(GGally)
+library(ggokabeito)
+library(reshape2)
+library(pander)
+library(gridExtra)
+library(cowplot)
+library(palmerpenguins)
+library(plotly)
+library(splines)
+library(yardstick)
+```
+
+
+## {{< fa gavel >}} Division of Labor {style="font-size:28px"}
+
+::: {.nonincremental}
+Within each of your groups (tables), assign one person to be:
+
+-   The scribe (who will write your group's answers on the board)
+-   The timekeeper (the one who ensures your group is staying on-task)
+
+:::
+
+As the ICA is closed-book, **please put away all electronics** and use **only your note sheets**.
+
+## {{< fa question >}} Question 1: Squirrel! {style="font-size:28px"}
+### Setup, and Part (a)
+
+Two common types of squirrels in California are the Tree Squirrel and the Ground Squirrel. These species differ in several characteristics, one of which being weight. To that end, we consider building a classifier to classify a squirrel as either `"Tree"` or `"Ground"` based on its weight (in lbs). 
+
+**Part (a)**:
+
+Encoding `"Tree"` as a value of `1`, the following regression table is outputted:
+
+```{r}
+#| echo: False
+set.seed(100); n <- 120
+wts <- rnorm(n, 15, 2.1)
+probs2 <- 1 / (1 + exp(-(-10 + 0.7 * wts)))
+y <- c()
+for(b in 1:n){
+  y[b] <- sample(c("Ground", "Tree"), size = 1, 
+                             prob = c(probs2[b], 1 - probs2[b]))
+}
+
+squirrels <- data.frame(species = y,
+                        species_0_1 = ifelse(y == "Ground", 0, 1),
+                         wt = wts) %>%
+  mutate(species = species %>% factor())
+```
+
+```
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  2.24749    0.28725   7.824 2.42e-12 ***
+wt          -0.12093    0.01897  -6.376 3.68e-09 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+```
+
+
+What is the probability that a 12-pound squirrel is a Tree Squirrel? Round to four decimal places.
+
+
+```{r}
+#| echo: False
+#| eval: True
+
+countdown(minutes = 3.5L, font_size = "3.5rem", top = "-1rem")
+```
+
+
+
+## {{< fa question >}} Question 1: Squirrel! {style="font-size:28px"}
+### Part (b)
+
+**Part (b)**
+
+We can use the fitted model from part (a) to generate a ROC curve, pictured below with some corresponding threshold values:
+
+:::: {.columns}
+
+::: {.column width="70%"}
+
+```{r}
+#| echo: False
+#| fig.align: 'left'
+lm1 <- glm(species_0_1 ~ wt, data = squirrels, family = "binomial")
+dist_to_corner <- \(x, y){sqrt((1 - x)^2 + (1 - y)^2)}
+
+squirr_roc <- data.frame(
+  truth = squirrels$species_0_1 %>% factor(),
+  probs = lm1$fitted.values
+) %>%
+  roc_curve(
+    truth,
+    probs,
+    event_level = "second"
+  )
+
+opt_row_squirr <- squirr_roc %>% 
+  mutate(dists = dist_to_corner(sensitivity, specificity)) %>%
+  filter(dists == min(dists))
+
+opt_rows_squirr <- squirr_roc %>% 
+  mutate(dists = dist_to_corner(sensitivity, specificity)) %>%
+  filter((abs(dists - min(dists)) >= 0.4 - 0.01) & 
+           (abs(dists - min(dists)) <= 0.4 + 0.01))
+
+
+squirr_roc %>% autoplot() +
+  geom_line(aes(x = 1 - specificity, y = sensitivity),
+            linewidth = 1.5,
+            col = "red") +
+  annotate("label",
+           label = opt_row_squirr$.threshold %>% round(3),
+           x = 1 - opt_row_squirr$specificity,
+           y = opt_row_squirr$sensitivity,
+           fill = "#E69F00",
+           size = 9) +
+  annotate("label",
+           label = opt_rows_squirr[1,]$.threshold %>% round(3),
+           x = 1 - opt_rows_squirr[1,]$specificity,
+           y = opt_rows_squirr[1,]$sensitivity,
+           fill = "#56B4E9",
+           size = 9) +
+  annotate("label",
+           label = opt_rows_squirr[nrow(opt_rows_squirr),]$.threshold %>% round(3),
+           x = 1 - opt_rows_squirr[nrow(opt_rows_squirr),]$specificity,
+           y = opt_rows_squirr[nrow(opt_rows_squirr),]$sensitivity,
+           fill = "#CC79A7",
+           size = 9) +
+  theme_bw(base_size = 24) +
+  ggtitle("Squirrels ROC Curve")
+```
+:::
+
+::: {.column width="30%"}
+Based on the ROC Curve to the left, what is the ideal threshold for building a classifier, and how can you tell?
+:::
+
+::::
+
+
+
+```{r}
+#| echo: False
+#| eval: True
+
+countdown(minutes = 3L, font_size = "3.5rem", top = "-1rem")
+```
+
+## {{< fa question >}} Question 1: Squirrel! {style="font-size:28px"}
+### Part (c)
+
+**For Parts (c) - (d):**
+We now consider the "opposite" problem: that is, we wish to predict a squirrel's weight given its species. Our data is stored in a data frame called `squirrels`, containing two columns: `species` (the species, either `"Ground"` or `"Tree"`), and `wt` (the weight, in lbs). 
+
+**Part (c)**
+
+Consider the model: $y_i = \beta_0 + \beta_1 1 \! \! 1\{\texttt{species}_i = \texttt{Tree}\} + \varepsilon_i$ where we impose the "usual" assumptions on $\varepsilon_i$, and $y_i$ denotes the _i_^th^ squirrel's weight.
+
+
+:::: {.columns}
+
+::: {.column width="50%"}
+What are the OLS estimates for _β_~0~ and _β_~1~? For your convenience, we have provided the following summaries: 
+:::
+
+::: {.column width="50%"}
+```{r}
+squirrels %>% group_by(species) %>% summarise(`Avg. Weight` = mean(wt)) %>% pander()
+```
+:::
+
+:::
+
+
+```{r}
+#| echo: False
+#| eval: True
+
+countdown(minutes = 3L, font_size = "3.5rem", top = "-1rem")
+```
+
+
+## {{< fa question >}} Question 1: Squirrel! {style="font-size:28px"}
+### Part (c)
+
+**For Parts (c) - (d):**
+We now consider the "opposite" problem: that is, we wish to predict a squirrel's weight given its species. Our data is stored in a data frame called `squirrels`, containing two columns: `species` (the species, either `"Ground"` or `"Tree"`), and `wt` (the weight, in lbs). 
+
+**Part (d)**
+
+Here is some `R` code and its output:
+```{r}
+#| echo: True
+squirrels %>% pull(species) %>% levels()
+```
+
+Based on this, suppose we ran `lm(species ~ wt, data = "squirrels")`. Which species would `R` use as the baseline series? Based on your answer to this question, is this call to `lm()` fitting the same model as in Part (c) or not? Explain.
+
+
+```{r}
+#| echo: False
+#| eval: True
+
+countdown(minutes = 3L, font_size = "3.5rem", top = "-1rem")
+```
+
+## {{< fa question >}} Question 2: We All Scream for Ice Cream {style="font-size:28px"}
+
+_GauchoCream_ is a new brand of ice cream using a sweetener that it claims "tastes just like sugar." To test this, Morgana recruits 100 UCSB student volunteers and randomly divides them into two groups of 50 each. To one group, she gives a scoop of _GauchoCream_ ice cream and to the other group she gives a scoop of _Thrifty_ ice cream (which is sweetened with sugar).
+
+She asks each of the 100 participants whether they believed their ice cream was sweetened with sugar, or an artificial sweetener, and records these observations. She compares the proportion of each group that correctly identified their ice cream's sweetener and finds: 70\% of those who had _Thrifty_ ice cream correctly identified it as being sweetened with sugar, but only 20\% of those who had _GauchoCream_ ice cream correctly identified it as being artificially sweetened.
+
+Is this an Experiment or an Observational Study? Is it Longitudinal or Cross-Sectional? Explain.
+
+
+```{r}
+#| echo: False
+#| eval: True
+
+countdown(minutes = 4L, font_size = "3.5rem")
+```
+
+
+## {{< fa question >}} Question 3: Density {style="font-size:28px"}
+
+We have taken a sample of size one from an unknown distribution; this sampled value is `1`. Sketch the Kernel Density Estimate (KDE) of the true density _f_~_X_~(_x_), using a boxcar kernel with a bandwidth of 1. Clearly indicate your axis labels and values!
+
+
+
+```{r}
+#| echo: False
+#| eval: True
+
+countdown(minutes = 3L, font_size = "3.5rem")
+```
+
+
+## {{< fa question >}} Question 4: Regression {style="font-size:28px"}
+### Setup
+
+We fit a regression of a variable `y` onto three covariates: `x1`, `x2`, and `x3`. Some output is provided below:
+
+```{r}
+source("Code/lm1.R")
+```
+
+::: {.panel-tabset}
+## **Output 1**
+
+```{r}
+#| echo: True
+
+lm(y ~ ., data = df1) %>% summary()
+```
+
+
+## **Output 2**
+```{r}
+#| echo: True
+
+cor(df1)
+```
+
+
+
+## **Output 3**
+```{r}
+#| echo: True
+
+summary(df1)
+```
+
+:::
+
+
+
+## {{< fa question >}} Question 4: Regression {style="font-size:28px"}
+### Questions
+
+**Part (a):** Holding all else constant, to what average increase in `y` does a one-unit increase in `x2` correspond?
+
+**Part (b):** A new observation has (`x1`, `x2`, `x3`) values (25, 0, -13). Either use the model to predict the associated response variable, or explain why doing so is not a good idea.
+
+**Part (c):** Is there evidence of multicollinearity in the model? How can you tell?
+
+**Part (d):** What are the two main assumptions we make on the noise in our model, and how are they reflected in a residuals plot?
+
+
+
+```{r}
+#| echo: False
+#| eval: True
+
+countdown(minutes = 5L, font_size = "3.5rem", top = "-1rem")
+```
