@@ -1,0 +1,183 @@
+---
+title: "Resources"
+page-layout: custom
+toc: false
+linkcolor: "#e0af3a"
+---
+
+<style>
+#title-block-header {
+    display: none;
+}
+
+.quarto-title > h1.title {
+  opacity: 0 !important;
+  font-size: 0 !important
+}
+
+body {
+  color: white;
+}
+.bg2 {
+  background: url(../Images/Backgrounds/sh.jpg) no-repeat center;
+  background-size: cover;
+  height: 24vh;
+  position: relative;
+  color: white;
+}
+
+ul.timeline {
+    list-style-type: none;
+    position: relative;
+}
+ul.timeline:before {
+    content: ' ';
+    background: #d4d9df;
+    display: inline-block;
+    position: absolute;
+    left: 29px;
+    width: 2px;
+    height: 100%;
+    z-index: 400;
+}
+ul.timeline > li {
+    margin: 20px 0;
+    padding-left: 20px;
+}
+ul.timeline > li:before {
+    content: ' ';
+    background: white;
+    display: inline-block;
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid #22c0e8;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    z-index: 400;
+}
+</style>
+
+
+::: {class="bg2"}
+
+:::
+
+::: {class="welcomebg"}
+::: {class="welcometext"}
+{{< fa message >}} **Resources**
+:::
+:::
+
+
+::: {class="maintext1"}
+[**Courses I've Taught:**]{style="font-size:35px"}
+
+I've had the honor of serving as a Teaching Associate for six quarters across four different classes. Teaching Associate is a title given to graduate students who are serving as the sole and primary instructor for a given course. Duties as a Teaching Associate include: creation of course content (lectures, homework assignments, lab handouts, etc.), managing TAs, and issuing final letter grades. 
+
+As a proponent of open-source teaching, most of my material from when I teach courses remains publicly accessible through a series of GitHub pages (linked below). 
+
+If you would like to adopt any of my material for your course, please contact me first. In general, I am happy to share my source material with you - I mainly only ask for attribution. Thank you!
+
+
+<ul class="timeline">
+    <li>
+			<a style="color:#db8a8a">{{< fa chart-simple >}} **PSTAT 5A:** Understanding Data</a>
+			<p>
+			  <ul>
+			    <li>**Summer Session A, 2023:** <a href="https://pstat5a-archives.github.io/Summer24/index3.html" target="_blank">https://pstat5a-archives.github.io/Summer24/index3.html</a></li>
+			    <li>**Spring 2023:** <a href="https://pstat5a-archives.github.io/Spring23/index2.html" target="_blank">https://pstat5a-archives.github.io/Spring23/index2.html</a></li>
+			  </ul>
+			</p>
+		</li>
+    <li>
+			<a style="color:#db8a8a">{{< fa circle-nodes >}} **PSTAT 100:** Data Science - Concepts and Analysis</a>
+			<p>
+			  <ul>
+			    <li>**Summer Session A, 2025:** <a href="https://ucsb-pstat100.github.io/" target="_blank">https://ucsb-pstat100.github.io/</a></li>
+			    <li>**Spring 2024:** <a href="http://ucsb-pstat100-archives.github.io/" target="_blank">http://ucsb-pstat100-archives.github.io/</a></li>
+			  </ul>
+			</p>
+		</li>
+    <li>
+			<a style="color:#db8a8a">{{< fa dice >}} **PSTAT 120A:** Introduction to Probability</a>
+			<p>
+			  <ul>
+			    <li>**Summer Session A, 2022:** <a href="https://pstat120a.github.io/" target="_blank">https://pstat120a.github.io/</a></li>
+			  </ul>
+			</p>
+		</li>
+    <li>
+			<a style="color:#db8a8a">{{< fa calculator >}} **PSTAT 120B:** Mathematical Statistics, I</a>
+			<p>
+			  <ul>
+			    <li>**Summer Session A, 2022:** <a href="https://pstat120b.github.io/" target="_blank">https://pstat120b.github.io/</a></li>
+			  </ul>
+			</p>
+		</li>
+</ul>
+:::
+
+\
+
+::: {class="maintext1"}
+[**Courses I've TA'd:**]{style="font-size:35px"}
+
+I've also had the privilege of serving as both a Teaching Assistant (TA) as well as a Head TA across several courses. As a Head TA, duties include: assisting the instructor in course creation, managing course TAs and ULAs (Undergraduate Learning Assistants), and also teaching one Discussion/Lab Section.
+
+
+<ul class="timeline">
+    <li>
+			<a style="color:#db8a8a">{{< fa chart-simple >}} **PSTAT 5A:** Understanding Data (formerly _Statistics_)</a>
+			<p>
+			  <ul>
+			    <li>Fall 2022, with Dr. Julie Swenson</li>
+			  </ul>
+			</p>
+		</li>
+    <li>
+			<a style="color:#db8a8a">{{< fa code >}} **PSTAT 10:** Principles of Data Science with R</a>
+			<p>
+			  <ul>
+			    <li>**Head TA:** Fall 2022, with Dr. Uma Ravat</li>
+			  </ul>
+			</p>
+		</li>
+    <li>
+			<a style="color:#db8a8a">{{< fa dice >}} **PSTAT 120A:** Introduction to Probability</a>
+			<p>
+			  <ul>
+			    <li>**Head TA:** Spring 2021 - Spring 2022</li>
+			      <ul>
+			        <li>Spring 2022: with Dr. Uma Ravat</li>
+			        <li>Winter 2022: with Dr. Saad Mouti</li>
+			        <li>Fall 2021: with Dr. Uma Ravat and Dr. Saad Mouti</li>
+    			    <li>Spring 2021: with Dr. Uma Ravat</li>
+    			  </ul>
+    			<li>**TA:** Winter 2021, Summer 2021, Winter 2025</li>
+			      <ul>
+			        <li>Winter 2025: with Dr. Brian Wainwright</li>
+			        <li>Summer 2021: with Dr. Mengye Liu</li>
+    			    <li>Winter 2021: with Dr. Uma Ravat</li>
+    			  </ul>
+			  </ul>
+			</p>
+		</li>
+    <li>
+			<a style="color:#db8a8a">{{< fa calculator >}} **PSTAT 120B:** Mathematical Statistics, I</a>
+			<p>
+			  <ul>
+			    <li>Spring 2025, with Dr. Brian Wainwright</li>
+			  </ul>
+			</p>
+		</li>
+</ul>
+:::
+
+\
+
+::: {class="maintext1"}
+[**Lead TA**]{style="font-size:35px"}
+
+Since Fall 2023, I have also served as the **Lead TA** for the PSTAT department. As part of this role, I run **PSTAT 501**, our department's designated Teaching Assistant Training course. Over the course of this two-quarter class, new graduate students learn the basics of statistical pedagogy, are connected with on-campus resources, and given tools to succeed as thriving Teaching Assistants for the PSTAT department.
+:::

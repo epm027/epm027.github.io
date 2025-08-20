@@ -1,0 +1,105 @@
+---
+title: "Service"
+page-layout: custom
+toc: false
+linkcolor: "#e0af3a"
+---
+
+<style>
+#title-block-header {
+    display: none;
+}
+
+.quarto-title > h1.title {
+  opacity: 0 !important;
+  font-size: 0 !important
+}
+
+.bg2 {
+  background: url(../Images/Backgrounds/berlin.jpg) no-repeat center;
+  background-size: cover;
+  height: 24vh;
+  position: relative;
+  color: white;
+}
+.content {
+  padding: 50px;
+}
+</style>
+
+
+::: {class="bg2"}
+
+:::
+
+::: {class="welcomebg"}
+::: {class="welcometext"}
+{{< fa user-group >}} **Service**
+:::
+:::
+
+::: {style="margin-left: 5vw; margin-right: 5vw;"}
+<div class="content" style="vertical-align:top;">
+  <table style = "display: inline-block; padding-right: 50px;">
+	<tr>
+    	<td style="text-align: center">
+        	<img src="../Images/Logos_Icons/pgc.png" alt="PGC Logo" width = "250" height = "250" style = "border-radius: 50%;">
+        </td>
+    </tr>
+    <tr>
+    	<td style = "text-align: center" width = "600">
+        	<h2><a href = "http://pstatgrad.github.io">PSTAT Graduate Committee [UCSB]</a></h2>
+            <h3> Officer and Founding Member </h3>
+        </td>
+    </tr>
+    <tr>
+    	<td style = "text-align: center" width = "600">
+        I am currently serving as an Officer on the Graduate
+        Student Committee, a part of the Department of Probability and Applied Statistics (PSTAT)
+        at the University of California, Santa Barbara.
+        </td>
+    </tr>
+</table>
+
+<table style = "display: inline-block; padding-right: 50px;">
+<tr>
+    <td style = "text-align: center" width = "250">
+        <img src="../Images/Logos_Icons/susa.png" alt="SUSA Logo" width = "250" height = "250" style = "border-radius: 50%;">
+      </td>
+  </tr>
+  <tr>
+    <td style = "text-align: center" width = "600">
+        <h2><a href = "http://susa.berkeley.edu/">Statistics Undergraduate Student Association [UCB]</a></h2>
+          <h3> Sectretary and Founding Member </h3>
+      </td>
+  </tr>
+  <tr>
+    <td style = "text-align: center" width = "600">
+      I was fortunate enough to serve as a founding member of (and also Secretary for) the Statistics Undergraduate Student Association (SUSA) at UC Berkeley, which is the officially supported student association of the Statistics Department at UC Berkeley. Additionally, I wrote a handful of exam review sheets (admittedly that contain a few typos!), which can be found on the official SUSA website.
+      </td>
+  </tr>
+</table>
+
+<table style = "display: inline-block; padding-right: 50px;">
+<tr>
+    <td style = "text-align: center" width = "600">
+        <img src="../Images/Logos_Icons/blank.png" alt="No Logo" width = "250" height = "250" style = "border-radius: 50%;">
+      </td>
+  </tr>
+  <tr>
+    <td style = "text-align: center" width = "600">
+        <h2> Music 198: Chamber Music For Fun [UCB]</h2>
+          <h3> Facilitator/Instructor </h3>
+      </td>
+  </tr>
+  <tr>
+    <td style = "text-align: center" width = "250">
+      From August 2018 until my graduaton in May 2020, I served as one of three "facilitators" (akin to instructors) for Music 198, which is a one-unit class
+      (taken for a P/NP grade) in which students of any level of musical experience can come together and engage collaboratively in Chamber Music.
+      Duties as a facilitator included judging auditions, organizing the final recitals, and other administrative work.
+      </td>
+  </tr>
+</table>
+
+</div>
+:::

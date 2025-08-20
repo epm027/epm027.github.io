@@ -1,0 +1,100 @@
+---
+title: "Home"
+page-layout: custom
+toc: false
+linkcolor: "#e0af3a"
+---
+
+<style>
+#title-block-header {
+    display: none;
+}
+
+.quarto-title > h1.title {
+  opacity: 0 !important;
+  font-size: 0 !important
+}
+
+.welcomebg2 {
+  background-color: #E69F00;
+}
+
+</style>
+
+::: {class="bg1"}
+::: {class="container"}
+::: {class="type"}
+Ethan P. Marzban
+:::
+:::
+
+::: {class="subtitle"}
+::: {class="fade-in"}
+PhD Candidate; UC Santa Barbara
+:::
+:::
+:::
+
+
+::: {class="welcomebg"}
+::: {class="welcometext"}
+{{< fa door-open >}} **Welcome!**
+:::
+:::
+
+
+::: {class="maintext1"}
+Hello! I am currently a PhD Candidate in the the Department of Statistics and Applied Probability at the University of California, Santa Barbara, having first joined the department in Fall 2020. Prior to that, I earned my Bachelor's degree at the University of California, Berkeley (also in Statistics; Class of 2020). My current research centers around the development of an Empirical Bayes estimation procedure for nonparametric regression problems with correlated errors, and intersects with: Gaussian Processes, Spectral Methods, and Asymptotics. Aside from academics (and a passion for Statistics Education), my interests include playing the piano, drinking tea, and talking about cats! \
+
+My primary research advisor is [Dr. Andrew V. Carter](https://carter.faculty.pstat.ucsb.edu/). Fun fact: if you trace my mathematical genealogy back 5 generations, you arrive at [Andrei Andreyevich Markov](https://www.genealogy.math.ndsu.nodak.edu/id.php?id=12543) (and six generations leads you to [Pafnuty Lvovich Chebyshev](https://www.genealogy.math.ndsu.nodak.edu/id.php?id=12542))! \
+
+The best way to reach me is at <a href="mailto:epmarzban@pstat.ucsb.edu">epmarzban@pstat.ucsb.edu</a>.
+:::
+
+
+
+\
+
+::: {class="welcomebg2"}
+::: {class="welcometext"}
+{{< fa folder-open >}} **Selected Publications**
+:::
+:::
+
+::: {class="maintext1"}
+::: {.grid}
+::: {.g-col-12 .g-col-lg-6}
+
+::: {.card class="border-primary mb-3" style="border-radius:10pt"}
+<div class="card-header">**{{< fa book >}} \ Textbook**</div>
+<div class="card-body">
+<p class="card-text">
+**_All Models are Wrong: Concepts of Statistical Learning (CSL)_, by Sanchez, G. and Marzban, E.**
+
+While at UC Berkeley, I had the pleasure of working with Dr. Gaston Sanchez to co-author an electronic Machine Learning textbook, modeled after class notes from Stat 154 (the designated Machine Learning class in the Statistics Department at UC Berkeley). The textbook is freely available for use, and is updated/revised from time to time. 
+
+<button type="button" class="btn btn-primary" style="border-radius:10pt"><a href="http://allmodelsarewrong.github.io/index.html" target="_blank" style="color:white">**Click Here to Access**</a></button>
+
+</p>
+</div>
+:::
+
+:::
+
+::: {.g-col-12 .g-col-lg-6}
+
+::: {.card class="border-primary mb-3" style="border-radius:10pt"}
+<div class="card-header">**{{< fa file >}} \ Academic Paper**</div>
+<div class="card-body">
+<p class="card-text">
+**Marzban, Ethan P. and Marzban, Caren, 2016. On the usage of musical keys: A descriptive statistical perspective. _The Journal of Experimental Secondary Science._ ISSN\#2162-8092.**
+
+In 2016, I co-authored a paper that explored the distribution of musical keys different classical composers preferred to use in their compositions. Composers were analyzed both individually and comparatively, using a variety of statistical techniques. <br /> 
+
+</p>
+</div>
+:::
+
+:::
+:::
+:::

@@ -1,0 +1,69 @@
+---
+title: "Error 404"
+page-layout: custom
+toc: false
+linkcolor: "#e0af3a"
+---
+
+<style>
+:root {
+	/** This is the number of characters in the text */
+	--characters: 25;
+}
+
+.container {
+	width: 100vw;
+	/*max-width: 900px;*/
+	display: flex;
+	font-family: monospace;
+	/*font-size: 4.5vw;*/
+	/*font-size: 5em;*/
+	font-size: clamp(20px, 4.5vw, 60px) !important;
+	align-items: center;
+	justify-content: center;
+}
+
+.subtitle {
+	width: 100vw;
+	display: flex;
+	font-family: monospace;
+	/*font-size: 2.5vw;*/
+	/*font-size: 3em;*/
+	font-size: clamp(15px, 2.5vw, 40px);
+	margin-left: 10px;
+	align-items: center;
+	justify-content: center;
+}
+#title-block-header {
+    display: none;
+}
+
+.quarto-title > h1.title {
+  opacity: 0 !important;
+  font-size: 0 !important
+}
+
+body {
+  color: white;
+}
+.bg2 {
+  background: url(Images/Backgrounds/flowers.jpg) no-repeat center;
+  background-size: cover;
+  height: 24vh;
+  position: relative;
+  color: white;
+}
+</style>
+
+
+::: {class="container"}
+::: {class="type"}
+Error 404: Page Not Found
+:::
+:::
+
+::: {class="subtitle"}
+::: {class="fade-in"}
+Uh-Oh; You've Navigated to a Page that Doesn't Exist!
+:::
+:::

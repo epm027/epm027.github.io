@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "index.html#hello",
+    "href": "index.html#hello",
+    "title": "Home",
+    "section": "Hello",
+    "text": "Hello\nHello"
+  },
+  {
+    "objectID": "Pages/Miscellaneous.html#latex",
+    "href": "Pages/Miscellaneous.html#latex",
+    "title": "Misc",
+    "section": " LaTeX",
+    "text": "LaTeX\nIf you are planning on pursuing any STEM-related field, I highly recommend that you learn LaTeX. LaTeX is a markup language used primarily to generate mathematical documents, and includes extensive support for typesetting equations. Overleaf (which, fun fact, was called “ShareLaTeX” back when I started using it) is an online interface which can be used to generate LaTeX documents without having to download any software on your computer, and also provides a very useful “Learn LaTeX in 30 minutes” guide.\n\n\n\nOverleaf\n\n\n\n\nLearn LaTeX in 30 minutes"
+  },
+  {
+    "objectID": "Pages/Miscellaneous.html#mathematical-formulae",
+    "href": "Pages/Miscellaneous.html#mathematical-formulae",
+    "title": "Misc",
+    "section": " Mathematical Formulae",
+    "text": "Mathematical Formulae\nBelow is a short compilation of mathematical tools and formulas that might prove useful for Statisticians (though many of the formulas are useful in plenty of other STEM-related fields!)\n\nLearn LaTeX in 30 minutes"
+  },
+  {
+    "objectID": "Pages/Miscellaneous.html#mathematical-formulas",
+    "href": "Pages/Miscellaneous.html#mathematical-formulas",
+    "title": "Misc",
+    "section": " Mathematical Formulas",
+    "text": "Mathematical Formulas\nBelow is a short compilation of mathematical tools and formulas that might prove useful for Statisticians (though many of the formulas are useful in plenty of other STEM-related fields!) Useful Formulas"
+  }
+]

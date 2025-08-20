@@ -1,0 +1,198 @@
+---
+title: "Misc"
+page-layout: custom
+toc: false
+linkcolor: "#e0af3a"
+---
+
+<style>
+#title-block-header {
+    display: none;
+}
+
+.quarto-title > h1.title {
+  opacity: 0 !important;
+  font-size: 0 !important
+}
+
+body {
+  color: white;
+}
+.bg3 {
+  background: url(../Images/Backgrounds/seoul.jpg) no-repeat center;
+  background-size: cover;
+  height: 24vh;
+  position: relative;
+  color: white;
+}
+
+.container2 {
+  position: relative;
+  width: 75%;
+}
+
+.image {
+  display: block;
+  width: min(120%, 450px);
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: min(150%, 450px);
+  height: auto;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: #db8a8a;
+}
+
+.container2:hover .overlay {
+  opacity: 1;
+}
+
+.text {
+  color: white;
+  font-size: clamp(1rem, 1.8vw, 20px) !important;
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-30%, -50%);
+  -ms-transform: translate(-30%, -50%);
+}
+.welcomebg2 {
+  background-color: #E69F00;
+}
+</style>
+
+
+::: {class="bg3"}
+
+:::
+
+::: {class="welcomebg"}
+::: {class="welcometext"}
+{{< fa flask >}} **Miscellany**
+:::
+:::
+
+::: {class="maintext1"}
+[**{{< fa image >}} Course Logos**]{style="font-size:35px"}
+
+Though I am by no means an expert in graphic design, I do periodically enjoy creating logos for the various courses I have taught. Below are a few of the designs I have created; hover over them for a brief description!
+
+:::
+
+
+::: {class="maintext1"}
+
+::: {.grid}
+::: {.g-col-8 .g-col-lg-4}
+::: {class="container2"}
+<img src="../Images/Course_Logos/120a.png" alt="PSTAT 120A Logo" class="image">
+<div class="overlay">
+<div class="text">
+[**PSTAT 120A**]{style="font-size:clamp(1rem, 1.4vw, 30px)"} 
+
+The dice and cards symbolize the "famous" aspects of probability, and the background displays an illustration of the Weak Law of Large Numbers.
+</div>
+</div>
+:::
+:::
+
+::: {.g-col-8 .g-col-lg-4}
+::: {class="container2"}
+<img src="../Images/Course_Logos/120b.png" alt="PSTAT 120B Logo" class="image">
+<div class="overlay">
+<div class="text">
+[**PSTAT 120B**]{style="font-size:clamp(1rem, 2vw, 30px)"} 
+
+The dice symbolize the first part of this course (Probability), and the background depicts an illustration of the Central Limit Theorem as applied to the Gamma Distribution.
+</div>
+</div>
+:::
+:::
+
+::: {.g-col-8 .g-col-lg-4}
+::: {class="container2"}
+<img src="../Images/Course_Logos/100.png" alt="PSTAT 100 Logo" class="image">
+<div class="overlay">
+<div class="text">
+[**PSTAT 100**]{style="font-size:clamp(1rem, 2vw, 30px)"} 
+
+I feel this one is a bit self-explanatory: there's data, and there's science!
+</div>
+</div>
+:::
+:::
+
+:::
+
+:::
+
+\
+
+
+::: {class="welcomebg2"}
+::: {class="welcometext"}
+{{< fa message >}} **Resources**
+:::
+:::
+
+
+
+::: {class="maintext1"}
+::: {.grid}
+::: {.g-col-12 .g-col-lg-6}
+
+::: {.card class="border-primary mb-3" style="border-radius:10pt"}
+<div class="card-header">**{{< fa file-pdf >}} \ PDF**</div>
+<div class="card-body">
+<p class="card-text">
+**{{< fa file-pdf >}} Mathematical Formulas**
+
+Below is a short compilation of mathematical tools and formulas that might prove useful for Statisticians (though many of the formulas are useful in plenty of other STEM-related fields!) 
+
+<button type="button" class="btn btn-primary" style="border-radius:10pt; width:100%"><a href="../Files/Math_Formulas.pdf" target="_blank" style="color:white; font-size:clamp(1.4rem, 1.3vw, 18px) !important">**Useful Formulas**</a></button>
+
+</p>
+</div>
+:::
+
+:::
+
+::: {.g-col-12 .g-col-lg-6}
+
+::: {.card class="border-primary mb-3" style="border-radius:10pt"}
+<div class="card-header">**{{< fa link >}} \ External Resource**</div>
+<div class="card-body">
+<p class="card-text">
+**{{< fa pen-fancy >}} LaTeX**
+
+If you are planning on pursuing any STEM-related field, I highly recommend that you learn **LaTeX**. LaTeX is a markup language used primarily to generate mathematical documents, and includes extensive support for typesetting equations. **Overleaf** (which, fun fact, was called "ShareLaTeX" back when I started using it) is an online interface which can be used to generate LaTeX documents without having to download any software on your computer, and also provides a very useful "Learn LaTeX in 30 minutes" guide. <br /> 
+
+
+
+::: {.grid style="text-align:center"}
+::: {.g-col-6 .g-col-lg-6}
+<button type="button" class="btn btn-primary" style="border-radius:10pt; width:100%"><a href="https://www.overleaf.com/learn/" target="_blank" style="color:white; font-size:clamp(1.4rem, 1.3vw, 18px) !important;">**Overleaf**</a></button>
+:::
+
+::: {.g-col-6 .g-col-lg-6}
+<button type="button" class="btn btn-primary" style="border-radius:10pt; width:100%"><a href="https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes" target="_blank" style="color:white; font-size:clamp(1.4rem, 1.3vw, 18px) !important;">**Learn LaTeX in 30 minutes**</a></button>
+:::
+
+:::
+
+</p>
+</div>
+:::
+
+:::
+:::
+:::
+
+\

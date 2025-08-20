@@ -1,0 +1,28 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Ethan P. Marzban"
+  favicon: Images/Logos_Icons/e.png
+  navbar:
+    logo: Images/Logos_Icons/logo1.png
+    right:
+      - href: index.qmd
+        text: "{{< fa house >}} Home"
+      - href: "Pages/Teaching.qmd"
+        text: "{{< fa chalkboard-user >}} Teaching"
+      - href: "Pages/Service.qmd"
+        text: "{{< fa user-group >}} Service"
+      - href: "Pages/Miscellaneous.qmd"
+        text: "{{< fa flask >}} Miscellany"
+  page-footer: "Site Designed by Ethan Marzban using <a href='https://quarto.org/' target='_blank'>Quarto</a>; Photos taken by Ethan Marzban, ©2025 <br /> 
+_For the Curious:_ [Here](https://web.archive.org/web/20250704154339/https://epm027.github.io/){target='_blank'} is an older version of this website"
+
+format:
+  html:
+    theme: 
+      light: [cosmo, dark.scss]
+      dark: [cosmo, light.scss]
+    toc: true
+

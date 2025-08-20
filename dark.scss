@@ -1,0 +1,151 @@
+/*-- scss:defaults --*/
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+$navbar-bg:  #003660;
+$nav-link-font-size: 1.3rem;
+$nav-link-font-weight: bold;
+$navbar-hl: #e0af3a;
+$navbar-brand-font-weight: bold;
+
+/*-- scss:rules --*/
+
+/* css styles */
+
+/* Increase spacing between navbar items */
+
+.navbar-nav > li{
+  padding-left:10px;
+  padding-right:10px;
+}
+
+
+/* General Styling*/
+
+body{
+  font-family: Ubuntu, sans-serif;
+  background-color: #363738;
+  color: white;
+}
+
+.nav-footer{
+  background-color: #363738;
+  color: white;
+}
+
+/* Cool typing effect: */
+/* Original Source: https://dev.to/stokry/typing-effect-without-javascript-54ol */
+/* Modified by Ronald Lenvevičius: https://github.com/392781/392781.github.io/blob/master/styles.css */
+
+
+:root {
+	/** This is the number of characters in the text */
+	--characters: 16;
+}
+
+.container {
+	width: 100vw;
+	/*max-width: 900px;*/
+	display: flex;
+	font-family: monospace;
+	/*font-size: 4.5vw;*/
+	/*font-size: 5em;*/
+	font-size: clamp(50px, 4.5vw, 70px) !important;
+	align-items: center;
+	justify-content: center;
+}
+
+.type {
+  max-width: calc(var(--characters) * 1ch);
+  animation: typing 1.75s steps(var(--characters)), blink .5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 1px solid;
+  padding-left: 0px;
+}
+
+@keyframes typing {
+  from {
+    max-width: 0;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+/* Subtitle Formatting */
+/* Source: https://stackoverflow.com/questions/11660710/css-transition-fade-in */
+
+
+.subtitle {
+	width: 100vw;
+	display: flex;
+	font-family: monospace;
+	/*font-size: 2.5vw;*/
+	/*font-size: 3em;*/
+	font-size: clamp(30px, 2.5vw, 50px);
+	margin-left: 10px;
+	align-items: center;
+	justify-content: center;
+}
+
+.fade-in {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 1s;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+/* Hero Image on Index */
+/* Photo taken in Hamburg, Germany */
+
+.bg1 {
+  background: url(Images/Backgrounds/hamburg1.jpg) no-repeat center;
+  background-size: cover;
+  height: 24vh;
+  position: relative;
+  color: white;
+}
+
+/* Formatting for 'Welcome' Header on Index*/
+.welcomebg {
+  background-color: #db8a8a;
+}
+
+.welcometext {
+  margin-left: 3rem;
+  padding-top: min(2.5vw, 0.45rem);
+  padding-bottom: min(1vw, 0.2rem);
+  color: white;
+  font-size: clamp(2rem, 3vw, 2.2rem) !important;
+}
+
+/* Formatting for biography on Index */
+.maintext1 {
+  color: white;
+  margin: auto;
+  padding-left: min(10vw, 600px);
+  padding-right: min(10vw, 600px);
+  font-size: clamp(1.4rem, 1.3vw, 18px) !important;
+  max-width: 1700px;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/*@media screen and (min-width: 1200px) {
+  div {
+     font-size: 50px;
+  }
+}*/
