@@ -48,9 +48,7 @@ Hello! I am currently a PhD Candidate in the the Department of Statistics and Ap
 
 My primary research advisor is [Dr. Andrew V. Carter](https://carter.faculty.pstat.ucsb.edu/). Fun fact: if you trace my mathematical genealogy back 5 generations, you arrive at [Andrei Andreyevich Markov](https://www.genealogy.math.ndsu.nodak.edu/id.php?id=12543) (and six generations leads you to [Pafnuty Lvovich Chebyshev](https://www.genealogy.math.ndsu.nodak.edu/id.php?id=12542))! \
 
-The best way to reach me is at <a href="mailto:epmarzban@pstat.ucsb.edu">epmarzban@pstat.ucsb.edu</a>. \
-
-Übrigens kann ich ein bisschen Deutsch! Ich habe schon drei Jahre Deutsch gemacht. Obwohl ich kein Goethe Zertifikat habe, glaube ich, dass ich Niveau B1/B2 bin. Es wäre wunderbar, wenn ich in Deutschland studieren oder arbeiten könnte.
+The best way to reach me is at <a href="mailto:epmarzban@pstat.ucsb.edu">epmarzban@pstat.ucsb.edu</a>.
 :::
 
 
