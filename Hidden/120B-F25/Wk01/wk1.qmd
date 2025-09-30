@@ -1,0 +1,221 @@
+---
+title: "PSTAT 120B: Mathematical Statistics"
+subtitle: "Ethan's Week 1 Discussion Section"
+footer: "PSTAT 120B - Fall 2025 with Dr. Uma Ravat; material © Ethan P. Marzban"
+logo: "Images/120b_logo.svg"
+format: 
+  clean-revealjs:
+    theme: ../slides.scss
+    transition: fade
+    slide-number: true
+    incremental: true 
+    chalkboard: true
+    menu:
+      side: left
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: Ethan P. Marzban
+    affiliations: Department of Statistics and Applied Probability; UCSB <br /> <br />
+institute: October 3, 2025
+title-slide-attributes:
+    data-background-image: "Images/120b_logo.svg"
+    data-background-size: "30%"
+    data-background-opacity: "0.5"
+    data-background-position: 80% 50%
+code-annotations: hover
+---
+
+<style>
+mjx-math {
+  font-size: 80% !important;
+}
+</style>
+
+<script>
+MathJax = {
+  options: {
+    menuOptions: {
+      settings: {
+        assistiveMml: false
+      }
+    }
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async src="path-to-MathJax/tex-chtml.js"></script>
+
+
+$$
+\newcommand\R{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\1}{1\!\!1}
+\newcommand{\comp}[1]{#1^{\complement}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\SD}{\mathrm{SD}}
+\newcommand{\vect}[1]{\vec{\boldsymbol{#1}}}
+\newcommand{\tvect}[1]{\vec{\boldsymbol{#1}}^{\mathsf{T}}}
+\newcommand{\hvect}[1]{\widehat{\boldsymbol{#1}}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\tmat}[1]{\mathbf{#1}^{\mathsf{T}}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\DeclareMathOperator*{\argmin}{\mathrm{arg} \ \min}
+\newcommand{\iid}{\stackrel{\mathrm{i.i.d.}}{\sim}}
+$$
+
+```{css echo = F}
+.hscroll {
+  height: 100%;
+  max-height: 600px;
+  max-width: 2000px;
+  overflow: scroll;
+}
+```
+
+```{r setup, echo = F}
+library(tidyverse)
+library(countdown)
+library(fixest)
+library(modelsummary) # Make sure you have >=v2.0.0
+library(GGally)
+library(ggokabeito)
+library(reshape2)
+library(pander)
+library(gridExtra)
+library(cowplot)
+library(palmerpenguins)
+library(plotly)
+library(tidymodels)
+```
+
+## {{< fa circle-info >}} Hello!
+### A Quick Introduction
+
+
+-   Hello! My name is Ethan (he/him), and I will be taking over from Sirui.
+    -   I am a sixth year PhD; this is my fourth time with this course (including having been the Instructor once :) )
+    
+-   **My Office Hours:** Wednesdays, 11:30 am - 12:30 pm in South Hall 5607F (Inside the PSTAT Main Office, on the Fifth Floor of South Hall)
+    -   These have been posted to Canvas as well.
+
+-   **My Email:** epmarzban@pstat.ucsb.edu (please allow a 24 business hour response time)
+
+
+## {{< fa chart-simple >}} Distributions
+### What Makes Them Unique?
+
+::: {.callout-tip}
+## **Question**
+
+What uniquely determines a distribution?
+:::
+
+::: {.fragment}
+One of three things:
+:::
+
+-   An [**MGF**]{.alert} (Moment-Generating Function)
+-   A [**CDF/CMF**]{.alert} (Cumulative Distribution/Mass Function)
+-   A [**PDF/PMF**]{.alert} (Probability Density/Mass Function)
+
+
+## {{< fa chart-simple >}} Distributions
+### What Makes Them Unique?
+
+For Example:
+
+-   If I tell you _X_ is a random variable with MGF _M_~_X_~(_t_) = e^_t_<sup>2</sup>^, you can immediately tell me that _X_ follows a Normal Distribution with mean 0 and variance 2.
+
+-   If I tell you _Y_ is a random variable with density given by _f_~_Y_~(_y_) = 2<i>e</i><sup>-2<i>y</i></sup> for  _y_ > 0 and 0 otherwise, you can immediately tell me that _Y_ follows an Exponential Distribution with scale parameter 1/2.
+
+::: {.fragment}
+Not all distributions have names, but they can still be uniquely defined; e.g. a random variable _Z_ with density _f_~_Z_~(_z_) = π cos(π _z_) for 0 ≤ _z_ ≤ 1 and 0 otherwise
+:::
+
+
+## {{< fa bezier-curve >}} Transformations
+
+
+::: {.callout-tip}
+## **Goal**
+
+Given a random variable _Y_ and a function _h_, we wish to identify the distribution of _U_ := _h_(_Y_).
+:::
+
+::: {.fragment}
+Can be accomplished by finding:
+
+-   The MGF of _U_ ([**MGF Method**]{.alert})
+-   The CDF/CMF of _U_ ([**CDF Method**]{.alert})
+-   The PDF/PMF of _U_ ([**Inverse Transformation Method**]{.alert}, or [**Change of Variable**]{.alert})
+
+:::
+
+::: {.fragment}
+This is essentially the roadmap for the next few lectures/weeks in this course!
+:::
+
+## {{< fa bezier-curve >}} Transformations
+
+Might seem abstract... but quite applicable!
+
+-   [**Unit Conversion:**]{.alert} the temperature _C_ in Centigrade at a randomly-selected location in a city follows some distribution; what is the distribution of temperatures _F_ as measured in Fahrenheit?
+    -   Example of a [**univariate**]{.alert} transformation; i.e. a transformation of only _one_ random variable
+
+-   [**Data Summary:**]{.alert} given an i.i.d. collection of random variables, what is the distribution of the sample mean? Or, the sample variance? Or, the sample maximum?
+    -   Examples of [**multivariate**]{.alert} transformations; i.e. transformations involving _multiple_ random variables
+
+## {{< fa battery-three-quarters >}} Moment Generating Functions
+
+::: {.callout-note}
+## **Definition**
+
+The [**Moment Generating Function**]{.alert} (MGF) for a random variable _Y_ is defined as $$ M_Y(t) := \mathbb{E}[e^{tY}] $$
+:::
+
+-   **Question for you:** When do we compute an MGF as a sum, and when do we compute it as an integral?
+
+::: {.fragment}
+**Partially Worked-Out Example:** _Y_ ~ Exp(_β_) (note the parametrization being used in 120B is different from that in 120A!)
+:::
+
+\begin{align}
+  \class{fragment}{{} M_Y(t)}
+    &\class{fragment}{{} = \int_{0}^{\infty} e^{ty} \cdot \frac{1}{\beta} e^{-y/\beta} \ \mathrm{d}y}           
+    &\class{fragment}{{} = \frac{1}{\beta} \int_{0}^{\infty} e^{-\left(\frac{1}{\beta} - t \right)y}  \ \mathrm{d}y}
+\end{align}
+
+## {{< fa battery-three-quarters >}} Moment Generating Functions
+### Example
+
+$$ M_Y(t) = \frac{1}{\beta} \int_{0}^{\infty} e^{-\left(\frac{1}{\beta} - t \right)y}  \ \mathrm{d}y $$
+
+-   This integral is finite only when $(\frac{1}{\beta} - t) > 0$; i.e. when $t < 1/\beta$. 
+
+-   When it is finite:
+
+
+\begin{align}
+  \class{fragment}{{} M_Y(t)}
+    &\class{fragment}{{} = \frac{1}{\beta} \cdot {\color{blue} \frac{1}{\left( \frac{1}{\beta} - t \right)} } \cdot  \int_{0}^{\infty} {\color{blue} \left( \frac{1}{\beta} - t \right) }  e^{-\left(\frac{1}{\beta} - t \right)y}  \ \mathrm{d}y}   \\[3mm]
+    &\class{fragment}{{} = \frac{1}{\beta} \cdot  \frac{1}{\left( \frac{1}{\beta} - t \right)} = \frac{1}{1 - \beta t}}   \\[3mm]
+\end{align}
+
+
+## {{< fa battery-three-quarters >}} Moment Generating Functions
+### Properties
+
+::: {.callout-important}
+## **Properties of MGFs**
+
+1)    $M_{aY + b}(t) = e^{bt} M_Y(at)$
+2)    For independent $X$ and $Y$, $M_{X + Y}(t) = M_X(t) \cdot M_Y(t)$
+3)    [**Moment-Generating Property**]{.alert}: $M_Y^{(n)}(0) = \E[Y^n]$
+:::
+
+-   As practice, I encourage you to prove each of these
+    -   The proofs of (1) and (2) are relatively straightforward, and will allow you to practice fundamental probability/calculus results that may appear on homework and exams.
