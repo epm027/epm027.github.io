@@ -311,31 +311,6 @@ MathJax = {
 <li class="fragment"><strong>Question for you:</strong> When do we compute an MGF as a sum, and when do we compute it as an integral?</li>
 </ul>
 <div class="fragment">
-<p><strong>Partially Worked-Out Example:</strong> <em>Y</em> ~ Exp(<em>β</em>) (note the parametrization being used in 120B is different from that in 120A!)</p>
-</div>
-<p><span class="math display">\[\begin{align}
-  \class{fragment}{{} M_Y(t)}
-    &amp;\class{fragment}{{} = \int_{0}^{\infty} e^{ty} \cdot \frac{1}{\beta} e^{-y/\beta} \ \mathrm{d}y}           
-    &amp;\class{fragment}{{} = \frac{1}{\beta} \int_{0}^{\infty} e^{-\left(\frac{1}{\beta} - t \right)y}  \ \mathrm{d}y}
-\end{align}\]</span></p>
-</section>
-<section id="moment-generating-functions-1" class="slide level2">
-<h2><i class="fa-solid fa-battery-three-quarters" aria-label="battery-three-quarters"></i> Moment Generating Functions</h2>
-<h3 id="example">Example</h3>
-<p><span class="math display">\[ M_Y(t) = \frac{1}{\beta} \int_{0}^{\infty} e^{-\left(\frac{1}{\beta} - t \right)y}  \ \mathrm{d}y \]</span></p>
-<ul>
-<li class="fragment"><p>This integral is finite only when <span class="math inline">\((\frac{1}{\beta} - t) &gt; 0\)</span>; i.e.&nbsp;when <span class="math inline">\(t &lt; 1/\beta\)</span>.</p></li>
-<li class="fragment"><p>When it is finite:</p></li>
-</ul>
-<p><span class="math display">\[\begin{align}
-  \class{fragment}{{} M_Y(t)}
-    &amp;\class{fragment}{{} = \frac{1}{\beta} \cdot {\color{blue} \frac{1}{\left( \frac{1}{\beta} - t \right)} } \cdot  \int_{0}^{\infty} {\color{blue} \left( \frac{1}{\beta} - t \right) }  e^{-\left(\frac{1}{\beta} - t \right)y}  \ \mathrm{d}y}   \\[3mm]
-    &amp;\class{fragment}{{} = \frac{1}{\beta} \cdot  \frac{1}{\left( \frac{1}{\beta} - t \right)} = \frac{1}{1 - \beta t}}   \\[3mm]
-\end{align}\]</span></p>
-</section>
-<section id="moment-generating-functions-2" class="slide level2">
-<h2><i class="fa-solid fa-battery-three-quarters" aria-label="battery-three-quarters"></i> Moment Generating Functions</h2>
-<h3 id="properties">Properties</h3>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -353,10 +328,44 @@ MathJax = {
 </div>
 </div>
 </div>
+</div>
+</section>
+<section id="moment-generating-functions-1" class="slide level2" style="font-size:30px">
+<h2><i class="fa-solid fa-battery-three-quarters" aria-label="battery-three-quarters"></i> Moment Generating Functions</h2>
+<h3 id="example">Example</h3>
+<div class="fragment">
+<p><strong>Partially Worked-Out Example:</strong> <em>Y</em> ~ Exp(<em>β</em>) (note the parametrization being used in 120B is different from that in 120A!)</p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[ M_Y(t) = \int_{0}^{\infty} e^{ty} \cdot \frac{1}{\beta} e^{-y/\beta} \ \mathrm{d}y = \frac{1}{\beta} \int_{0}^{\infty} e^{-\left(\frac{1}{\beta} - t \right)y}  \ \mathrm{d}y \]</span></p>
+</div>
 <ul>
-<li class="fragment">As practice, I encourage you to prove each of these
+<li class="fragment">This integral is finite only when <span class="math inline">\((\frac{1}{\beta} - t) &gt; 0\)</span>; i.e.&nbsp;when <span class="math inline">\(t &lt; 1/\beta\)</span>. When it is finite: <span class="math display">\[\begin{align}
+  \class{fragment}{{} M_Y(t)}
+&amp;\class{fragment}{{} = \frac{1}{\beta} \cdot {\color{blue} \frac{1}{\left( \frac{1}{\beta} - t \right)} } \cdot  \int_{0}^{\infty} {\color{blue} \left( \frac{1}{\beta} - t \right) }  e^{-\left(\frac{1}{\beta} - t \right)y}  \ \mathrm{d}y}  \\[1mm]
+&amp;\class{fragment}{{} = \frac{1}{\beta} \cdot  \frac{1}{\left( \frac{1}{\beta} - t \right)} = \frac{1}{1 - \beta t}}   \\[3mm]
+\end{align}\]</span></li>
+</ul>
+</section>
+<section id="cdf-method" class="slide level2">
+<h2><i class="fa-solid fa-less-than-equal" aria-label="less-than-equal"></i> CDF Method</h2>
 <ul>
-<li class="fragment">The proofs of (1) and (2) are relatively straightforward, and will allow you to practice fundamental probability/calculus results that may appear on homework and exams.</li>
+<li class="fragment"><strong>General Idea:</strong> Write <span class="math inline">\(F_U(u) := \mathbb{P}(U \leq u)\)</span>
+<ul>
+<li class="fragment">Main task is to write the event <span class="math inline">\(\{U \leq u\}\)</span> in terms of <em>Y</em>, since everything about <em>Y</em> is known.</li>
+<li class="fragment">My advice: a picture is worth a thousand words!</li>
+</ul></li>
+</ul>
+<div class="fragment" style="text-align:center">
+<p><img data-src="Images/fig.svg" style="width:50.0%"></p>
+</div>
+</section>
+<section id="cdf-method-1" class="slide level2">
+<h2><i class="fa-solid fa-less-than-equal" aria-label="less-than-equal"></i> CDF Method</h2>
+<ul>
+<li class="fragment">Recall the example from lecture: <em>X</em> ~ Unif[-1, 1] and <em>Y</em> = <em>X</em><sup>2</sup>
+<ul>
+<li class="fragment"><a href="https://www.youtube.com/watch?v=HtzqjHfoRbw">https://www.youtube.com/watch?v=HtzqjHfoRbw</a></li>
 </ul></li>
 </ul>
 

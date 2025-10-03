@@ -39,20 +39,27 @@
     "href": "Hidden/120B-F25/Wk01/wk1.html#moment-generating-functions",
     "title": "PSTAT 120B: Mathematical Statistics",
     "section": " Moment Generating Functions",
-    "text": "Moment Generating Functions\n\n\n\n\n\n\nDefinition\n\n\nThe Moment Generating Function (MGF) for a random variable Y is defined as \\[ M_Y(t) := \\mathbb{E}[e^{tY}] \\]\n\n\n\n\nQuestion for you: When do we compute an MGF as a sum, and when do we compute it as an integral?\n\n\nPartially Worked-Out Example: Y ~ Exp(β) (note the parametrization being used in 120B is different from that in 120A!)\n\n\\[\\begin{align}\n  \\class{fragment}{{} M_Y(t)}\n    &\\class{fragment}{{} = \\int_{0}^{\\infty} e^{ty} \\cdot \\frac{1}{\\beta} e^{-y/\\beta} \\ \\mathrm{d}y}           \n    &\\class{fragment}{{} = \\frac{1}{\\beta} \\int_{0}^{\\infty} e^{-\\left(\\frac{1}{\\beta} - t \\right)y}  \\ \\mathrm{d}y}\n\\end{align}\\]"
+    "text": "Moment Generating Functions\n\n\n\n\n\n\nDefinition\n\n\nThe Moment Generating Function (MGF) for a random variable Y is defined as \\[ M_Y(t) := \\mathbb{E}[e^{tY}] \\]\n\n\n\n\nQuestion for you: When do we compute an MGF as a sum, and when do we compute it as an integral?\n\n\n\n\n\n\n\n\nProperties of MGFs\n\n\n\n\\(M_{aY + b}(t) = e^{bt} M_Y(at)\\)\nFor independent \\(X\\) and \\(Y\\), \\(M_{X + Y}(t) = M_X(t) \\cdot M_Y(t)\\)\nMoment-Generating Property: \\(M_Y^{(n)}(0) = \\E[Y^n]\\)"
   },
   {
     "objectID": "Hidden/120B-F25/Wk01/wk1.html#moment-generating-functions-1",
     "href": "Hidden/120B-F25/Wk01/wk1.html#moment-generating-functions-1",
     "title": "PSTAT 120B: Mathematical Statistics",
     "section": " Moment Generating Functions",
-    "text": "Moment Generating Functions\nExample\n\\[ M_Y(t) = \\frac{1}{\\beta} \\int_{0}^{\\infty} e^{-\\left(\\frac{1}{\\beta} - t \\right)y}  \\ \\mathrm{d}y \\]\n\nThis integral is finite only when \\((\\frac{1}{\\beta} - t) &gt; 0\\); i.e. when \\(t &lt; 1/\\beta\\).\nWhen it is finite:\n\n\\[\\begin{align}\n  \\class{fragment}{{} M_Y(t)}\n    &\\class{fragment}{{} = \\frac{1}{\\beta} \\cdot {\\color{blue} \\frac{1}{\\left( \\frac{1}{\\beta} - t \\right)} } \\cdot  \\int_{0}^{\\infty} {\\color{blue} \\left( \\frac{1}{\\beta} - t \\right) }  e^{-\\left(\\frac{1}{\\beta} - t \\right)y}  \\ \\mathrm{d}y}   \\\\[3mm]\n    &\\class{fragment}{{} = \\frac{1}{\\beta} \\cdot  \\frac{1}{\\left( \\frac{1}{\\beta} - t \\right)} = \\frac{1}{1 - \\beta t}}   \\\\[3mm]\n\\end{align}\\]"
+    "text": "Moment Generating Functions\nExample\n\nPartially Worked-Out Example: Y ~ Exp(β) (note the parametrization being used in 120B is different from that in 120A!)\n\n\n\\[ M_Y(t) = \\int_{0}^{\\infty} e^{ty} \\cdot \\frac{1}{\\beta} e^{-y/\\beta} \\ \\mathrm{d}y = \\frac{1}{\\beta} \\int_{0}^{\\infty} e^{-\\left(\\frac{1}{\\beta} - t \\right)y}  \\ \\mathrm{d}y \\]\n\n\nThis integral is finite only when \\((\\frac{1}{\\beta} - t) &gt; 0\\); i.e. when \\(t &lt; 1/\\beta\\). When it is finite: \\[\\begin{align}\n  \\class{fragment}{{} M_Y(t)}\n&\\class{fragment}{{} = \\frac{1}{\\beta} \\cdot {\\color{blue} \\frac{1}{\\left( \\frac{1}{\\beta} - t \\right)} } \\cdot  \\int_{0}^{\\infty} {\\color{blue} \\left( \\frac{1}{\\beta} - t \\right) }  e^{-\\left(\\frac{1}{\\beta} - t \\right)y}  \\ \\mathrm{d}y}  \\\\[1mm]\n&\\class{fragment}{{} = \\frac{1}{\\beta} \\cdot  \\frac{1}{\\left( \\frac{1}{\\beta} - t \\right)} = \\frac{1}{1 - \\beta t}}   \\\\[3mm]\n\\end{align}\\]"
   },
   {
-    "objectID": "Hidden/120B-F25/Wk01/wk1.html#moment-generating-functions-2",
-    "href": "Hidden/120B-F25/Wk01/wk1.html#moment-generating-functions-2",
+    "objectID": "Hidden/120B-F25/Wk01/wk1.html#cdf-method",
+    "href": "Hidden/120B-F25/Wk01/wk1.html#cdf-method",
     "title": "PSTAT 120B: Mathematical Statistics",
-    "section": " Moment Generating Functions",
-    "text": "Moment Generating Functions\nProperties\n\n\n\n\n\n\nProperties of MGFs\n\n\n\n\\(M_{aY + b}(t) = e^{bt} M_Y(at)\\)\nFor independent \\(X\\) and \\(Y\\), \\(M_{X + Y}(t) = M_X(t) \\cdot M_Y(t)\\)\nMoment-Generating Property: \\(M_Y^{(n)}(0) = \\E[Y^n]\\)\n\n\n\n\n\nAs practice, I encourage you to prove each of these\n\nThe proofs of (1) and (2) are relatively straightforward, and will allow you to practice fundamental probability/calculus results that may appear on homework and exams."
+    "section": " CDF Method",
+    "text": "CDF Method\n\nGeneral Idea: Write \\(F_U(u) := \\mathbb{P}(U \\leq u)\\)\n\nMain task is to write the event \\(\\{U \\leq u\\}\\) in terms of Y, since everything about Y is known.\nMy advice: a picture is worth a thousand words!"
+  },
+  {
+    "objectID": "Hidden/120B-F25/Wk01/wk1.html#cdf-method-1",
+    "href": "Hidden/120B-F25/Wk01/wk1.html#cdf-method-1",
+    "title": "PSTAT 120B: Mathematical Statistics",
+    "section": " CDF Method",
+    "text": "CDF Method\n\nRecall the example from lecture: X ~ Unif[-1, 1] and Y = X2\n\nhttps://www.youtube.com/watch?v=HtzqjHfoRbw"
   }
 ]

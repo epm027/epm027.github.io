@@ -180,35 +180,6 @@ The [**Moment Generating Function**]{.alert} (MGF) for a random variable _Y_ is 
 -   **Question for you:** When do we compute an MGF as a sum, and when do we compute it as an integral?
 
 ::: {.fragment}
-**Partially Worked-Out Example:** _Y_ ~ Exp(_β_) (note the parametrization being used in 120B is different from that in 120A!)
-:::
-
-\begin{align}
-  \class{fragment}{{} M_Y(t)}
-    &\class{fragment}{{} = \int_{0}^{\infty} e^{ty} \cdot \frac{1}{\beta} e^{-y/\beta} \ \mathrm{d}y}           
-    &\class{fragment}{{} = \frac{1}{\beta} \int_{0}^{\infty} e^{-\left(\frac{1}{\beta} - t \right)y}  \ \mathrm{d}y}
-\end{align}
-
-## {{< fa battery-three-quarters >}} Moment Generating Functions
-### Example
-
-$$ M_Y(t) = \frac{1}{\beta} \int_{0}^{\infty} e^{-\left(\frac{1}{\beta} - t \right)y}  \ \mathrm{d}y $$
-
--   This integral is finite only when $(\frac{1}{\beta} - t) > 0$; i.e. when $t < 1/\beta$. 
-
--   When it is finite:
-
-
-\begin{align}
-  \class{fragment}{{} M_Y(t)}
-    &\class{fragment}{{} = \frac{1}{\beta} \cdot {\color{blue} \frac{1}{\left( \frac{1}{\beta} - t \right)} } \cdot  \int_{0}^{\infty} {\color{blue} \left( \frac{1}{\beta} - t \right) }  e^{-\left(\frac{1}{\beta} - t \right)y}  \ \mathrm{d}y}   \\[3mm]
-    &\class{fragment}{{} = \frac{1}{\beta} \cdot  \frac{1}{\left( \frac{1}{\beta} - t \right)} = \frac{1}{1 - \beta t}}   \\[3mm]
-\end{align}
-
-
-## {{< fa battery-three-quarters >}} Moment Generating Functions
-### Properties
-
 ::: {.callout-important}
 ## **Properties of MGFs**
 
@@ -216,6 +187,39 @@ $$ M_Y(t) = \frac{1}{\beta} \int_{0}^{\infty} e^{-\left(\frac{1}{\beta} - t \rig
 2)    For independent $X$ and $Y$, $M_{X + Y}(t) = M_X(t) \cdot M_Y(t)$
 3)    [**Moment-Generating Property**]{.alert}: $M_Y^{(n)}(0) = \E[Y^n]$
 :::
+:::
 
--   As practice, I encourage you to prove each of these
-    -   The proofs of (1) and (2) are relatively straightforward, and will allow you to practice fundamental probability/calculus results that may appear on homework and exams.
+## {{< fa battery-three-quarters >}} Moment Generating Functions {style="font-size:30px"}
+### Example
+
+::: {.fragment}
+**Partially Worked-Out Example:** _Y_ ~ Exp(_β_) (note the parametrization being used in 120B is different from that in 120A!)
+:::
+
+::: {.fragment}
+$$ M_Y(t) = \int_{0}^{\infty} e^{ty} \cdot \frac{1}{\beta} e^{-y/\beta} \ \mathrm{d}y = \frac{1}{\beta} \int_{0}^{\infty} e^{-\left(\frac{1}{\beta} - t \right)y}  \ \mathrm{d}y $$
+:::
+
+
+-   This integral is finite only when $(\frac{1}{\beta} - t) > 0$; i.e. when $t < 1/\beta$. When it is finite:
+\begin{align}
+  \class{fragment}{{} M_Y(t)}
+    &\class{fragment}{{} = \frac{1}{\beta} \cdot {\color{blue} \frac{1}{\left( \frac{1}{\beta} - t \right)} } \cdot  \int_{0}^{\infty} {\color{blue} \left( \frac{1}{\beta} - t \right) }  e^{-\left(\frac{1}{\beta} - t \right)y}  \ \mathrm{d}y}  \\[1mm]
+    &\class{fragment}{{} = \frac{1}{\beta} \cdot  \frac{1}{\left( \frac{1}{\beta} - t \right)} = \frac{1}{1 - \beta t}}   \\[3mm]
+\end{align}
+
+
+## {{< fa less-than-equal >}} CDF Method
+
+-   **General Idea:** Write $F_U(u) := \mathbb{P}(U \leq u)$
+    -   Main task is to write the event $\{U \leq u\}$ in terms of _Y_, since everything about _Y_ is known.
+    -   My advice: a picture is worth a thousand words!
+    
+::: {.fragment style="text-align:center"}
+![](Images/fig.svg){width="50%"}
+:::
+
+## {{< fa less-than-equal >}} CDF Method
+
+-   Recall the example from lecture: _X_ ~ Unif[-1, 1] and _Y_ = _X_^2^
+    -   [https://www.youtube.com/watch?v=HtzqjHfoRbw](https://www.youtube.com/watch?v=HtzqjHfoRbw)
