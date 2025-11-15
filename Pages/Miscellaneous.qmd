@@ -80,9 +80,9 @@ body {
 :::
 
 ::: {class="maintext1"}
-[**{{< fa image >}} Course Logos**]{style="font-size:35px"}
+[**{{< fa image >}} Logos and Icons**]{style="font-size:35px"}
 
-Though I am by no means an expert in graphic design, I do periodically enjoy creating logos for the various courses I have taught. Below are a few of the designs I have created; hover over them for a brief description!
+Though I am by no means an expert in graphic design, I do periodically enjoy creating logos for the various courses I have taught and programs I am a part of. Below are a few of the designs I have created; hover over them for a brief description!
 
 :::
 
@@ -130,6 +130,38 @@ I feel this one is a bit self-explanatory: there's data, and there's science!
 :::
 
 :::
+
+
+
+::: {.grid}
+::: {.g-col-8 .g-col-lg-4}
+::: {class="container2"}
+<img src="../Images/Logos_Icons/keio.png" alt="Arts, Science and Technology in Global Leadership Exchange Program Logo" class="image">
+<div class="overlay">
+<div class="text">
+[**UCSB-Keio Exchange Program**]{style="font-size:clamp(1rem, 1.4vw, 30px)"} 
+
+This logo combines UCSB's famous Storke Tower with a traditional Japanese Shinto Shrine, symbolizing the bridge between UCSB and Keio University that this program provides.
+</div>
+</div>
+:::
+:::
+
+::: {.g-col-8 .g-col-lg-4}
+::: {class="container2"}
+<img src="../Images/Logos_Icons/sbsi.png" alt="Santa Barbara Statistics Initiative Logo" class="image">
+<div class="overlay">
+<div class="text">
+[**SBSI**]{style="font-size:clamp(1rem, 2vw, 30px)"} 
+
+UCSB is symbolized by Storke Tower, the ocean, and palm trees while statistics is symbolized by the "constellation" of data points in the sky.
+</div>
+</div>
+:::
+:::
+
+:::
+
 
 :::
 
