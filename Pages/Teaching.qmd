@@ -166,7 +166,8 @@ I've also had the privilege of serving as both a Teaching Assistant (TA) as well
     <li>
 			<a style="color:#db8a8a">{{< fa calculator >}} **PSTAT 120B:** Mathematical Statistics, I</a>
 			<p>
-			  <ul>
+			  <ul> 
+			    <li>Winter 2026, with Dr. Annie Qu</li>
 			    <li>Fall 2025, with Dr. Uma Ravat</li>
 			    <li>Spring 2025, with Dr. Brian Wainwright</li>
 			    <li>Winter 2023, with Dr. Saad Mouti</li>
