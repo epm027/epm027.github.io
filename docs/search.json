@@ -1,0 +1,317 @@
+[
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nVisualization\n\nApproval Ratings for President Obama across his two terms in office."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-1",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-1",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nNonparametric Regression\n\nModel: \\(y_t = f(t) + \\omega_t\\)\n\n\\(y_t =\\) approval rating on day t\nSignal Function \\(f(\\cdot)\\) is to be estimated\nNoise Process: \\(\\omega_t\\); commonly assumed to be i.i.d. Gaussian White Noise\n\nA nonparametric regression problem\n\nI.e. can we estimate the true underlying signal function with as few assumptions as possible?\n\nEssentially, boils down to a tradeoff between signal and noise variances"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#main-ideas",
+    "href": "CalPoly/Slides.html#main-ideas",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Main Ideas",
+    "text": "Main Ideas\nAn Overview of Our Procedure\n\nWe leverage two main ideas in our approach:\n\nUtilizing a Bayesian approach (technically, an Empirical Bayes)\nUtilizing the spectral domain (Fourier Transforms)\n\nWith these two ideas, we are able to reduce the estimation problem to a Generalized Linear Model (GLM).\nTo ensure we’re all on roughly equal footing, let’s briefly discuss these topics in generality first"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#bayesian-estimation",
+    "href": "CalPoly/Slides.html#bayesian-estimation",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Bayesian Estimation",
+    "text": "Bayesian Estimation\nA High-Level Overview\n\nIn a typical (frequentist) paradigm, parameters are treated as deterministic (i.e. nonrandom)\nExample: \\(X_1, X_2, \\cdots, X_n \\iid \\mathcal{N}(\\mu, \\sigma^2)\\) with \\(\\sigma^2\\) known; then µ, the unknown mean, is treated as fixed\n\nTo account for variability across samples, we develop estimators (e.g. \\(\\bar{X}\\)) to estimate the “true value” of µ.\n\nThe Bayesian framework acknowledges that we are coming into our problem with certain prior beliefs, and, consequently, treats µ as a random variable in itself, following some prespecified prior distribution.\n\nWe then look at the posterior distribution \\(\\pi(\\mu \\mid X_1, X_2, \\cdots, X_n)\\), essentially an “updating” of our beliefs in the presence of the data \\(X_1, X_2, \\cdots, X_n\\)."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#bayesian-estimation-1",
+    "href": "CalPoly/Slides.html#bayesian-estimation-1",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Bayesian Estimation",
+    "text": "Bayesian Estimation\nAn Example\n\nExample: the so-called normal-normal problem: \\[ \\begin{align*}\n  (X_1, X_2, \\cdots, X_n \\mid \\mu)  & \\iid \\mathcal{N}(\\mu, \\sigma^2) \\\\\n  \\mu  & \\sim \\mathcal{N}(\\nu, \\tau^2)\n\\end{align*} \\]\nWith some work, the posterior distribution can be shown to be: \\[ \\begin{align*}\n  (\\mu \\mid X_1, X_2, \\cdots, X_n) & \\sim \\mathcal{N}(\\mu_{\\mathrm{post}}, \\ \\sigma_{\\mathrm{post}}^2) \\\\\n  \\mu_{\\mathrm{post}} & := \\left( \\frac{\\frac{1}{\\tau^2}}{\\frac{1}{\\tau^2} + \\frac{n}{\\sigma^2} }  \\right) \\nu + \\left( \\frac{\\frac{n}{\\sigma^2}}{\\frac{1}{\\tau^2} + \\frac{n}{\\sigma^2} }  \\right) \\bar{X} \\\\\n  \\sigma^2_{\\mathrm{post}}  & := \\frac{1}{\\frac{1}{\\tau^2} + \\frac{n}{\\sigma^2} }\n\\end{align*} \\]"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#bayesian-estimation-2",
+    "href": "CalPoly/Slides.html#bayesian-estimation-2",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Bayesian Estimation",
+    "text": "Bayesian Estimation\nAn Example\n\\[ \\mu_{\\mathrm{post}} := \\left( \\frac{\\frac{\\sigma^2}{n}}{\\tau^2 + \\frac{\\sigma^2}{n}}  \\right) \\nu + \\left( \\frac{\\tau^2}{\\tau^2 + \\frac{\\sigma^2}{n}}  \\right) \\bar{X}  \\]\n\nWhat we see is that the posterior mean is a weighted average of the prior estimate (\\(\\nu\\)) and the frequentist estimator (\\(\\bar{X}\\)), with the weights proportional to the sums of the prior and model variances.\nA smaller prior variance (indicating more certainty in our choice of prior) leads to a higher weighting of \\(\\nu\\) over \\(\\bar{X}\\), and vice-versa.\nThis assumes \\(\\sigma^2\\) to be known; if it were not, we could either assign a hyperprior (pure Bayesian) or estimate it using data (Empirical Bayes)"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-2",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-2",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nThe Model\n\n\n\nModel: \\(y_t = f(t) + \\omega_t\\)\n\n\\(y_t =\\) approval rating on day t\nSignal function \\(f(\\cdot)\\) is to be estimated\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAdopting a Bayesian perspective, we assign a prior to the signal function\n\nThe prior we use is called a Gaussian Process; think of it as a distribution such that draws from this distributions are functions (as opposed to random vectors).\n\nPrescribed by a mean function and a covariance kernel (akin to \\(\\mu\\) and \\(\\sigma^2\\), respectively)"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#gaussian-process",
+    "href": "CalPoly/Slides.html#gaussian-process",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Gaussian Process",
+    "text": "Gaussian Process\nExample Draws"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-3",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-3",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nThe Model\n\n\n\nModel: \\(y_t = f(t) + \\omega_t\\)\n\n\\(y_t =\\) approval rating on day t\nSignal function \\(f(\\cdot)\\) is to be estimated\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPrior: \\(f \\sim \\GP(0, \\ \\tau^2 C(r))\\) where \\(C(r)\\) denotes the Matérn-5/2 Kernel \\[ C(r) = \\left( 1 + \\frac{r \\sqrt{5}}{h} + \\frac{5r^2}{3h^2} \\right) \\exp\\left\\{ - \\frac{r \\sqrt{5}}{h} \\right\\}  \\]\nNoise: White Noise process \\(\\omega_t \\iid \\mathcal{N}(0, \\sigma^2)\\)"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-4",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-4",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nThe Model\n\n\n\nModel: \\(y_t = f(t) + \\omega_t\\)\n\n\\(y_t =\\) approval rating on day t\nSignal function \\(f(\\cdot)\\) is to be estimated\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPrior: \\(f \\sim \\GP\\)(0, 𝜏2C(r)) where C(r) denotes the Matérn-5/2 Kernel \\[ C(r) = \\left( 1 + \\frac{r \\sqrt{5}}{\\colorbox{#ffb000}{𝘩}} + \\frac{5r^2}{3\\colorbox{#ffb000}{𝘩}^2} \\right) \\exp\\left\\{ - \\frac{r \\sqrt{5}}{\\colorbox{#ffb000}{𝘩}} \\right\\}  \\]\nNoise: White Noise process \\(\\omega_t \\iid \\mathcal{N}\\)(0, σ2)"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-5",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-5",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nThe Problem\n\nNote that this model contains three parameters (often called hyperparameters in the Bayesian framework, since they are parameters not of particular interest to us in themselves beyond their link to the signal function).\nWe adopt an Empirical Bayes framework, opting to estimate these parameters using data (as opposed to imposing further hyperpriors).\nA key proposition we make is to convert the estimation problem into the spectral domain.\n\nThis is related to the notion of a Fourier Transform"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#spectral-domain",
+    "href": "CalPoly/Slides.html#spectral-domain",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Spectral Domain",
+    "text": "Spectral Domain\n\nRecall that a vector space can be described using a set of basis vectors.\n\nThese basis vectors allow any element of the vector space to be expressed as a series of coordinates, with respect to the selected basis vectors.\n\nA function space is essentially an extension of a vector space, where elements are now functions.\n\nFunction spaces can be expressed in terms of basis functions, which then allow us to describe functions in term of coordinates wrt. the selected basis functions.\n\nIt turns out that most functions can be expressed as some (infinite) combinations of sines and cosines of different periods.\nSo, we can consider using a collection of sinusoids to form a basis, with coordinates expressed with respect to these sines and cosines."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#fourier-transforms",
+    "href": "CalPoly/Slides.html#fourier-transforms",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Fourier Transforms",
+    "text": "Fourier Transforms\nIntuition\n\nThis is, in essence, what the Fourier Transform represents: a decomposition of a function into a superposition of sines and cosines of differing periods.\nFor example, the Sawtooth Wave \\[ f(x) = x - 2 \\cdot \\mathrm{round}(x / 2) \\] admits the following Fourier decomposition: \\[ f(x) = \\sum_{n=1}^{\\infty} \\frac{2}{n \\pi} (-1)^{n + 1} \\sin(n \\pi x) \\]"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#fourier-transforms-1",
+    "href": "CalPoly/Slides.html#fourier-transforms-1",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Fourier Transforms",
+    "text": "Fourier Transforms\nExample: Sawtooth Wave"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-6",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-6",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nThe Model\n\n\n\nModel: \\(y_t = f(t) + \\omega_t\\)\n\n\\(y_t =\\) approval rating on day t\nSignal function \\(f(\\cdot)\\) is to be estimated\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLet \\(\\{\\eta_k\\}_{k \\geq 0}\\) denote the Fourier coefficients of the signal function and let \\(\\{\\xi_k\\}_{k \\geq 0}\\) denote the Fourier coefficients of the noise process. By standard results, these will be a collection of independent complex-normal random variables: \\[\\begin{align*}\n  \\eta_k  & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(0, \\ v_k \\mat{I}_2 \\right)  \\\\\n  \\xi_k  & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(0, \\ u_k \\mat{I}_2 \\right)\n\\end{align*}\\]"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-7",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-7",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nThe Model\n\n\n\nModel: \\(y_t = f(t) + \\omega_t\\)\n\n\\(y_t =\\) approval rating on day t\nSignal function \\(f(\\cdot)\\) is to be estimated\n\n\n\n\\[\\begin{align*}\n  \\eta_k  & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(0, \\ v_k \\mat{I}_2 \\right)  \\\\\n  \\xi_k  & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(0, \\ u_k \\mat{I}_2 \\right)\n\\end{align*}\\]\n\n\nGiven appropriate estimators \\(\\widehat{\\eta}_k\\) for \\(\\eta_k\\), we can construct an estimator for the signal function as \\[ \\widehat{f}(t) = \\sum_{k=-\\infty}^{\\infty} \\widehat{\\eta}_k e^{-2 \\pi i k t / n} \\]\n\n\nTherefore, we’re pretty much back to a normal-normal problem!"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#the-model-5",
+    "href": "CalPoly/Slides.html#the-model-5",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " The Model",
+    "text": "The Model\nTime- and Frequency-Domain Specifications\n\n\n\nTime-Domain Model: \\(y_t = f(t) + \\omega_t\\)\n\n\\(f \\sim \\GP(0, \\ \\tau^2 C(\\cdot))\\)\n\\(\\omega_t = \\varepsilon_t + \\textstyle \\sum_{j=1}^{q} \\psi_j \\varepsilon_{t - j}\\) where \\(\\varepsilon_t \\iid \\mathcal{N}(0, \\ \\sigma^2)\\)\n\n\n\n\nFrequency-Domain Model: \\[\\begin{align*}\n  (\\eta_k + \\xi_k) \\mid \\eta_k   & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(\\eta_k, \\ v_k \\mat{I}_2 \\right)  \\\\\n  \\eta_k  & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(0, \\ u_k \\mat{I}_2 \\right)\n\\end{align*}\\]\n\n\n\nThe “best” Bayesian point estimator is the posterior mean: \\[ \\E[\\eta_k \\mid \\eta_k + \\xi_k] = \\frac{v_k}{v_k + u_k} (\\eta_k + \\xi_k) \\]\nStandard results tell us that the variances vk and uk are related to the spectral densities of the signal and noise processes, respectively."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#the-model-6",
+    "href": "CalPoly/Slides.html#the-model-6",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " The Model",
+    "text": "The Model\nFrequency-Domain\n\n\n\\[\\begin{align*}\n  (\\eta_k + \\xi_k) \\mid \\eta_k   & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(\\eta_k, \\ v_k \\mat{I}_2 \\right)  \\\\\n  \\eta_k  & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(0, \\ u_k \\mat{I}_2 \\right)\n\\end{align*}\\]\n\n\\[ \\E[\\eta_k \\mid \\eta_k + \\xi_k] = \\frac{v_k}{v_k + u_k} (\\eta_k + \\xi_k) \\]\n\n\nFor a Matérn-5/2 kernel, \\(v_k \\propto \\tau^2 h \\left( 1 + k^2 h^2 \\right)^{-3}\\)\nFor White Noise, \\(u_k = \\frac{\\sigma^2}{n}\\)\n\n\nProblems:\n\n\n\\(\\eta_k\\) and \\(\\xi_k\\) are unknown (in essence, “population Fourier transforms”)\n\\(v_k\\) and \\(u_k\\) depend on the unknown hyperparameters \\(\\tau^2\\) (signal variance), \\(h\\) (signal bandwidth), and \\(\\sigma^2\\) (noise variance)."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#the-model-7",
+    "href": "CalPoly/Slides.html#the-model-7",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " The Model",
+    "text": "The Model\nFrequency-Domain\n\n\n\\[\\begin{align*}\n  (\\eta_k + \\xi_k) \\mid \\eta_k   & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(\\eta_k, \\ v_k \\mat{I}_2 \\right)  \\\\\n  \\eta_k  & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(0, \\ u_k \\mat{I}_2\\right)\n\\end{align*}\\]\n\n\\[ \\E[\\eta_k \\mid \\eta_k + \\xi_k] = \\frac{v_k}{v_k + u_k} (\\eta_k + \\xi_k) \\]\n\n\nFor a Matérn-5/2 kernel, \\(v_k \\propto \\tau^2 h \\left( 1 + k^2 h^2 \\right)^{-3}\\)\nFor White Noise, \\(u_k = \\frac{\\sigma^2}{n}\\)\n\nResolution: Unknown \\(\\eta_k\\) and \\(\\xi_k\\)\n\nSince \\(\\eta_k\\) and \\(\\xi_k\\) appear in \\(\\widehat{\\eta}_k\\) only through their sum, we can replace their sum with \\(\\check{y}_k\\), the Discrete Fourier Transform (DFT) of the observed \\(y_t\\) values."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#the-model-8",
+    "href": "CalPoly/Slides.html#the-model-8",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " The Model",
+    "text": "The Model\nFrequency-Domain\n\n\n\\[\\begin{align*}\n  (\\eta_k + \\xi_k) \\mid \\eta_k   & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(\\eta_k, \\ v_k \\mat{I}_2 \\right)  \\\\\n  \\eta_k  & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(0, \\ u_k \\mat{I}_2 \\right)\n\\end{align*}\\]\n\n\\[ \\widehat{\\eta}_k := \\left( \\frac{v_k}{v_k + u_k}  \\right) \\check{y}_k =: w_k \\cdot \\check{y}_k\\]\n\n\nFor a Matérn-5/2 kernel, \\(v_k \\propto \\tau^2 h \\left( 1 + k^2 h^2 \\right)^{-3}\\)\nFor White Noise, \\(u_k = \\frac{\\sigma^2}{n}\\)\n\n\nWe still have the “ultimate” problem of estimating the three hyperparameters \\(\\tau^2\\), \\(h\\), and \\(\\sigma^2\\).\n\nThis is a highly nonlinear estimation problem, making it somewhat challenging."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#the-model-9",
+    "href": "CalPoly/Slides.html#the-model-9",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " The Model",
+    "text": "The Model\nEstimating the Hyperparameters\n\nRecall that \\(\\eta_k\\) and \\(\\xi_k\\) are complex random variables, meaning they each have two components (real and imaginary).\n\n\n\n\n\\[\\begin{align*}\n  \\eta_k  & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(0, \\ u_k \\mat{I}_2\\right) \\\\\n  \\xi_k & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(0, \\ v_k\\mat{I}_2 \\right)  \\\\\n\\end{align*}\\]\n\n\\[ \\begin{align*}\n  v_k & \\propto \\tau^2 h \\left( 1 + k^2 h^2 \\right)^{-3}  \\\\\n  u_k & = \\textstyle \\frac{\\sigma^2}{n}\n\\end{align*}\\]\n\n\n\n\\[ \\implies (\\eta_k + \\xi_k) \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\Big(0, \\ (u_k + v_k) \\mat{I}_2\\Big) \\]\n\n\n\\[ \\implies \\underbrace{\\frac{\\|\\eta_k + \\xi_k\\|^2}{2}}_{ \\leftrightarrow \\|\\check{y}\\|^2/2}  \\stackrel{\\mathrm{ind}}{\\sim} \\mathrm{Exponential}\\left( u_k + v_k \\right) \\stackrel{\\mathrm{ind}}{\\sim} \\mathrm{Exponential}\\left( \\tau^2 h \\left( 1 + k^2 h^2 \\right)^{-3} + \\frac{\\sigma^2}{n} \\right)  \\]"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-8",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-8",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nSpectral Plot\n\n\nCode\ntheta_k &lt;- Mod(fft(y) / n)^2 / 2\ntheta_init &lt;- theta_k[1]  ## isolate the zeroeth frequency\ntheta_k &lt;- theta_k[2:B]"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#the-model-10",
+    "href": "CalPoly/Slides.html#the-model-10",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " The Model",
+    "text": "The Model\nEstimating the Hyperparameters\n\n\\[ \\frac{\\|\\eta_k + \\xi_k\\|^2}{2} \\stackrel{\\mathrm{ind}}{\\sim} \\mathrm{Exponential}\\left( \\tau^2 h \\left( 1 + k^2 h^2 \\right)^{-3} + \\frac{\\sigma^2}{n} \\right)\\]\n\n\nProposition: Fit a Gamma Generalized Linear Model (GLM) of the form\n\n\n\\[ \\frac{\\|\\check{y}_k\\|^2}{2}  \\sim \\mathrm{Exponential}\\left[ \\beta_1 h \\left( 1 + k^2 h^2 \\right)^{-3} + \\beta_0 \\right] \\]\n\n\nThe estimated parameters then give us estimates for \\(\\tau^2\\) and \\(\\sigma^2\\)!\n\nNonlinear in the bandwidth: can find its maximum likelihood estimate by grid-searching to find the one resulting in the GLM with smallest deviance."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-9",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-9",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nSearch Over Bandwidths\n\n\nCode\nbw_cand_wn &lt;- seq(0.003, 0.006, length = 100)\ndevs_obama_wn &lt;- c()\n\nfor(bw in bw_cand_wn){\n  S_k &lt;- bw * (1 + (2:B * bw)^2)^(-3)\n  glm.temp &lt;- glm(theta_k ~ 1 + S_k, family = Gamma(link = \"identity\"))\n  \n  devs_obama_wn &lt;- c(devs_obama_wn, glm.temp$deviance)\n}\n\nbw_opt_wn &lt;- bw_cand_wn[which.min(devs_obama_wn)]"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-10",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-10",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nOptimal Spectral Fit\n\n\nCode\nS_k &lt;- bw_opt_wn * (1 + (2:B * bw_opt_wn)^2)^(-3)\nglm.opt_wn &lt;- glm(theta_k ~ 1 + S_k, family = Gamma(link = \"identity\"))"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-11",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-11",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nOptimal Time-Domain Fit\n\n\nCode\ntheta_k_hat &lt;- glm.opt_wn$fitted.values\nv_k_hat &lt;- theta_k_hat - coef(glm.opt_wn)[1]\n\nwk &lt;- c(1, v_k_hat / theta_k_hat, 0, rev(v_k_hat / theta_k_hat))\ny.hat &lt;- Re(fft(wk * fft(y) / n, inverse = T))"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-12",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-12",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nKernel Smoothing Fit"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-13",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-13",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nClarification\n\nApproval Ratings for President Obama across his two terms in office. Points represent three-day averages."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#the-model-11",
+    "href": "CalPoly/Slides.html#the-model-11",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " The Model",
+    "text": "The Model\nAccounting for Correlated Noise\n\nBetter to model \\(\\omega_t\\) as a Moving-Average process of order q: \\(\\omega_t = \\varepsilon_t + \\textstyle \\sum_{j=1}^{q} \\psi_j \\varepsilon_{t - j}\\) where \\(\\varepsilon_t \\iid \\mathcal{N}(0, \\ \\sigma^2)\\)\n\n\n\n\n\\[\\begin{align*}\n  \\eta_k  & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(0, \\ u_k \\mat{I}_2\\right) \\\\\n  \\xi_k & \\stackrel{\\mathrm{ind}}{\\sim} \\mathcal{CN}\\left(0, \\ v_k\\mat{I}_2 \\right)  \\\\\n\\end{align*}\\]\n\n\\[ \\begin{align*}\n  v_k & \\propto \\tau^2 h \\left( 1 + k^2 h^2 \\right)^{-3}  \\\\\n  u_k & = \\textstyle \\frac{\\sigma^2}{n}\\left[ b_0 + \\sum_{j=1}^{q} b_j \\cos\\left( j \\cdot \\frac{2 \\pi k}{n} \\right) \\right]\n\\end{align*}\\]\n\n\n\n\\[ \\underbrace{\\frac{\\|\\eta_k + \\xi_k\\|^2}{2}}_{:= \\theta_k} \\sim \\mathrm{Exponential}\\left[ \\tau^2 h \\left( 1 + k^2 h^2 \\right)^{-3} + \\frac{\\sigma^2}{n} b_0 +  \\sum_{j=1}^{q} \\frac{\\sigma^2}{n} b_j \\cos\\left( j \\cdot \\frac{2 \\pi k }{n} \\right) \\right] \\]"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#the-model-12",
+    "href": "CalPoly/Slides.html#the-model-12",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " The Model",
+    "text": "The Model\nAccounting for Correlated Noise\n\n\\[ \\underbrace{\\frac{\\|\\eta_k + \\xi_k\\|^2}{2}}_{:= \\theta_k} \\sim \\mathrm{Exponential}\\left[ \\tau^2 h \\left( 1 + k^2 h^2 \\right)^{-3} + \\frac{\\sigma^2}{n} b_0 +  \\sum_{j=1}^{q} \\frac{\\sigma^2}{n} b_j \\cos\\left( j \\cdot \\frac{2 \\pi k }{n} \\right) \\right] \\]\n\n\nNow, fit a GLM of the form\n\n\n\\[ \\frac{\\|\\check{y}_k\\|^2}{2}  \\sim \\mathrm{Exponential}\\left[ \\gamma_1 h \\left( 1 + k^2 h^2 \\right)^{-3} + \\beta_0 +  \\sum_{j=1}^{q} \\beta_k \\cos\\left( j \\cdot \\frac{2 \\pi k }{n} \\right) \\right] \\]\n\n\nWe can still use a grid-search to find the optimal bandwidth."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-14",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-14",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nSpectral Plot\n\n\nCode\ntheta_k &lt;- Mod(fft(y) / n)^2 / 2\ntheta_init &lt;- theta_k[1]  ## isolate the zeroeth frequency\ntheta_k &lt;- theta_k[2:B]"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-15",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-15",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nBandwidth Optimization\n\n\nCode\nbw_cand &lt;- seq(0.05, 0.15, length = 100)\ndevs_obama &lt;- c()\n\nfor(bw in bw_cand){\n  S_k &lt;- bw * (1 + (2:B * bw)^2)^(-3)\n  S_noise1 &lt;- cos(2 * pi * (2:B) / n)\n  S_noise2 &lt;- cos(4 * pi * (2:B) / n)\n  glm.temp &lt;- glm(theta_k ~ 1 + S_k + S_noise1 + S_noise2, \n      family = Gamma(link = \"identity\"))\n  \n  devs_obama &lt;- c(devs_obama, glm.temp$deviance)\n}\n\nbw_opt &lt;- bw_cand[which.min(devs_obama)]"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-16",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-16",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nOptimal Spectral Fit\n\n\nCode\nS_k &lt;- bw_opt * (1 + (2:B * bw_opt)^2)^(-3)\nS_noise1 &lt;- cos(2 * pi * (2:B) / n)\nS_noise2 &lt;- cos(4 * pi * (2:B) / n)\nglm.opt &lt;- glm(theta_k ~ 1 + S_k + S_noise1 + S_noise2, \n    family = Gamma(link = \"identity\"))"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#presidential-approval-ratings-17",
+    "href": "CalPoly/Slides.html#presidential-approval-ratings-17",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Presidential Approval Ratings",
+    "text": "Presidential Approval Ratings\nOptimal Time-Domain Fit\n\n\nCode\ntheta_k_hat &lt;- glm.opt$fitted.values\nv_k_hat &lt;- theta_k_hat - \n  (coef(glm.opt)[1] + coef(glm.opt)[3] * S_noise1 + \n     coef(glm.opt)[4] * S_noise2)\n\nwk &lt;- c(1, v_k_hat / theta_k_hat, 0, rev(v_k_hat / theta_k_hat))\ny.hat &lt;- Re(fft(wk * fft(y) / n, inverse = T))"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#the-algorithm",
+    "href": "CalPoly/Slides.html#the-algorithm",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " The Algorithm",
+    "text": "The Algorithm\n\nObtain the coefficients \\(\\check{y}_k\\) of the Discrete Fourier Transform of the \\(y_t\\) values, and use this to compute \\(\\tilde{\\theta}_k :=  \\|\\check{y}_k\\|^2 / 2\\) for \\(k = 0, \\cdots, B\\) where \\(B = \\lfloor (n - 1) / 2 \\rfloor\\) if \\(n\\) is odd and \\(B = n / 2\\) if \\(n\\) is even.\nIdentify the bandwidth \\(\\widehat{h}\\) that minimizes the deviance of the following Gamma Generalized Linear Model: \\[ \\tilde{\\theta}_k \\sim \\mathrm{Exponential}\\left[ \\gamma_1 h \\left( 1 + k^2 h^2  \\right)^{-3} + \\beta_0 +  \\sum_{j=1}^{q} \\beta_j \\cos\\left( j \\cdot \\frac{2 \\pi k }{n} \\right) \\right] \\]\nUtilizing the optimal bandwidth from step (2) above, refit the Gamma GLM and obtain fitted values \\(\\widehat{\\theta}_k\\), \\(k = 1, \\cdots, B\\) for \\(\\theta_k\\). Estimates for \\(v_k\\) are computed as \\[\\widehat{v}_k := \\widehat{\\theta}_k - \\sum_{j=0}^{q} \\widehat{\\beta_j} \\cos( 2 \\pi j k / n )\\]"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#the-algorithm-contd",
+    "href": "CalPoly/Slides.html#the-algorithm-contd",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " The Algorithm (cont’d)",
+    "text": "The Algorithm (cont’d)\n\nMultiply the \\(\\check{y}_k\\) terms from step 1 by weights \\[ \\widehat{w}_k := \\widehat{\\left( \\frac{v_k}{v_k + u_k} \\right)} = \\left( \\frac{\\widehat{v}_k}{\\widehat{\\theta}_k} \\right) \\]\n\n\nApply the inverse Fourier transform to the weighted coefficients from step (4) above to obtain fitted values \\(\\hvect{y}\\)."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#trends",
+    "href": "CalPoly/Slides.html#trends",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Trends",
+    "text": "Trends\nAn Overview\n\nFourier-based methods assume an inherent amount of periodicity in the signal function.\n\nAs such, most Fourier-based estimators suffer from “edge effects” where the starting and ending fitted values are constrained to be equal, even if this is not desired.\n\nOur algorithm, admittedly, is no exception, which poses an additional challenge for datasets with a noticeable trend.\n\nAs a somewhat “famous” example, we consider the CO2 Emissions recorded at the Mauna Loa observatory in Hawai’i."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#co2-dataset",
+    "href": "CalPoly/Slides.html#co2-dataset",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " CO2 Dataset",
+    "text": "CO2 Dataset\nVisualization"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#co2-dataset-1",
+    "href": "CalPoly/Slides.html#co2-dataset-1",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " CO2 Dataset",
+    "text": "CO2 Dataset\nInitial Fit"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#trends-1",
+    "href": "CalPoly/Slides.html#trends-1",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Trends",
+    "text": "Trends\nOur Approach\n\nOur current approach is to first remove the linear portion of the trend by way of a simple linear regression, and then apply our algorithm to the resulting residuals.\nAdmittedly, this induces some heteroskedasticity which must be accounted for.\n\nPreliminary results indicate that the magnitude of this heteroskedasticity is relatively small, though, and can be ignored.\nA future direction of research that is of interest to us is finding a more systematic way to handle this heteroskedasticity."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#co2-dataset-2",
+    "href": "CalPoly/Slides.html#co2-dataset-2",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " CO2 Dataset",
+    "text": "CO2 Dataset\nOptimal Fit"
+  },
+  {
+    "objectID": "CalPoly/Slides.html#credible-intervals",
+    "href": "CalPoly/Slides.html#credible-intervals",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Credible Intervals",
+    "text": "Credible Intervals\nA Work In Progress\n\nFinally, as a statistician, I would be remiss to not at least mention credible intervals.\nWe are currently in the process of finalizing our treatment of credible intervals for our predicted signal values \\(f(t)\\).\n\nA preprint (containing further details of our algorithm and also our work on credible intervals) is expected to be completed in the coming months.\n\nWe have results for the white noise case (which show that the variance contributed by parameter estimation is negligible), and are working to extend them to the more general moving-average case."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#conclusion",
+    "href": "CalPoly/Slides.html#conclusion",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Conclusion",
+    "text": "Conclusion\nSummary\n\nIn conclusion, we propose an Empirical Bayes estimation procedure for use in models with correlated data, with a Gaussian Process prior.\nA key aspect of our estimation procedure is the utilization of the spectral domain to carry out the estimation of necessary hyperparameters.\n\nThis allows the hyperparameter estimation to be carried out by way of an Exponential Generalized Linear Regression, which is fast and efficient.\nFinal fitted values are found by weighting the original spectrum, and inverting the Fourier transform.\n\nIn cases where a noticeable trend is present, our algorithm can be applied to the residuals resulting from a Simple Linear Regression."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#conclusion-1",
+    "href": "CalPoly/Slides.html#conclusion-1",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Conclusion",
+    "text": "Conclusion\nFuture Work\n\nThree main avenues of future work immediately present themselves.\nFrom a computational standpoint, we would like to adopt a slightly more sophisticated procedure for estimating the bandwidth (beyond a simple grid-search).\nWe would also like to explore the notion of credible intervals as they pertain to our final fitted values; work on this is ongoing.\n\nA quick note: we are also planning on exploring the asymptotics of our algorithm in the coming months.\n\nI would also like to explore whether it is feasible to extend our algorithm to bivariate data (though it is unclear whether this is feasible or not)."
+  },
+  {
+    "objectID": "CalPoly/Slides.html#acknowledgments",
+    "href": "CalPoly/Slides.html#acknowledgments",
+    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
+    "section": " Acknowledgments",
+    "text": "Acknowledgments\n\n\nI am deeply grateful for the tutelage of my advisor, Dr. Andrew Carter, and the other members of my doctoral committee, Dr. Yuedong Wang and Dr. Mengyang Gu\nThe Presidential Approval Ratings dataset has been accessed through the American Presidency Project at the University of California, Santa Barbara\nThe CO2 dataset has been accessed through the Global Monitoring Laboratory, a part of the National Oceanic and Atmospheric Administration\nThis slide deck has been created using Quarto, in the RStudio IDE. Graphics have been produced with the ggplot2 package, with colorblind-friendly Okabe-Ito Palette functionality added through the ggokabeito package.\n\nSlide icons have been sourced from fontawesome, and have been integrated into this slide deck using the fontawesome Quarto Extension.\nThe base theme for this slide deck is the Quarto Clean Theme"
+  }
+]

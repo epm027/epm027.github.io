@@ -1,0 +1,1304 @@
+---
+title: "[**An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors**]{.alert}"
+subtitle: "Research Presentation <br /> Cal Poly, San Luis Obispo, CA"
+footer: "© Ethan P. Marzban, 2026"
+logo: "Images/seal.png"
+format: 
+  clean-revealjs:
+    theme: slides.scss
+    transition: fade
+    slide-number: true
+    incremental: true 
+    chalkboard: true
+    menu:
+      side: left
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+author:
+  - name: Ethan P. Marzban
+    affiliations: Department of Statistics and Applied Probability <br /> University of California, Santa Barbara <br /> <br />
+institute: January 12, 2026
+title-slide-attributes:
+    data-background-image: "Images/seal.png"
+    data-background-size: "30%"
+    data-background-opacity: "0.5"
+    data-background-position: 80% 50%
+code-annotations: hover
+---
+
+<style>
+mjx-math {
+  font-size: 80% !important;
+}
+</style>
+
+<script>
+MathJax = {
+  options: {
+    menuOptions: {
+      settings: {
+        assistiveMml: false
+      }
+    }
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async src="path-to-MathJax/tex-chtml.js"></script>
+
+
+$$
+\newcommand\R{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\1}{1\!\!1}
+\newcommand{\comp}[1]{#1^{\complement}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\SD}{\mathrm{SD}}
+\newcommand{\vect}[1]{\vec{\boldsymbol{#1}}}
+\newcommand{\tvect}[1]{\vec{\boldsymbol{#1}}^{\mathsf{T}}}
+\newcommand{\hvect}[1]{\widehat{\boldsymbol{#1}}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\tmat}[1]{\mathbf{#1}^{\mathsf{T}}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\probto}{\stackrel{\mathrm{p}}{\longrightarrow}}
+\newcommand{\distto}{\stackrel{\mathrm{d}}{\longrightarrow}}
+\DeclareMathOperator*{\argmin}{\mathrm{arg} \ \min}
+\newcommand{\iid}{\stackrel{\mathrm{i.i.d.}}{\sim}}
+\newcommand{\GP}{\mathcal{GP}}
+$$
+
+```{css echo = F}
+.hscroll {
+  height: 100%;
+  max-height: 600px;
+  max-width: 2000px;
+  overflow: scroll;
+}
+```
+
+```{r setup, echo = F}
+source("Code/fit_proc2.R")
+source("Code/gen_proc2.R")
+
+library(tidyverse)   # for graphs, data wrangling, etc.
+library(gridExtra)   # for multi-panel graphs
+library(reshape2)    # for 'melting' data frames
+library(readxl)      # for reading in Excel files
+library(MASS)
+library(latex2exp)
+library(ggokabeito)
+```
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### Visualization
+
+```{r}
+#| fig-cap: "Approval Ratings for President Obama across his two terms in office."
+#| warning: False
+#| message: False
+#| echo: False
+#| fig-align: 'center'
+#| fig-pos: "H"
+
+Obama <- read_excel("data/ObamaApproval.xlsx",  
+                    col_types = c("skip", "skip", "skip",
+                                  "date", "date", "numeric",
+                                  "numeric", "numeric")
+)
+
+Obama <- Obama[-which(duplicated(Obama$`Start Date`)),]
+
+Obama %>% 
+  ggplot(aes(x = `Start Date`)) +
+  geom_point(aes(y = Approving), col = "blue") +
+  theme_minimal(base_size = 18) +
+  ggtitle("Approval Percentages for President Obama") +
+  labs(colour = "Legend") + ylab("% Approval") +
+  theme(plot.title = element_text(face = "bold", size = 24))
+```
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### Nonparametric Regression
+
+-   **Model:** $y_t = f(t) + \omega_t$
+    -   $y_t =$ approval rating on day _t_
+    -   [**Signal Function**]{.alert} $f(\cdot)$ is to be estimated
+    -   [**Noise Process:**]{.alert} $\omega_t$; commonly assumed to be i.i.d. Gaussian White Noise
+    
+-   A [**nonparametric regression**]{.alert} problem
+    -   I.e. can we estimate the true underlying [**signal**]{.alert} function with as few assumptions as possible?
+    
+-   Essentially, boils down to a tradeoff between signal and noise variances
+
+## {{< fa lightbulb >}} Main Ideas
+### An Overview of Our Procedure
+
+-   We leverage two main ideas in our approach:
+    1)    Utilizing a [**Bayesian**]{.alert} approach (technically, an [**Empirical Bayes**]{.alert})
+    2)    Utilizing the [**spectral domain**]{.alert} ([**Fourier Transforms**]{.alert})
+
+-   With these two ideas, we are able to reduce the estimation problem to a [**Generalized Linear Model**]{.alert} (GLM).
+
+-   To ensure we're all on roughly equal footing, let's briefly discuss these topics in generality first
+
+
+## {{< fa clock >}} Bayesian Estimation
+### A High-Level Overview
+
+-   In a typical ([**frequentist**]{.alert}) paradigm, parameters are treated as _deterministic_ (i.e. nonrandom)
+
+-   Example: $X_1, X_2, \cdots, X_n \iid \mathcal{N}(\mu, \sigma^2)$ with $\sigma^2$ known; then _µ_, the unknown mean, is treated as fixed
+    -   To account for variability across samples, we develop [**estimators**]{.alert} (e.g. $\bar{X}$) to estimate the "true value" of _µ_.
+    
+-   The Bayesian framework acknowledges that we are coming into our problem with certain _prior beliefs_, and, consequently, treats _µ_ as a _random variable in itself_, following some prespecified [**prior distribution**]{.alert}.
+    -   We then look at the [**posterior distribution**]{.alert} $\pi(\mu \mid X_1, X_2, \cdots, X_n)$, essentially an "updating" of our beliefs in the presence of the data $X_1, X_2, \cdots, X_n$.
+
+## {{< fa clock >}} Bayesian Estimation
+### An Example
+
+-   **Example:** the so-called [**normal-normal problem**]{.alert}:
+$$ \begin{align*}
+  (X_1, X_2, \cdots, X_n \mid \mu)  & \iid \mathcal{N}(\mu, \sigma^2) \\
+  \mu  & \sim \mathcal{N}(\nu, \tau^2)
+\end{align*} $$
+
+-   With some work, the posterior distribution can be shown to be:
+$$ \begin{align*}
+  (\mu \mid X_1, X_2, \cdots, X_n) & \sim \mathcal{N}(\mu_{\mathrm{post}}, \ \sigma_{\mathrm{post}}^2) \\
+  \mu_{\mathrm{post}} & := \left( \frac{\frac{1}{\tau^2}}{\frac{1}{\tau^2} + \frac{n}{\sigma^2} }  \right) \nu + \left( \frac{\frac{n}{\sigma^2}}{\frac{1}{\tau^2} + \frac{n}{\sigma^2} }  \right) \bar{X} \\
+  \sigma^2_{\mathrm{post}}  & := \frac{1}{\frac{1}{\tau^2} + \frac{n}{\sigma^2} } 
+\end{align*} $$
+
+## {{< fa clock >}} Bayesian Estimation
+### An Example
+
+$$ \mu_{\mathrm{post}} := \left( \frac{\frac{\sigma^2}{n}}{\tau^2 + \frac{\sigma^2}{n}}  \right) \nu + \left( \frac{\tau^2}{\tau^2 + \frac{\sigma^2}{n}}  \right) \bar{X}  $$ 
+
+-   What we see is that the posterior mean is a weighted average of the _prior estimate_ ($\nu$) and the _frequentist estimator_ ($\bar{X}$), with the weights proportional to the sums of the prior and model variances.
+
+-   A smaller prior variance (indicating more _certainty_ in our choice of prior) leads to a higher weighting of $\nu$ over $\bar{X}$, and vice-versa.
+
+-   This assumes $\sigma^2$ to be known; if it were not, we could either assign a [**hyperprior**]{.alert} (pure Bayesian) or estimate it using data ([**Empirical Bayes**]{.alert})
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### The Model
+
+:::: {.columns}
+
+::: {.column width="60%"}
+::: {.nonincremental}
+-   **Model:** $y_t = f(t) + \omega_t$
+    -   $y_t =$ approval rating on day _t_
+    -   Signal function $f(\cdot)$ is to be estimated
+:::
+:::
+
+::: {.column width="40%"}
+```{r}
+Obama %>% 
+  ggplot(aes(x = `Start Date`)) +
+  geom_point(aes(y = Approving), col = "blue",
+             size = 0.5) +
+  theme_minimal(base_size = 26) +
+  ggtitle("Approval Percentages for President Obama") +
+  labs(colour = "Legend") + ylab("% Approval") +
+  theme(plot.title = element_text(face = "bold", size = 24))
+```
+:::
+
+::::
+
+-   Adopting a Bayesian perspective, we assign a prior to the _signal function_
+    -   The prior we use is called a [**Gaussian Process**]{.alert}; think of it as a distribution such that draws from this distributions are _functions_ (as opposed to _random vectors_).
+        -   Prescribed by a mean _function_ and a covariance _kernel_ (akin to $\mu$ and $\sigma^2$, respectively)
+
+
+## {{< fa gear >}} Gaussian Process
+### Example Draws
+
+```{r}
+#| fig-height: 3.5
+
+sq_exp <- \(x, ell) exp(-x^2 / (2*ell^2))
+p1 <- data.frame(x = 0:3) %>% 
+  ggplot(aes(x = x)) +
+  stat_function(
+    linewidth = 1,
+    fun = \(x) sq_exp(x, 1),
+    aes(colour = "1.0")
+  ) +
+  stat_function(
+    linewidth = 1,
+    fun = \(x) sq_exp(x, 0.5),
+    aes(colour = "0.5")
+  ) +
+  stat_function(
+    linewidth = 1,
+    fun = \(x) sq_exp(x, 1.5),
+    aes(colour = "1.5")
+  ) +
+  theme_minimal(base_size = 18) +
+  labs(colour = element_text("\u2113")) +
+  ggtitle("Squared-Exponential") +
+  xlab("r")
+
+matern_kern <- function(x, nu, ell) {
+  res <- c()
+  for(x in x) {
+    if(x == 0) {
+    res <- c(res, 1)
+  } else {
+    t1 <- 2^(1 - nu) / gamma(nu)
+    t2 <- (x * sqrt(2 * nu) / ell)^(nu)
+    t3 <- besselK(x * sqrt(2 * nu) / ell, nu)
+    res <- c(res, t1 * t2 * t3)
+  }
+  }
+  return(res)
+}
+```
+
+
+```{r}
+m_0.1 <- data.frame(x = 0:3) %>%
+  ggplot(aes(x = x)) +
+  stat_function(
+    linewidth = 1,
+    fun = \(x) matern_kern(x, 5/2, 0.1),
+    n = 250
+  ) +
+  theme_minimal(base_size = 18) +
+  labs(colour = bquote(nu)) +
+  ggtitle("Matérn-5/2; h = 0.1") + xlab("r") +
+    theme(plot.title = element_text(face = "bold"))
+
+m_0.5 <- data.frame(x = 0:3) %>%
+  ggplot(aes(x = x)) +
+  stat_function(
+    linewidth = 1,
+    fun = \(x) matern_kern(x, 5/2, 0.5)
+  ) +
+  theme_minimal(base_size = 18) +
+  labs(colour = bquote(nu)) +
+  ggtitle("Matérn-5/2; h = 0.5") + xlab("r") +
+    theme(plot.title = element_text(face = "bold"))
+```
+
+```{r}
+#| warning: False
+#| message: False
+#| echo: False
+
+source("Code/signal_draw2.R")
+
+set.seed(27)
+
+p1 <- get_signal_plot(2^8, 0.1, 1, "matern", 18) +
+  scale_color_okabe_ito() +
+  ggtitle("5 GP Draws; h = 0.1")
+p2 <- get_signal_plot(2^8, 0.5, 1, "matern", 18) +
+  scale_color_okabe_ito() +
+  ggtitle("5 GP Draws; h = 0.5")
+
+grid.arrange(m_0.1, m_0.5, p1, p2, ncol = 2)
+```
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### The Model
+
+:::: {.columns}
+
+::: {.column width="60%"}
+::: {.nonincremental}
+-   **Model:** $y_t = f(t) + \omega_t$
+    -   $y_t =$ approval rating on day _t_
+    -   Signal function $f(\cdot)$ is to be estimated
+:::
+:::
+
+::: {.column width="40%"}
+```{r}
+Obama %>% 
+  ggplot(aes(x = `Start Date`)) +
+  geom_point(aes(y = Approving), col = "blue",
+             size = 0.5) +
+  theme_minimal(base_size = 26) +
+  ggtitle("Approval Percentages for President Obama") +
+  labs(colour = "Legend") + ylab("% Approval") +
+  theme(plot.title = element_text(face = "bold", size = 24))
+```
+:::
+
+::::
+
+-   **Prior:** $f \sim \GP(0, \ \tau^2 C(r))$ where $C(r)$ denotes the [**Matérn-5/2 Kernel**]{.alert}
+$$ C(r) = \left( 1 + \frac{r \sqrt{5}}{h} + \frac{5r^2}{3h^2} \right) \exp\left\{ - \frac{r \sqrt{5}}{h} \right\}  $$
+
+-   **Noise:** [**White Noise**]{.alert} process $\omega_t \iid \mathcal{N}(0, \sigma^2)$
+
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### The Model
+
+:::: {.columns}
+
+::: {.column width="60%"}
+::: {.nonincremental}
+-   **Model:** $y_t = f(t) + \omega_t$
+    -   $y_t =$ approval rating on day _t_
+    -   Signal function $f(\cdot)$ is to be estimated
+:::
+:::
+
+::: {.column width="40%"}
+```{r}
+Obama %>% 
+  ggplot(aes(x = `Start Date`)) +
+  geom_point(aes(y = Approving), col = "blue",
+             size = 0.5) +
+  theme_minimal(base_size = 26) +
+  ggtitle("Approval Percentages for President Obama") +
+  labs(colour = "Legend") + ylab("% Approval") +
+  theme(plot.title = element_text(face = "bold", size = 24))
+```
+:::
+
+::::
+
+::: {.nonincremental}
+-   **Prior:** $f \sim \GP$(0, [𝜏<sup>2</sup>]{.bg style="--col: #ffb000"}_C_(_r_)) where _C_(_r_) denotes the [**Matérn-5/2 Kernel**]{.alert}
+$$ C(r) = \left( 1 + \frac{r \sqrt{5}}{\colorbox{#ffb000}{𝘩}} + \frac{5r^2}{3\colorbox{#ffb000}{𝘩}^2} \right) \exp\left\{ - \frac{r \sqrt{5}}{\colorbox{#ffb000}{𝘩}} \right\}  $$
+
+-   **Noise:** [**White Noise**]{.alert} process $\omega_t \iid \mathcal{N}$(0, [σ<sup>2</sup>]{.bg style="--col: #ffb000"})
+:::
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### The Problem
+
+-   Note that this model contains three parameters (often called [**hyperparameters**]{.alert} in the Bayesian framework, since they are parameters not of particular interest to us in themselves beyond their link to the signal function). 
+
+-   We adopt an Empirical Bayes framework, opting to estimate these parameters using _data_ (as opposed to imposing further _hyperpriors_).
+
+-   A key proposition we make is to convert the estimation problem into the [**spectral domain**]{.alert}.
+    -   This is related to the notion of a [**Fourier Transform**]{.alert}
+
+## {{< fa ghost >}} Spectral Domain
+
+-   Recall that a vector space can be described using a set of [**basis vectors**]{.alert}.
+    -   These basis vectors allow any element of the vector space to be expressed as a series of [**coordinates**]{.alert}, with respect to the selected basis vectors.
+    
+-   A [**function space**]{.alert} is essentially an extension of a vector space, where elements are now _functions_.
+    -   Function spaces can be expressed in terms of [**basis functions**]{.alert}, which then allow us to describe functions in term of coordinates wrt. the selected basis _functions_.
+
+
+-   It turns out that most functions can be expressed as some (infinite) combinations of sines and cosines of different periods.
+
+-   So, we can consider using a collection of sinusoids to form a basis, with coordinates expressed with respect to these sines and cosines.
+
+
+## {{< fa bezier-curve >}} Fourier Transforms
+### Intuition
+
+-   This is, in essence, what the [**Fourier Transform**]{.alert} represents: a decomposition of a function into a superposition of sines and cosines of differing periods. 
+
+-   For example, the [**Sawtooth Wave**]{.alert} 
+$$ f(x) = x - 2 \cdot \mathrm{round}(x / 2) $$ 
+admits the following Fourier decomposition:
+$$ f(x) = \sum_{n=1}^{\infty} \frac{2}{n \pi} (-1)^{n + 1} \sin(n \pi x) $$
+
+
+## {{< fa bezier-curve >}} Fourier Transforms
+### Example: Sawtooth Wave
+
+![](Images/sawtooth.gif)
+
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### The Model
+
+:::: {.columns}
+
+::: {.column width="60%"}
+::: {.nonincremental}
+-   **Model:** $y_t = f(t) + \omega_t$
+    -   $y_t =$ approval rating on day _t_
+    -   Signal function $f(\cdot)$ is to be estimated
+:::
+:::
+
+::: {.column width="40%"}
+```{r}
+Obama %>% 
+  ggplot(aes(x = `Start Date`)) +
+  geom_point(aes(y = Approving), col = "blue",
+             size = 0.5) +
+  theme_minimal(base_size = 26) +
+  ggtitle("Approval Percentages for President Obama") +
+  labs(colour = "Legend") + ylab("% Approval") +
+  theme(plot.title = element_text(face = "bold", size = 24))
+```
+:::
+
+::::
+
+-   Let $\{\eta_k\}_{k \geq 0}$ denote the Fourier coefficients of the signal function and let $\{\xi_k\}_{k \geq 0}$ denote the Fourier coefficients of the noise process. By standard results, these will be a collection of independent _complex_-normal random variables:
+$$\begin{align*}
+  \eta_k  & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(0, \ v_k \mat{I}_2 \right)  \\
+  \xi_k  & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(0, \ u_k \mat{I}_2 \right)
+\end{align*}$$
+
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### The Model
+
+:::: {.columns}
+
+::: {.column width="60%"}
+::: {.nonincremental}
+-   **Model:** $y_t = f(t) + \omega_t$
+    -   $y_t =$ approval rating on day _t_
+    -   Signal function $f(\cdot)$ is to be estimated
+:::
+:::
+
+::: {.column width="40%"}
+$$\begin{align*}
+  \eta_k  & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(0, \ v_k \mat{I}_2 \right)  \\
+  \xi_k  & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(0, \ u_k \mat{I}_2 \right)
+\end{align*}$$
+:::
+
+::::
+
+::: {.nonincremental}
+-   Given appropriate estimators $\widehat{\eta}_k$ for $\eta_k$, we can construct an estimator for the signal function as $$ \widehat{f}(t) = \sum_{k=-\infty}^{\infty} \widehat{\eta}_k e^{-2 \pi i k t / n} $$ 
+:::
+
+-   Therefore, we're pretty much back to a normal-normal problem!
+
+
+
+## {{< fa boxes-stacked >}} The Model
+### Time- and Frequency-Domain Specifications
+
+:::: {.columns}
+
+::: {.column width="50%"}
+::: {.nonincremental}
+-   **Time-Domain Model:** $y_t = f(t) + \omega_t$
+    -   $f \sim \GP(0, \ \tau^2 C(\cdot))$
+    -   $\omega_t = \varepsilon_t + \textstyle \sum_{j=1}^{q} \psi_j \varepsilon_{t - j}$ where $\varepsilon_t \iid \mathcal{N}(0, \ \sigma^2)$
+:::
+:::
+
+::: {.column width="50%"}
+-   **Frequency-Domain Model:**
+$$\begin{align*}
+  (\eta_k + \xi_k) \mid \eta_k   & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(\eta_k, \ v_k \mat{I}_2 \right)  \\
+  \eta_k  & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(0, \ u_k \mat{I}_2 \right)
+\end{align*}$$
+:::
+
+::::
+
+-   The "best" Bayesian point estimator is the posterior mean:
+$$ \E[\eta_k \mid \eta_k + \xi_k] = \frac{v_k}{v_k + u_k} (\eta_k + \xi_k) $$
+
+-   Standard results tell us that the variances _v_~_k_~ and _u_~_k_~ are related to the [**spectral densities**]{.alert} of the signal and noise processes, respectively. 
+
+
+
+## {{< fa boxes-stacked >}} The Model
+### Frequency-Domain
+
+:::: {.columns}
+
+::: {.column width="50%"}
+$$\begin{align*}
+  (\eta_k + \xi_k) \mid \eta_k   & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(\eta_k, \ v_k \mat{I}_2 \right)  \\
+  \eta_k  & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(0, \ u_k \mat{I}_2 \right)
+\end{align*}$$
+:::
+
+::: {.column width="50%"}
+
+$$ \E[\eta_k \mid \eta_k + \xi_k] = \frac{v_k}{v_k + u_k} (\eta_k + \xi_k) $$
+
+:::
+
+::::
+
+-   For a Matérn-5/2 kernel, $v_k \propto \tau^2 h \left( 1 + k^2 h^2 \right)^{-3}$
+
+-   For White Noise, $u_k = \frac{\sigma^2}{n}$
+
+
+::: {.fragment}
+**Problems:**
+:::
+
+-   $\eta_k$ and $\xi_k$ are **unknown** (in essence, "population Fourier transforms")
+
+-   $v_k$ and $u_k$ depend on the unknown hyperparameters $\tau^2$ (signal variance), $h$ (signal bandwidth), and $\sigma^2$ (noise variance).
+
+
+## {{< fa boxes-stacked >}} The Model
+### Frequency-Domain
+
+:::: {.columns}
+
+::: {.column width="50%"}
+$$\begin{align*}
+  (\eta_k + \xi_k) \mid \eta_k   & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(\eta_k, \ v_k \mat{I}_2 \right)  \\
+  \eta_k  & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(0, \ u_k \mat{I}_2\right)
+\end{align*}$$
+:::
+
+::: {.column width="50%"}
+
+$$ \E[\eta_k \mid \eta_k + \xi_k] = \frac{v_k}{v_k + u_k} (\eta_k + \xi_k) $$
+
+:::
+
+::::
+
+::: {.nonincremental}
+-   For a Matérn-5/2 kernel, $v_k \propto \tau^2 h \left( 1 + k^2 h^2 \right)^{-3}$
+
+-   For White Noise, $u_k = \frac{\sigma^2}{n}$
+
+:::
+
+**Resolution:** Unknown $\eta_k$ and $\xi_k$
+
+-   Since $\eta_k$ and $\xi_k$ appear in $\widehat{\eta}_k$ only through their _sum_, we can replace their sum with $\check{y}_k$, the [**Discrete Fourier Transform**]{.alert} (DFT) of the observed $y_t$ values.
+
+
+## {{< fa boxes-stacked >}} The Model
+### Frequency-Domain
+
+:::: {.columns}
+
+::: {.column width="50%"}
+$$\begin{align*}
+  (\eta_k + \xi_k) \mid \eta_k   & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(\eta_k, \ v_k \mat{I}_2 \right)  \\
+  \eta_k  & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(0, \ u_k \mat{I}_2 \right)
+\end{align*}$$
+:::
+
+::: {.column width="50%"}
+
+$$ \widehat{\eta}_k := \left( \frac{v_k}{v_k + u_k}  \right) \check{y}_k =: w_k \cdot \check{y}_k$$
+
+:::
+
+::::
+
+::: {.nonincremental}
+-   For a Matérn-5/2 kernel, $v_k \propto \tau^2 h \left( 1 + k^2 h^2 \right)^{-3}$
+
+-   For White Noise, $u_k = \frac{\sigma^2}{n}$
+
+:::
+
+-   We still have the "ultimate" problem of estimating the three hyperparameters $\tau^2$, $h$, and $\sigma^2$.
+    -   This is a highly _nonlinear_ estimation problem, making it somewhat challenging.
+
+
+## {{< fa boxes-stacked >}} The Model
+### Estimating the Hyperparameters
+
+
+-   Recall that $\eta_k$ and $\xi_k$ are _complex_ random variables, meaning they each have two components (real and imaginary).
+
+::: {.fragment}
+:::: {.columns}
+
+::: {.column width="50%"}
+$$\begin{align*}
+  \eta_k  & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(0, \ u_k \mat{I}_2\right) \\
+  \xi_k & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(0, \ v_k\mat{I}_2 \right)  \\
+\end{align*}$$
+:::
+
+::: {.column width="50%"}
+
+$$ \begin{align*}
+  v_k & \propto \tau^2 h \left( 1 + k^2 h^2 \right)^{-3}  \\
+  u_k & = \textstyle \frac{\sigma^2}{n}
+\end{align*}$$
+
+:::
+
+::::
+:::
+
+::: {.fragment}
+$$ \implies (\eta_k + \xi_k) \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\Big(0, \ (u_k + v_k) \mat{I}_2\Big) $$
+:::
+
+::: {.fragment style="font-size:30px"}
+$$ \implies \underbrace{\frac{\|\eta_k + \xi_k\|^2}{2}}_{ \leftrightarrow \|\check{y}\|^2/2}  \stackrel{\mathrm{ind}}{\sim} \mathrm{Exponential}\left( u_k + v_k \right) \stackrel{\mathrm{ind}}{\sim} \mathrm{Exponential}\left( \tau^2 h \left( 1 + k^2 h^2 \right)^{-3} + \frac{\sigma^2}{n} \right)  $$
+:::
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### Spectral Plot
+
+```{r}
+#| echo: False
+### INITIAL SETUP
+x <- Obama$`Start Date`      ## input
+y <- Obama$Approving         ## output
+n <- length(x)               ## num. obs
+B <- (n / 2)                 ## num. freq
+```
+
+```{r}
+#| echo: True
+#| code-fold: True
+theta_k <- Mod(fft(y) / n)^2 / 2
+theta_init <- theta_k[1]  ## isolate the zeroeth frequency
+theta_k <- theta_k[2:B]
+```
+
+```{r}
+#| echo: False
+
+data.frame(x = 1:(B - 1), theta_k) %>%
+  ggplot(aes(x = x, y = theta_k)) +
+  geom_point() + scale_y_log10() + 
+  xlab("k") + ylab(bquote(log(theta[k]))) +
+  ggtitle(bquote(log(theta[k])~"Values")) +
+  theme_minimal(base_size = 18) 
+```
+
+
+
+## {{< fa boxes-stacked >}} The Model
+### Estimating the Hyperparameters
+
+::: {style="font-size:30px"}
+$$ \frac{\|\eta_k + \xi_k\|^2}{2} \stackrel{\mathrm{ind}}{\sim} \mathrm{Exponential}\left( \tau^2 h \left( 1 + k^2 h^2 \right)^{-3} + \frac{\sigma^2}{n} \right)$$
+:::
+
+-   **Proposition:** Fit a [**Gamma Generalized Linear Model**]{.alert} (GLM) of the form
+
+::: {.fragment style="font-size:30px"}
+$$ \frac{\|\check{y}_k\|^2}{2}  \sim \mathrm{Exponential}\left[ \beta_1 h \left( 1 + k^2 h^2 \right)^{-3} + \beta_0 \right] $$
+:::
+
+-   The estimated parameters then give us estimates for $\tau^2$ and $\sigma^2$!
+    -   Nonlinear in the bandwidth: can find its [**maximum likelihood estimate**]{.alert} by grid-searching to find the one resulting in the GLM with smallest deviance.
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### Search Over Bandwidths
+
+```{r}
+#| warning: False
+#| echo: True
+#| code-fold: True
+
+bw_cand_wn <- seq(0.003, 0.006, length = 100)
+devs_obama_wn <- c()
+
+for(bw in bw_cand_wn){
+  S_k <- bw * (1 + (2:B * bw)^2)^(-3)
+  glm.temp <- glm(theta_k ~ 1 + S_k, family = Gamma(link = "identity"))
+  
+  devs_obama_wn <- c(devs_obama_wn, glm.temp$deviance)
+}
+
+bw_opt_wn <- bw_cand_wn[which.min(devs_obama_wn)]
+```
+
+```{r}
+data.frame(bw_cand_wn, devs_obama_wn) %>%
+  ggplot(aes(x = bw_cand_wn, y = devs_obama_wn)) +
+  geom_line(linewidth = 1.5) +
+  xlab("bandwidth") + ylab("deviance") +
+  ggtitle("Model Deviance vs. Bandwidth") +
+  theme_minimal(base_size = 18) +
+  theme(plot.title = element_text(face = "bold")) +
+  geom_vline(xintercept = bw_opt_wn,
+             linetype = "dashed") +
+  annotate("label", 
+           x = bw_opt_wn, 
+           y = 3050,
+           label = round(bw_opt_wn, 3),
+           fill = "gray80",
+           size = 10)
+```
+
+
+
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### Optimal Spectral Fit
+
+```{r}
+#| echo: True
+#| code-fold: True
+S_k <- bw_opt_wn * (1 + (2:B * bw_opt_wn)^2)^(-3)
+glm.opt_wn <- glm(theta_k ~ 1 + S_k, family = Gamma(link = "identity"))
+```
+
+
+```{r}
+#| echo: False
+
+data.frame(x = 1:(B - 1), 
+           theta_k,
+           fit = glm.opt_wn$fitted.values) %>%
+  ggplot(aes(x = x)) +
+  geom_point(aes(y = theta_k,
+                 colour = "data"), 
+             alpha = 0.2, size = 6, stroke = F) + 
+  geom_line(aes(y = fit,
+                colour = "fit"), linewidth = 2.5) +
+  scale_y_log10() + 
+  xlab("k") + ylab(bquote(log(theta[k]))) +
+  ggtitle(bquote("Fitted"~log(theta[k])~"Values")) +
+  theme_minimal(base_size = 18) +
+  scale_color_okabe_ito() +
+  labs(colour = "Legend") +
+  theme(legend.title = element_text(face = "bold"))
+```
+
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### Optimal Time-Domain Fit
+
+```{r}
+#| echo: True
+#| code-fold: True
+
+theta_k_hat <- glm.opt_wn$fitted.values
+v_k_hat <- theta_k_hat - coef(glm.opt_wn)[1]
+
+wk <- c(1, v_k_hat / theta_k_hat, 0, rev(v_k_hat / theta_k_hat))
+y.hat <- Re(fft(wk * fft(y) / n, inverse = T))
+```
+
+```{r}
+Obama %>% 
+  mutate(fitted = y.hat) %>%
+  ggplot(aes(x = `Start Date`)) +
+  geom_point(aes(y = Approving, colour = "data"),
+             alpha = 0.1, stroke = F, size = 5) +
+  geom_line(aes(y = fitted, colour = "fitted"),
+            linewidth = 1) +
+  theme_minimal(base_size = 18) +
+  ggtitle("Approval Percentages for President Obama") +
+  labs(colour = "Legend") + ylab("% Approval") +
+  theme(plot.title = element_text(face = "bold", size = 24),
+        legend.title = element_text(face = "bold")) +
+    scale_color_okabe_ito()
+```
+
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### Kernel Smoothing Fit
+
+```{r}
+## USING KSMOOTH
+n <- nrow(Obama)
+x <- 1:n
+y <- Obama$Approving
+
+cand_bw <- seq(1.6, 2, length = 35)   ## candidate bandwidth values
+cverr <- c()                          ## vector to store cv errors
+for(bw in cand_bw) {
+  cverr_temp <- c()
+  for(k in 1:n){
+    train_input <- x[-k]              ## train on everything except kth index
+    train_output <- y[-k]
+    
+    test_input <- x[k]                ## test on kth index
+    test_output <- y[k]
+    
+    nw <- ksmooth(train_input, train_output, kernel = "normal", bandwidth = bw,
+                  x.points = test_input)
+    
+    cverr_temp <- c(cverr_temp, (nw$y - test_output)^2)
+  }
+  cverr <- c(cverr, mean(cverr_temp))
+}
+
+# plot.ts(cverr)
+
+bw_opt <- cand_bw[which.min(cverr)]
+nw_opt <- ksmooth(x, y, kernel = "normal", bandwidth = bw_opt,
+                  x.points = x)
+
+Obama %>% 
+  mutate(fitted = nw_opt$y) %>%
+  ggplot(aes(x = `Start Date`)) +
+  geom_point(aes(y = Approving, colour = "data"), 
+             alpha = 0.1, stroke = F, size = 5) +
+  geom_line(aes(y = fitted, colour = "fit"), linewidth = 1) +
+  theme_minimal(base_size = 18) +
+  ggtitle("Approval Percentages for President Obama",
+          subtitle = "Kernel Smoother; Cross-Validation") +
+  labs(colour = "Legend") + ylab("% Approval") +
+  theme(plot.title = element_text(face = "bold"),
+        legend.title = element_text(face = "bold")) +
+    scale_color_okabe_ito(c("#E69F00", "#009E73"))
+```
+
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### Clarification
+
+```{r}
+#| fig-cap: "Approval Ratings for President Obama across his two terms in office. Points represent <b>three-day averages</b>."
+#| warning: False
+#| message: False
+#| echo: False
+#| fig-align: 'center'
+#| fig-pos: "H"
+
+Obama %>% 
+  ggplot(aes(x = `Start Date`)) +
+  geom_point(aes(y = Approving), col = "blue") +
+  theme_minimal(base_size = 18) +
+  ggtitle("Approval Percentages for President Obama") +
+  labs(colour = "Legend") + ylab("% Approval") +
+  theme(plot.title = element_text(face = "bold", size = 24))
+```
+
+
+## {{< fa boxes-stacked >}} The Model
+### Accounting for Correlated Noise
+
+
+-   Better to model $\omega_t$ as a [**Moving-Average**]{.alert} process of order _q_: $\omega_t = \varepsilon_t + \textstyle \sum_{j=1}^{q} \psi_j \varepsilon_{t - j}$ where $\varepsilon_t \iid \mathcal{N}(0, \ \sigma^2)$
+
+::: {.fragment}
+:::: {.columns}
+
+::: {.column width="50%"}
+$$\begin{align*}
+  \eta_k  & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(0, \ u_k \mat{I}_2\right) \\
+  \xi_k & \stackrel{\mathrm{ind}}{\sim} \mathcal{CN}\left(0, \ v_k\mat{I}_2 \right)  \\
+\end{align*}$$
+:::
+
+::: {.column width="50%"}
+
+$$ \begin{align*}
+  v_k & \propto \tau^2 h \left( 1 + k^2 h^2 \right)^{-3}  \\
+  u_k & = \textstyle \frac{\sigma^2}{n}\left[ b_0 + \sum_{j=1}^{q} b_j \cos\left( j \cdot \frac{2 \pi k}{n} \right) \right]
+\end{align*}$$
+
+:::
+
+::::
+:::
+
+::: {.fragment style="font-size:30px"}
+$$ \underbrace{\frac{\|\eta_k + \xi_k\|^2}{2}}_{:= \theta_k} \sim \mathrm{Exponential}\left[ \tau^2 h \left( 1 + k^2 h^2 \right)^{-3} + \frac{\sigma^2}{n} b_0 +  \sum_{j=1}^{q} \frac{\sigma^2}{n} b_j \cos\left( j \cdot \frac{2 \pi k }{n} \right) \right] $$
+:::
+
+
+
+## {{< fa boxes-stacked >}} The Model
+### Accounting for Correlated Noise
+
+
+::: {style="font-size:30px"}
+$$ \underbrace{\frac{\|\eta_k + \xi_k\|^2}{2}}_{:= \theta_k} \sim \mathrm{Exponential}\left[ \tau^2 h \left( 1 + k^2 h^2 \right)^{-3} + \frac{\sigma^2}{n} b_0 +  \sum_{j=1}^{q} \frac{\sigma^2}{n} b_j \cos\left( j \cdot \frac{2 \pi k }{n} \right) \right] $$
+:::
+
+-   Now, fit a GLM of the form
+
+::: {.fragment style="font-size:30px"}
+$$ \frac{\|\check{y}_k\|^2}{2}  \sim \mathrm{Exponential}\left[ \gamma_1 h \left( 1 + k^2 h^2 \right)^{-3} + \beta_0 +  \sum_{j=1}^{q} \beta_k \cos\left( j \cdot \frac{2 \pi k }{n} \right) \right] $$
+:::
+
+-   We can still use a grid-search to find the optimal bandwidth.
+
+
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### Spectral Plot
+
+```{r}
+#| echo: False
+### INITIAL SETUP
+x <- Obama$`Start Date`      ## input
+y <- Obama$Approving         ## output
+n <- length(x)               ## num. obs
+B <- (n / 2)                 ## num. freq
+```
+
+```{r}
+#| echo: True
+#| code-fold: True
+theta_k <- Mod(fft(y) / n)^2 / 2
+theta_init <- theta_k[1]  ## isolate the zeroeth frequency
+theta_k <- theta_k[2:B]
+```
+
+```{r}
+#| echo: False
+
+data.frame(x = 1:(B - 1), theta_k) %>%
+  ggplot(aes(x = x, y = theta_k)) +
+  geom_point() + scale_y_log10() + 
+  xlab("k") + ylab(bquote(log(theta[k]))) +
+  ggtitle(bquote(log(theta[k])~"Values")) +
+  theme_minimal(base_size = 18) 
+```
+
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### Bandwidth Optimization
+
+```{r}
+#| warning: False
+#| echo: True
+#| code-fold: True
+
+bw_cand <- seq(0.05, 0.15, length = 100)
+devs_obama <- c()
+
+for(bw in bw_cand){
+  S_k <- bw * (1 + (2:B * bw)^2)^(-3)
+  S_noise1 <- cos(2 * pi * (2:B) / n)
+  S_noise2 <- cos(4 * pi * (2:B) / n)
+  glm.temp <- glm(theta_k ~ 1 + S_k + S_noise1 + S_noise2, 
+      family = Gamma(link = "identity"))
+  
+  devs_obama <- c(devs_obama, glm.temp$deviance)
+}
+
+bw_opt <- bw_cand[which.min(devs_obama)]
+```
+
+```{r}
+data.frame(bw_cand, devs_obama) %>%
+  ggplot(aes(x = bw_cand, y = devs_obama)) +
+  geom_line(linewidth = 1.5) +
+  xlab("bandwidth") + ylab("deviance") +
+  ggtitle("Model Deviance vs. Bandwidth") +
+  theme_minimal(base_size = 18) +
+  theme(plot.title = element_text(face = "bold")) +
+  geom_vline(xintercept = bw_opt,
+             linetype = "dashed") +
+  annotate("label", 
+           x = bw_opt, 
+           y = 1660,
+           label = round(bw_opt, 3),
+           fill = "gray80",
+           size = 10)
+```
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### Optimal Spectral Fit
+
+```{r}
+#| echo: True
+#| code-fold: True
+S_k <- bw_opt * (1 + (2:B * bw_opt)^2)^(-3)
+S_noise1 <- cos(2 * pi * (2:B) / n)
+S_noise2 <- cos(4 * pi * (2:B) / n)
+glm.opt <- glm(theta_k ~ 1 + S_k + S_noise1 + S_noise2, 
+    family = Gamma(link = "identity"))
+```
+
+
+```{r}
+#| echo: False
+
+data.frame(x = 1:(B - 1), 
+           theta_k,
+           fit = glm.opt$fitted.values) %>%
+  ggplot(aes(x = x)) +
+  geom_point(aes(y = theta_k,
+                 colour = "data"), 
+             alpha = 0.2, size = 6, stroke = F) + 
+  geom_line(aes(y = fit,
+                colour = "fit"), linewidth = 2.5) +
+  scale_y_log10() + 
+  xlab("k") + ylab(bquote(log(theta[k]))) +
+  ggtitle(bquote("Fitted"~log(theta[k])~"Values")) +
+  theme_minimal(base_size = 18) +
+  scale_color_okabe_ito() +
+  labs(colour = "Legend") +
+  theme(legend.title = element_text(face = "bold"))
+```
+
+
+## {{< fa thumbs-up >}} Presidential Approval Ratings
+### Optimal Time-Domain Fit
+
+```{r}
+#| echo: True
+#| code-fold: True
+
+theta_k_hat <- glm.opt$fitted.values
+v_k_hat <- theta_k_hat - 
+  (coef(glm.opt)[1] + coef(glm.opt)[3] * S_noise1 + 
+     coef(glm.opt)[4] * S_noise2)
+
+wk <- c(1, v_k_hat / theta_k_hat, 0, rev(v_k_hat / theta_k_hat))
+y.hat <- Re(fft(wk * fft(y) / n, inverse = T))
+```
+
+```{r}
+Obama %>% 
+  mutate(fitted = y.hat) %>%
+  ggplot(aes(x = `Start Date`)) +
+  geom_point(aes(y = Approving, colour = "data"),
+             alpha = 0.1, stroke = F, size = 5) +
+  geom_line(aes(y = fitted, colour = "fitted"),
+            linewidth = 2.5) +
+  theme_minimal(base_size = 18) +
+  ggtitle("Approval Percentages for President Obama") +
+  labs(colour = "Legend") + ylab("% Approval") +
+  theme(plot.title = element_text(face = "bold", size = 24),
+        legend.title = element_text(face = "bold")) +
+    scale_color_okabe_ito()
+```
+
+
+
+
+## {{< fa layer-group >}} The Algorithm {style="font-size:30px"}
+
+1)    Obtain the coefficients $\check{y}_k$ of the Discrete Fourier Transform of the $y_t$ values, and use this to compute $\tilde{\theta}_k :=  \|\check{y}_k\|^2 / 2$ for $k = 0, \cdots, B$ where $B = \lfloor (n - 1) / 2 \rfloor$ if $n$ is odd and $B = n / 2$ if $n$ is even.
+
+2)    Identify the bandwidth $\widehat{h}$ that minimizes the deviance of the following Gamma Generalized Linear Model:
+    $$ \tilde{\theta}_k \sim \mathrm{Exponential}\left[ \gamma_1 h \left( 1 + k^2 h^2  \right)^{-3} + \beta_0 +  \sum_{j=1}^{q} \beta_j \cos\left( j \cdot \frac{2 \pi k }{n} \right) \right] $$ 
+    
+3)    Utilizing the optimal bandwidth from step (2) above, refit the Gamma GLM and obtain fitted values $\widehat{\theta}_k$, $k = 1, \cdots, B$ for $\theta_k$. Estimates for $v_k$ are computed as $$\widehat{v}_k := \widehat{\theta}_k - \sum_{j=0}^{q} \widehat{\beta_j} \cos( 2 \pi j k / n )$$
+
+
+
+## {{< fa layer-group >}} The Algorithm (cont'd) {style="font-size:30px"}
+
+::: {.nonincremental}
+4)    Multiply the $\check{y}_k$ terms from step 1 by weights $$ \widehat{w}_k := \widehat{\left( \frac{v_k}{v_k + u_k} \right)} = \left( \frac{\widehat{v}_k}{\widehat{\theta}_k} \right) $$ 
+    
+:::
+
+5)    Apply the inverse Fourier transform to the weighted coefficients from step (4) above to obtain fitted values $\hvect{y}$.
+
+
+## {{< fa arrow-trend-up >}} Trends
+### An Overview
+
+-   Fourier-based methods assume an inherent amount of _periodicity_ in the signal function.
+    -   As such, most Fourier-based estimators suffer from "edge effects" where the starting and ending fitted values are constrained to be equal, even if this is not desired.
+    
+-   Our algorithm, admittedly, is no exception, which poses an additional challenge for datasets with a noticeable trend.
+    -   As a somewhat "famous" example, we consider the CO~2~ Emissions recorded at the Mauna Loa observatory in Hawai'i.
+    
+## {{< fa mountain >}} CO~2~ Dataset
+### Visualization
+
+```{r}
+co2 <- read.csv("data/co2_mm_mlo.csv",
+                header = T,
+                skip = 40)
+
+co2 %>% 
+  ggplot(aes(x = decimal.date)) +
+  geom_point(aes(y = average),
+             alpha = 1) +
+  theme_minimal(base_size = 18) +
+  ggtitle("CO2 Emissions") +
+  theme(plot.title = element_text(face = "bold")) +
+  xlab("Decimal Date") + ylab("Average Emissions")
+```
+
+
+## {{< fa mountain >}} CO~2~ Dataset
+### Initial Fit
+
+```{r}
+source("Code/fit_proc4.R")
+```
+
+```{r}
+#| warning: False
+ell_vals <- seq(0.12, 0.2, length = 100)
+start_coef <- c(10, 0.1, rep(0.1, 12))
+
+devs_co2_trend_ma <- c()
+for(ell in ell_vals) {
+  temp_fit <- fit_proc_ma_q(co2$decimal.date,
+                            co2$average,
+                            ma_order = 12,
+                            start_coef = start_coef,
+                            ell = ell,
+                            lin_trend = FALSE)
+  
+  devs_co2_trend_ma <- c(devs_co2_trend_ma, temp_fit$dev)
+  start_coef <- temp_fit$coefs
+}
+
+ell_opt <- ell_vals[which.min(devs_co2_trend_ma)]
+
+
+new_fit_opt_ma <- fit_proc_ma_q(co2$decimal.date,
+                                co2$average,
+                                ma_order = 12,
+                                lin_trend = FALSE,
+                                start_coef = start_coef,
+                                ell = ell_opt)
+
+ma_trend <- co2 %>% 
+  mutate(
+    fitted = new_fit_opt_ma$fitted
+  ) %>% 
+  ggplot(aes(x = decimal.date)) +
+  geom_point(aes(y = average, colour = "data"),
+             alpha = 0.1, size = 4) +
+  geom_line(aes(y = fitted, colour = "fit"),
+            linewidth = 2) +
+  theme_minimal(base_size = 18) +
+  ggtitle("CO2 Emissions; Ignoring Trend", 
+          subtitle  = "Modeled with MA(12) Noise") +
+  labs(colour = "Legend") +
+  theme(plot.title = element_text(face = "bold"),
+        legend.title = element_text(face = "bold")) +
+  xlab("Decimal Date") + ylab("Average Emissions") +
+  scale_color_okabe_ito()
+
+ma_trend
+```
+
+## {{< fa arrow-trend-up >}} Trends
+### Our Approach
+
+-   Our current approach is to first remove the linear portion of the trend by way of a [**simple linear regression**]{.alert}, and then apply our algorithm to the resulting residuals.
+
+-   Admittedly, this induces some heteroskedasticity which must be accounted for.
+    -   Preliminary results indicate that the magnitude of this heteroskedasticity is relatively small, though, and can be ignored.
+    -   A future direction of research that is of interest to us is finding a more systematic way to handle this heteroskedasticity.
+
+
+## {{< fa mountain >}} CO~2~ Dataset
+### Optimal Fit
+
+```{r}
+source("Code/fit_proc4.R")
+```
+
+```{r}
+#| warning: False
+ell_vals <- seq(0.12, 0.2, length = 100)
+start_coef <- c(10, 0.1, rep(0.1, 12))
+
+devs_co2_trend_ma <- c()
+for(ell in ell_vals) {
+  temp_fit <- fit_proc_ma_q(co2$decimal.date,
+                            co2$average,
+                            ma_order = 12,
+                            start_coef = start_coef,
+                            ell = ell,
+                            lin_trend = TRUE)
+  
+  devs_co2_trend_ma <- c(devs_co2_trend_ma, temp_fit$dev)
+  start_coef <- temp_fit$coefs
+}
+
+ell_opt <- ell_vals[which.min(devs_co2_trend_ma)]
+
+
+new_fit_opt_ma <- fit_proc_ma_q(co2$decimal.date,
+                                co2$average,
+                                ma_order = 12,
+                                lin_trend = TRUE,
+                                start_coef = start_coef,
+                                ell = ell_opt)
+
+ma_trend <- co2 %>% 
+  mutate(
+    fitted = new_fit_opt_ma$fitted
+  ) %>% 
+  ggplot(aes(x = decimal.date)) +
+  geom_point(aes(y = average, colour = "data"),
+             alpha = 0.1, size = 4) +
+  geom_line(aes(y = fitted, colour = "fit"),
+            linewidth = 2) +
+  theme_minimal(base_size = 18) +
+  ggtitle("CO2 Emissions; Capturing Trend", 
+          subtitle  = "Modeled with MA(12) Noise") +
+  labs(colour = "Legend") +
+  theme(plot.title = element_text(face = "bold"),
+        legend.title = element_text(face = "bold")) +
+  xlab("Decimal Date") + ylab("Average Emissions") +
+  scale_color_okabe_ito()
+
+ma_trend
+```
+
+
+## {{< fa timeline >}} Credible Intervals
+### A Work In Progress
+
+-   Finally, as a statistician, I would be remiss to not at least _mention_ credible intervals.
+
+-   We are currently in the process of finalizing our treatment of credible intervals for our predicted signal values $f(t)$.
+    -   A preprint (containing further details of our algorithm and also our work on credible intervals) is expected to be completed in the coming months.
+
+-   We have results for the white noise case (which show that the variance contributed by parameter estimation is negligible), and are working to extend them to the more general moving-average case.
+
+## {{< fa clipboard-list >}} Conclusion
+### Summary
+
+-   In conclusion, we propose an Empirical Bayes estimation procedure for use in models with correlated data, with a Gaussian Process prior.
+
+-   A key aspect of our estimation procedure is the utilization of the spectral domain to carry out the estimation of necessary hyperparameters.
+    -   This allows the hyperparameter estimation to be carried out by way of an Exponential Generalized Linear Regression, which is fast and efficient.
+    -   Final fitted values are found by weighting the original spectrum, and inverting the Fourier transform.
+    
+-   In cases where a noticeable trend is present, our algorithm can be applied to the residuals resulting from a Simple Linear Regression.
+
+## {{< fa clipboard-list >}} Conclusion
+### Future Work
+
+-   Three main avenues of future work immediately present themselves.
+
+-   From a computational standpoint, we would like to adopt a slightly more sophisticated procedure for estimating the bandwidth (beyond a simple grid-search).
+
+-   We would also like to explore the notion of credible intervals as they pertain to our final fitted values; work on this is ongoing.
+    -   A quick note: we are also planning on exploring the asymptotics of our algorithm in the coming months.
+    
+-   I would also like to explore whether it is feasible to extend our algorithm to _bivariate_ data (though it is unclear whether this is feasible or not).
+
+
+## {{< fa handshake >}} Acknowledgments
+
+::: {.nonincremental style="font-size:24px"}
+-   I am deeply grateful for the tutelage of my advisor, Dr. Andrew Carter, and the other members of my doctoral committee, Dr. Yuedong Wang and Dr. Mengyang Gu
+
+-   The Presidential Approval Ratings dataset has been accessed through the American Presidency Project at the University of California, Santa Barbara
+
+-   The CO~2~ dataset has been accessed through the Global Monitoring Laboratory, a part of the National Oceanic and Atmospheric Administration
+
+-   This slide deck has been created using Quarto, in the RStudio IDE. Graphics have been produced with the `ggplot2` package, with colorblind-friendly Okabe-Ito Palette functionality added through the `ggokabeito` package.
+    -   Slide icons have been sourced from `fontawesome`, and have been integrated into this slide deck using the [`fontawesome` Quarto Extension](https://github.com/quarto-ext/fontawesome).
+    -   The base theme for this slide deck is the [Quarto Clean Theme](https://github.com/grantmcdermott/quarto-revealjs-clean)
+
+:::
