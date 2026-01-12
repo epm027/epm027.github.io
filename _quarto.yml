@@ -16,7 +16,7 @@ website:
         text: "{{< fa user-group >}} Service"
       - href: "Pages/Miscellaneous.qmd"
         text: "{{< fa flask >}} Miscellany"
-  page-footer: "Site Designed by Ethan Marzban using <a href='https://quarto.org/' target='_blank'>Quarto</a>; Photos taken by Ethan Marzban, ©2025 <br /> 
+  page-footer: "Site Designed by Ethan Marzban using <a href='https://quarto.org/' target='_blank'>Quarto</a>; Photos taken by Ethan Marzban, ©2026 <br /> 
 _For the Curious:_ [Here](https://web.archive.org/web/20250704154339/https://epm027.github.io/){target='_blank'} is an older version of this website"
 
 format:
