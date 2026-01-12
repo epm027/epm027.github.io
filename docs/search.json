@@ -77,18 +77,11 @@
     "text": "Presidential Approval Ratings\nThe Problem\n\nNote that this model contains three parameters (often called hyperparameters in the Bayesian framework, since they are parameters not of particular interest to us in themselves beyond their link to the signal function).\nWe adopt an Empirical Bayes framework, opting to estimate these parameters using data (as opposed to imposing further hyperpriors).\nA key proposition we make is to convert the estimation problem into the spectral domain.\n\nThis is related to the notion of a Fourier Transform"
   },
   {
-    "objectID": "CalPoly/Slides.html#spectral-domain",
-    "href": "CalPoly/Slides.html#spectral-domain",
-    "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
-    "section": " Spectral Domain",
-    "text": "Spectral Domain\n\nRecall that a vector space can be described using a set of basis vectors.\n\nThese basis vectors allow any element of the vector space to be expressed as a series of coordinates, with respect to the selected basis vectors.\n\nA function space is essentially an extension of a vector space, where elements are now functions.\n\nFunction spaces can be expressed in terms of basis functions, which then allow us to describe functions in term of coordinates wrt. the selected basis functions.\n\nIt turns out that most functions can be expressed as some (infinite) combinations of sines and cosines of different periods.\nSo, we can consider using a collection of sinusoids to form a basis, with coordinates expressed with respect to these sines and cosines."
-  },
-  {
     "objectID": "CalPoly/Slides.html#fourier-transforms",
     "href": "CalPoly/Slides.html#fourier-transforms",
     "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
     "section": " Fourier Transforms",
-    "text": "Fourier Transforms\nIntuition\n\nThis is, in essence, what the Fourier Transform represents: a decomposition of a function into a superposition of sines and cosines of differing periods.\nFor example, the Sawtooth Wave \\[ f(x) = x - 2 \\cdot \\mathrm{round}(x / 2) \\] admits the following Fourier decomposition: \\[ f(x) = \\sum_{n=1}^{\\infty} \\frac{2}{n \\pi} (-1)^{n + 1} \\sin(n \\pi x) \\]"
+    "text": "Fourier Transforms\nIntuition\n\nEssentially, most functions can be decomposed into a series of sines and cosines.\n\nThe coefficients of these sines and cosines (which are essentially coordinates) are called the Fourier Coefficients of the function.\n\nFor example, the the Sawtooth Wave \\[f(x) = x - 2 \\cdot \\mathrm{round}(x / 2)\\] admits the following Fourier decomposition: \\[ f(x) = \\sum_{n=1}^{\\infty} \\frac{2}{n \\pi} (-1)^{n + 1} \\sin(n \\pi x) \\]"
   },
   {
     "objectID": "CalPoly/Slides.html#fourier-transforms-1",
@@ -249,7 +242,7 @@
     "href": "CalPoly/Slides.html#the-algorithm-contd",
     "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
     "section": " The Algorithm (cont’d)",
-    "text": "The Algorithm (cont’d)\n\nMultiply the \\(\\check{y}_k\\) terms from step 1 by weights \\[ \\widehat{w}_k := \\widehat{\\left( \\frac{v_k}{v_k + u_k} \\right)} = \\left( \\frac{\\widehat{v}_k}{\\widehat{\\theta}_k} \\right) \\]\n\n\nApply the inverse Fourier transform to the weighted coefficients from step (4) above to obtain fitted values \\(\\hvect{y}\\)."
+    "text": "The Algorithm (cont’d)\n\nMultiply the \\(\\check{y}_k\\) terms from step 1 by weights \\[ \\widehat{w}_k := \\widehat{\\left( \\frac{v_k}{v_k + u_k} \\right)} = \\left( \\frac{\\widehat{v}_k}{\\widehat{\\theta}_k} \\right) \\] to obtain estimates \\(\\widehat{\\eta}_k := \\widehat{w} \\check{y}_k\\).\n\n\nApply the inverse Fourier transform to the \\(\\widehat{\\eta}_k\\) values from step (4) above to obtain fitted values \\(\\hvect{y}\\)."
   },
   {
     "objectID": "CalPoly/Slides.html#trends",
@@ -277,7 +270,7 @@
     "href": "CalPoly/Slides.html#trends-1",
     "title": "An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors",
     "section": " Trends",
-    "text": "Trends\nOur Approach\n\nOur current approach is to first remove the linear portion of the trend by way of a simple linear regression, and then apply our algorithm to the resulting residuals.\nAdmittedly, this induces some heteroskedasticity which must be accounted for.\n\nPreliminary results indicate that the magnitude of this heteroskedasticity is relatively small, though, and can be ignored.\nA future direction of research that is of interest to us is finding a more systematic way to handle this heteroskedasticity."
+    "text": "Trends\nOur Approach\n\nOur current approach is to first remove the linear portion of the trend by way of a simple linear regression, and then apply our algorithm to the resulting residuals.\nAdmittedly, this induces some heteroskedasticity which must be accounted for.\n\nPreliminary results indicate that the magnitude of this heteroskedasticity is relatively small, though, and can be ignored.\nA potential future direction of research that is of interest to us is finding a more systematic way to handle this heteroskedasticity."
   },
   {
     "objectID": "CalPoly/Slides.html#co2-dataset-2",

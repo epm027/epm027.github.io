@@ -449,27 +449,15 @@ MathJax = {
 </ul></li>
 </ul>
 </section>
-<section id="spectral-domain" class="slide level2">
-<h2><i class="fa-solid fa-ghost" aria-label="ghost"></i> Spectral Domain</h2>
-<ul>
-<li class="fragment"><p>Recall that a vector space can be described using a set of <span class="alert"><strong>basis vectors</strong></span>.</p>
-<ul>
-<li class="fragment">These basis vectors allow any element of the vector space to be expressed as a series of <span class="alert"><strong>coordinates</strong></span>, with respect to the selected basis vectors.</li>
-</ul></li>
-<li class="fragment"><p>A <span class="alert"><strong>function space</strong></span> is essentially an extension of a vector space, where elements are now <em>functions</em>.</p>
-<ul>
-<li class="fragment">Function spaces can be expressed in terms of <span class="alert"><strong>basis functions</strong></span>, which then allow us to describe functions in term of coordinates wrt. the selected basis <em>functions</em>.</li>
-</ul></li>
-<li class="fragment"><p>It turns out that most functions can be expressed as some (infinite) combinations of sines and cosines of different periods.</p></li>
-<li class="fragment"><p>So, we can consider using a collection of sinusoids to form a basis, with coordinates expressed with respect to these sines and cosines.</p></li>
-</ul>
-</section>
 <section id="fourier-transforms" class="slide level2">
 <h2><i class="fa-solid fa-bezier-curve" aria-label="bezier-curve"></i> Fourier Transforms</h2>
 <h3 id="intuition">Intuition</h3>
 <ul>
-<li class="fragment"><p>This is, in essence, what the <span class="alert"><strong>Fourier Transform</strong></span> represents: a decomposition of a function into a superposition of sines and cosines of differing periods.</p></li>
-<li class="fragment"><p>For example, the <span class="alert"><strong>Sawtooth Wave</strong></span> <span class="math display">\[ f(x) = x - 2 \cdot \mathrm{round}(x / 2) \]</span> admits the following Fourier decomposition: <span class="math display">\[ f(x) = \sum_{n=1}^{\infty} \frac{2}{n \pi} (-1)^{n + 1} \sin(n \pi x) \]</span></p></li>
+<li class="fragment">Essentially, most functions can be decomposed into a series of sines and cosines.
+<ul>
+<li class="fragment">The coefficients of these sines and cosines (which are essentially <em>coordinates</em>) are called the <span class="alert"><strong>Fourier Coefficients</strong></span> of the function.</li>
+</ul></li>
+<li class="fragment">For example, the the <span class="alert"><strong>Sawtooth Wave</strong></span> <span class="math display">\[f(x) = x - 2 \cdot \mathrm{round}(x / 2)\]</span> admits the following Fourier decomposition: <span class="math display">\[ f(x) = \sum_{n=1}^{\infty} \frac{2}{n \pi} (-1)^{n + 1} \sin(n \pi x) \]</span></li>
 </ul>
 </section>
 <section id="fourier-transforms-1" class="slide level2">
@@ -862,10 +850,10 @@ MathJax = {
 <section id="the-algorithm-contd" class="slide level2" style="font-size:30px">
 <h2><i class="fa-solid fa-layer-group" aria-label="layer-group"></i> The Algorithm (cont’d)</h2>
 <ol start="4" type="1">
-<li>Multiply the <span class="math inline">\(\check{y}_k\)</span> terms from step 1 by weights <span class="math display">\[ \widehat{w}_k := \widehat{\left( \frac{v_k}{v_k + u_k} \right)} = \left( \frac{\widehat{v}_k}{\widehat{\theta}_k} \right) \]</span></li>
+<li>Multiply the <span class="math inline">\(\check{y}_k\)</span> terms from step 1 by weights <span class="math display">\[ \widehat{w}_k := \widehat{\left( \frac{v_k}{v_k + u_k} \right)} = \left( \frac{\widehat{v}_k}{\widehat{\theta}_k} \right) \]</span> to obtain estimates <span class="math inline">\(\widehat{\eta}_k := \widehat{w} \check{y}_k\)</span>.</li>
 </ol>
 <ol start="5" type="1">
-<li class="fragment">Apply the inverse Fourier transform to the weighted coefficients from step (4) above to obtain fitted values <span class="math inline">\(\hvect{y}\)</span>.</li>
+<li class="fragment">Apply the inverse Fourier transform to the <span class="math inline">\(\widehat{\eta}_k\)</span> values from step (4) above to obtain fitted values <span class="math inline">\(\hvect{y}\)</span>.</li>
 </ol>
 </section>
 <section id="trends" class="slide level2">
@@ -900,7 +888,7 @@ MathJax = {
 <li class="fragment"><p>Admittedly, this induces some heteroskedasticity which must be accounted for.</p>
 <ul>
 <li class="fragment">Preliminary results indicate that the magnitude of this heteroskedasticity is relatively small, though, and can be ignored.</li>
-<li class="fragment">A future direction of research that is of interest to us is finding a more systematic way to handle this heteroskedasticity.</li>
+<li class="fragment">A potential future direction of research that is of interest to us is finding a more systematic way to handle this heteroskedasticity.</li>
 </ul></li>
 </ul>
 </section>

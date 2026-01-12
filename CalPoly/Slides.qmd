@@ -390,28 +390,13 @@ $$ C(r) = \left( 1 + \frac{r \sqrt{5}}{\colorbox{#ffb000}{𝘩}} + \frac{5r^2}{3
 -   A key proposition we make is to convert the estimation problem into the [**spectral domain**]{.alert}.
     -   This is related to the notion of a [**Fourier Transform**]{.alert}
 
-## {{< fa ghost >}} Spectral Domain
-
--   Recall that a vector space can be described using a set of [**basis vectors**]{.alert}.
-    -   These basis vectors allow any element of the vector space to be expressed as a series of [**coordinates**]{.alert}, with respect to the selected basis vectors.
-    
--   A [**function space**]{.alert} is essentially an extension of a vector space, where elements are now _functions_.
-    -   Function spaces can be expressed in terms of [**basis functions**]{.alert}, which then allow us to describe functions in term of coordinates wrt. the selected basis _functions_.
-
-
--   It turns out that most functions can be expressed as some (infinite) combinations of sines and cosines of different periods.
-
--   So, we can consider using a collection of sinusoids to form a basis, with coordinates expressed with respect to these sines and cosines.
-
-
 ## {{< fa bezier-curve >}} Fourier Transforms
 ### Intuition
 
--   This is, in essence, what the [**Fourier Transform**]{.alert} represents: a decomposition of a function into a superposition of sines and cosines of differing periods. 
+-   Essentially, most functions can be decomposed into a series of sines and cosines.
+    -   The coefficients of these sines and cosines (which are essentially _coordinates_) are called the [**Fourier Coefficients**]{.alert} of the function.
 
--   For example, the [**Sawtooth Wave**]{.alert} 
-$$ f(x) = x - 2 \cdot \mathrm{round}(x / 2) $$ 
-admits the following Fourier decomposition:
+-   For example, the the [**Sawtooth Wave**]{.alert} $$f(x) = x - 2 \cdot \mathrm{round}(x / 2)$$ admits the following Fourier decomposition:
 $$ f(x) = \sum_{n=1}^{\infty} \frac{2}{n \pi} (-1)^{n + 1} \sin(n \pi x) $$
 
 
@@ -1097,10 +1082,11 @@ Obama %>%
 
 ::: {.nonincremental}
 4)    Multiply the $\check{y}_k$ terms from step 1 by weights $$ \widehat{w}_k := \widehat{\left( \frac{v_k}{v_k + u_k} \right)} = \left( \frac{\widehat{v}_k}{\widehat{\theta}_k} \right) $$ 
+to obtain estimates $\widehat{\eta}_k := \widehat{w} \check{y}_k$.
     
 :::
 
-5)    Apply the inverse Fourier transform to the weighted coefficients from step (4) above to obtain fitted values $\hvect{y}$.
+5)    Apply the inverse Fourier transform to the $\widehat{\eta}_k$ values from step (4) above to obtain fitted values $\hvect{y}$.
 
 
 ## {{< fa arrow-trend-up >}} Trends
@@ -1194,7 +1180,7 @@ ma_trend
 
 -   Admittedly, this induces some heteroskedasticity which must be accounted for.
     -   Preliminary results indicate that the magnitude of this heteroskedasticity is relatively small, though, and can be ignored.
-    -   A future direction of research that is of interest to us is finding a more systematic way to handle this heteroskedasticity.
+    -   A potential future direction of research that is of interest to us is finding a more systematic way to handle this heteroskedasticity.
 
 
 ## {{< fa mountain >}} CO~2~ Dataset
