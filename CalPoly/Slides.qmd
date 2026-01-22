@@ -482,7 +482,7 @@ $$\begin{align*}
 ::: {.nonincremental}
 -   **Time-Domain Model:** $y_t = f(t) + \omega_t$
     -   $f \sim \GP(0, \ \tau^2 C(\cdot))$
-    -   $\omega_t = \varepsilon_t + \textstyle \sum_{j=1}^{q} \psi_j \varepsilon_{t - j}$ where $\varepsilon_t \iid \mathcal{N}(0, \ \sigma^2)$
+    -   $\omega_t \iid \mathcal{N}(0, \ \sigma^2)$
 :::
 :::
 
