@@ -136,6 +136,14 @@ I've also had the privilege of serving as both a Teaching Assistant (TA) as well
 			</p>
 		</li>
     <li>
+			<a style="color:#db8a8a">{{< fa earth-africa >}} **PSTAT 5LS:** Statistics for Life Sciences</a>
+			<p>
+			  <ul>
+			    <li>**Head TA:** Spring 2026, with Dr. Jack Miller</li>
+			  </ul>
+			</p>
+		</li>
+    <li>
 			<a style="color:#db8a8a">{{< fa code >}} **PSTAT 10:** Principles of Data Science with R</a>
 			<p>
 			  <ul>
