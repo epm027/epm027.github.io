@@ -71,9 +71,27 @@ ul.timeline > li:before {
 
 
 ::: {class="maintext1"}
-[**Courses I've Taught:**]{style="font-size:35px"}
+[**Cal Poly (2026 - pres.):**]{style="font-size:35px"}
 
-I've had the honor of serving as a Teaching Associate for six quarters across four different classes. Teaching Associate is a title given to graduate students who are serving as the sole and primary instructor for a given course. Duties as a Teaching Associate include: creation of course content (lectures, homework assignments, lab handouts, etc.), managing TAs, and issuing final letter grades. 
+<ul class="timeline">
+    <li>
+			<a style="color:#db8a8a">{{< fa chart-simple >}} **STAT 1110:** Applied Statistical Concepts and Methods</a>
+			<p>
+			  <ul>
+			    <li>**Fall 2026**: Sections S17, S18, and S19 </li>
+			  </ul>
+			</p>
+		</li>
+</ul>
+
+\
+
+
+[**UCSB (2020 - 2026):**]{style="font-size:35px"}
+
+[**Courses I've Taught:**]{style="font-size:28px"}
+
+During my time at UCSB (from 2020 through 2026), I had the honor of serving as a Teaching Associate for six quarters across four different classes. Teaching Associate is a title given to graduate students who are serving as the sole and primary instructor for a given course. Duties as a Teaching Associate include: creation of course content (lectures, homework assignments, lab handouts, etc.), managing TAs, and issuing final letter grades. 
 
 As a proponent of open-source teaching, most of my material from when I teach courses remains publicly accessible through a series of GitHub pages (linked below). 
 
@@ -85,8 +103,8 @@ If you would like to adopt any of my material for your course, please contact me
 			<a style="color:#db8a8a">{{< fa chart-simple >}} **PSTAT 5A:** Understanding Data</a>
 			<p>
 			  <ul>
-			    <li>**Summer Session A, 2023:** <a href="https://pstat5a-archives.github.io/Summer24/index3.html" target="_blank">https://pstat5a-archives.github.io/Summer24/index3.html</a></li>
-			    <li>**Spring 2023:** <a href="https://pstat5a-archives.github.io/Spring23/index2.html" target="_blank">https://pstat5a-archives.github.io/Spring23/index2.html</a></li>
+			    <li><a href="https://pstat5a-archives.github.io/Summer24/index3.html">**Summer Session A, 2023**</a></li>
+			    <li><a href="https://pstat5a-archives.github.io/Spring23/index2.html" target="_blank">**Spring 2023**</a></li>
 			  </ul>
 			</p>
 		</li>
@@ -94,8 +112,8 @@ If you would like to adopt any of my material for your course, please contact me
 			<a style="color:#db8a8a">{{< fa circle-nodes >}} **PSTAT 100:** Data Science - Concepts and Analysis</a>
 			<p>
 			  <ul>
-			    <li>**Summer Session A, 2025:** <a href="https://ucsb-pstat100.github.io/" target="_blank">https://ucsb-pstat100.github.io/</a></li>
-			    <li>**Spring 2024:** <a href="http://ucsb-pstat100-archives.github.io/" target="_blank">http://ucsb-pstat100-archives.github.io/</a></li>
+			    <li><a href="https://ucsb-pstat100.github.io/" target="_blank">**Summer Session A, 2025** </a></li>
+			    <li><a href="http://ucsb-pstat100-archives.github.io/" target="_blank">**Spring 2024** </a></li>
 			  </ul>
 			</p>
 		</li>
@@ -103,7 +121,7 @@ If you would like to adopt any of my material for your course, please contact me
 			<a style="color:#db8a8a">{{< fa dice >}} **PSTAT 120A:** Introduction to Probability</a>
 			<p>
 			  <ul>
-			    <li>**Summer Session A, 2022:** <a href="https://pstat120a.github.io/" target="_blank">https://pstat120a.github.io/</a></li>
+			    <li><a href="https://pstat120a.github.io/" target="_blank">**Summer Session A, 2022**</a></li>
 			  </ul>
 			</p>
 		</li>
@@ -111,7 +129,7 @@ If you would like to adopt any of my material for your course, please contact me
 			<a style="color:#db8a8a">{{< fa calculator >}} **PSTAT 120B:** Mathematical Statistics, I</a>
 			<p>
 			  <ul>
-			    <li>**Summer Session A, 2024:** <a href="https://pstat120b.github.io/" target="_blank">https://pstat120b.github.io/</a></li>
+			    <li><a href="https://pstat120b.github.io/" target="_blank">**Summer Session A, 2024**</a></li>
 			  </ul>
 			</p>
 		</li>
@@ -121,9 +139,9 @@ If you would like to adopt any of my material for your course, please contact me
 \
 
 ::: {class="maintext1"}
-[**Courses I've TA'd:**]{style="font-size:35px"}
+[**Courses I've TA'd:**]{style="font-size:28px"}
 
-I've also had the privilege of serving as both a Teaching Assistant (TA) as well as a Head TA across several courses. As a Head TA, duties include: assisting the instructor in course creation, managing course TAs and ULAs (Undergraduate Learning Assistants), and also teaching one Discussion/Lab Section.
+I also had the privilege of serving as both a Teaching Assistant (TA) as well as a Head TA across several courses. As a Head TA, duties include: assisting the instructor in course creation, managing course TAs and ULAs (Undergraduate Learning Assistants), and also teaching one Discussion/Lab Section.
 
 
 <ul class="timeline">
@@ -188,7 +206,7 @@ I've also had the privilege of serving as both a Teaching Assistant (TA) as well
 \
 
 ::: {class="maintext1"}
-[**Lead TA**]{style="font-size:35px"}
+[**Lead TA**]{style="font-size:28px"}
 
-Since Fall 2023, I have also served as the **Lead TA** for the PSTAT department, a role I am honored to continue serving during the 2025-2026 academic year. As part of this role, I run **PSTAT 501**, our department's designated Teaching Assistant Training course, in Fall and Winter quarter. Over the course of this two-quarter class, new graduate students learn the basics of statistical pedagogy, are connected with on-campus resources, and given tools to succeed as thriving Teaching Assistants for the PSTAT department.
+For the final three years in my time at UCSB, I also served as the **Lead TA** for the PSTAT department. As part of this role, I ran **PSTAT 501**, our department's designated Teaching Assistant Training course, in Fall and Winter quarter. Over the course of this two-quarter class, new graduate students learn the basics of statistical pedagogy, are connected with on-campus resources, and given tools to succeed as thriving Teaching Assistants for the PSTAT department.
 :::
