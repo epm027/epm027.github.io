@@ -7,10 +7,10 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <link href="../site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.10.18">
+  <meta name="generator" content="quarto-1.7.32">
 
   <meta name="author" content="Ethan P. Marzban">
   <title>Ethan P. Marzban – An Empirical Bayes Approach to Nonparametric Regression with Correlated Errors</title>
@@ -20,16 +20,10 @@
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
   <style>
-    /* Default styles provided by pandoc.
-    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-    */
+    code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: 1.5em;}
-    div.column{flex: auto;}
-    @media screen {
-    div.columns{gap: min(4vw, 1.5em);}
-    div.column{overflow-x: auto;}
-    }
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
     ul.task-list li input[type="checkbox"] {
@@ -104,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-737394534543ebffa66a925f24991720.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-ce6bc8a5410e8df11883f060677c6af5.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -210,7 +204,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Ethan P. Marzban
+Ethan P. Marzban 
 </div>
         <p class="quarto-title-affiliation">
             Department of Statistics and Applied Probability <br> University of California, Santa Barbara <br> <br>
@@ -274,12 +268,12 @@ MathJax = {
 </style>
 </div>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings" class="slide level2">
+<section id="presidential-approval-ratings" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="visualization">Visualization</h3>
 
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Approval Ratings for President Obama across his two terms in office.</p></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-1" class="slide level2">
+<section id="presidential-approval-ratings-1" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="nonparametric-regression">Nonparametric Regression</h3>
 <ul>
@@ -296,7 +290,7 @@ MathJax = {
 <li class="fragment">Essentially, boils down to a tradeoff between signal and noise variances</li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661206c6967687462756c62203e7d7d-main-ideas" class="slide level2">
+<section id="main-ideas" class="slide level2">
 <h2><i class="fa-solid fa-lightbulb" aria-label="lightbulb"></i> Main Ideas</h2>
 <h3 id="an-overview-of-our-procedure">An Overview of Our Procedure</h3>
 <ul>
@@ -309,7 +303,7 @@ MathJax = {
 <li class="fragment"><p>To ensure we’re all on roughly equal footing, let’s briefly discuss these topics in generality first</p></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c20666120636c6f636b203e7d7d-bayesian-estimation" class="slide level2">
+<section id="bayesian-estimation" class="slide level2">
 <h2><i class="fa-solid fa-clock" aria-label="clock"></i> Bayesian Estimation</h2>
 <h3 id="a-high-level-overview">A High-Level Overview</h3>
 <ul>
@@ -324,7 +318,7 @@ MathJax = {
 </ul></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c20666120636c6f636b203e7d7d-bayesian-estimation-1" class="slide level2">
+<section id="bayesian-estimation-1" class="slide level2">
 <h2><i class="fa-solid fa-clock" aria-label="clock"></i> Bayesian Estimation</h2>
 <h3 id="an-example">An Example</h3>
 <ul>
@@ -339,7 +333,7 @@ MathJax = {
 \end{align*} \]</span></p></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c20666120636c6f636b203e7d7d-bayesian-estimation-2" class="slide level2">
+<section id="bayesian-estimation-2" class="slide level2">
 <h2><i class="fa-solid fa-clock" aria-label="clock"></i> Bayesian Estimation</h2>
 <h3 id="an-example-1">An Example</h3>
 <p><span class="math display">\[ \mu_{\mathrm{post}} := \left( \frac{\frac{\sigma^2}{n}}{\tau^2 + \frac{\sigma^2}{n}}  \right) \nu + \left( \frac{\tau^2}{\tau^2 + \frac{\sigma^2}{n}}  \right) \bar{X}  \]</span></p>
@@ -349,7 +343,7 @@ MathJax = {
 <li class="fragment"><p>This assumes <span class="math inline">\(\sigma^2\)</span> to be known; if it were not, we could either assign a <span class="alert"><strong>hyperprior</strong></span> (pure Bayesian) or estimate it using data (<span class="alert"><strong>Empirical Bayes</strong></span>)</p></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-2" class="slide level2">
+<section id="presidential-approval-ratings-2" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="the-model">The Model</h3>
 <div class="columns">
@@ -382,12 +376,12 @@ MathJax = {
 </ul></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c2066612067656172203e7d7d-gaussian-process" class="slide level2">
+<section id="gaussian-process" class="slide level2">
 <h2><i class="fa-solid fa-gear" aria-label="gear"></i> Gaussian Process</h2>
 <h3 id="example-draws">Example Draws</h3>
 
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-3" class="slide level2">
+<section id="presidential-approval-ratings-3" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="the-model-1">The Model</h3>
 <div class="columns">
@@ -415,7 +409,7 @@ MathJax = {
 <li class="fragment"><p><strong>Noise:</strong> <span class="alert"><strong>White Noise</strong></span> process <span class="math inline">\(\omega_t \iid \mathcal{N}(0, \sigma^2)\)</span></p></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-4" class="slide level2">
+<section id="presidential-approval-ratings-4" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="the-model-2">The Model</h3>
 <div class="columns">
@@ -443,7 +437,7 @@ MathJax = {
 <li><p><strong>Noise:</strong> <span class="alert"><strong>White Noise</strong></span> process <span class="math inline">\(\omega_t \iid \mathcal{N}\)</span>(0, <span class="bg" style="--col: #ffb000">σ<sup>2</sup></span>)</p></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-5" class="slide level2">
+<section id="presidential-approval-ratings-5" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="the-problem">The Problem</h3>
 <ul>
@@ -455,7 +449,7 @@ MathJax = {
 </ul></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c2066612062657a6965722d6375727665203e7d7d-fourier-transforms" class="slide level2">
+<section id="fourier-transforms" class="slide level2">
 <h2><i class="fa-solid fa-bezier-curve" aria-label="bezier-curve"></i> Fourier Transforms</h2>
 <h3 id="intuition">Intuition</h3>
 <ul>
@@ -466,12 +460,12 @@ MathJax = {
 <li class="fragment">For example, the the <span class="alert"><strong>Sawtooth Wave</strong></span> <span class="math display">\[f(x) = x - 2 \cdot \mathrm{round}(x / 2)\]</span> admits the following Fourier decomposition: <span class="math display">\[ f(x) = \sum_{n=1}^{\infty} \frac{2}{n \pi} (-1)^{n + 1} \sin(n \pi x) \]</span></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c2066612062657a6965722d6375727665203e7d7d-fourier-transforms-1" class="slide level2">
+<section id="fourier-transforms-1" class="slide level2">
 <h2><i class="fa-solid fa-bezier-curve" aria-label="bezier-curve"></i> Fourier Transforms</h2>
 <h3 id="example-sawtooth-wave">Example: Sawtooth Wave</h3>
 
 <img data-src="Images/sawtooth.gif" class="r-stretch"></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-6" class="slide level2">
+<section id="presidential-approval-ratings-6" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="the-model-3">The Model</h3>
 <div class="columns">
@@ -501,7 +495,7 @@ MathJax = {
 \end{align*}\]</span></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-7" class="slide level2">
+<section id="presidential-approval-ratings-7" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="the-model-4">The Model</h3>
 <div class="columns">
@@ -526,7 +520,7 @@ MathJax = {
 <li class="fragment">Therefore, we’re pretty much back to a normal-normal problem!</li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c20666120626f7865732d737461636b6564203e7d7d-the-model" class="slide level2">
+<section id="the-model-5" class="slide level2">
 <h2><i class="fa-solid fa-boxes-stacked" aria-label="boxes-stacked"></i> The Model</h2>
 <h3 id="time--and-frequency-domain-specifications">Time- and Frequency-Domain Specifications</h3>
 <div class="columns">
@@ -551,7 +545,7 @@ MathJax = {
 <li class="fragment"><p>Standard results tell us that the variances <em>v</em><sub><em>k</em></sub> and <em>u</em><sub><em>k</em></sub> are related to the <span class="alert"><strong>spectral densities</strong></span> of the signal and noise processes, respectively.</p></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c20666120626f7865732d737461636b6564203e7d7d-the-model-1" class="slide level2">
+<section id="the-model-6" class="slide level2">
 <h2><i class="fa-solid fa-boxes-stacked" aria-label="boxes-stacked"></i> The Model</h2>
 <h3 id="frequency-domain">Frequency-Domain</h3>
 <div class="columns">
@@ -575,7 +569,7 @@ MathJax = {
 <li class="fragment"><p><span class="math inline">\(v_k\)</span> and <span class="math inline">\(u_k\)</span> depend on the unknown hyperparameters <span class="math inline">\(\tau^2\)</span> (signal variance), <span class="math inline">\(h\)</span> (signal bandwidth), and <span class="math inline">\(\sigma^2\)</span> (noise variance).</p></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c20666120626f7865732d737461636b6564203e7d7d-the-model-2" class="slide level2">
+<section id="the-model-7" class="slide level2">
 <h2><i class="fa-solid fa-boxes-stacked" aria-label="boxes-stacked"></i> The Model</h2>
 <h3 id="frequency-domain-1">Frequency-Domain</h3>
 <div class="columns">
@@ -596,7 +590,7 @@ MathJax = {
 <li class="fragment">Since <span class="math inline">\(\eta_k\)</span> and <span class="math inline">\(\xi_k\)</span> appear in <span class="math inline">\(\widehat{\eta}_k\)</span> only through their <em>sum</em>, we can replace their sum with <span class="math inline">\(\check{y}_k\)</span>, the <span class="alert"><strong>Discrete Fourier Transform</strong></span> (DFT) of the observed <span class="math inline">\(y_t\)</span> values.</li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c20666120626f7865732d737461636b6564203e7d7d-the-model-3" class="slide level2">
+<section id="the-model-8" class="slide level2">
 <h2><i class="fa-solid fa-boxes-stacked" aria-label="boxes-stacked"></i> The Model</h2>
 <h3 id="frequency-domain-2">Frequency-Domain</h3>
 <div class="columns">
@@ -619,7 +613,7 @@ MathJax = {
 </ul></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c20666120626f7865732d737461636b6564203e7d7d-the-model-4" class="slide level2">
+<section id="the-model-9" class="slide level2">
 <h2><i class="fa-solid fa-boxes-stacked" aria-label="boxes-stacked"></i> The Model</h2>
 <h3 id="estimating-the-hyperparameters">Estimating the Hyperparameters</h3>
 <ul>
@@ -646,20 +640,20 @@ MathJax = {
 <p><span class="math display">\[ \implies \underbrace{\frac{\|\eta_k + \xi_k\|^2}{2}}_{ \leftrightarrow \|\check{y}\|^2/2}  \stackrel{\mathrm{ind}}{\sim} \mathrm{Exponential}\left( u_k + v_k \right) \stackrel{\mathrm{ind}}{\sim} \mathrm{Exponential}\left( \tau^2 h \left( 1 + k^2 h^2 \right)^{-3} + \frac{\sigma^2}{n} \right)  \]</span></p>
 </div>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-8" class="slide level2">
+<section id="presidential-approval-ratings-8" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="spectral-plot">Spectral Plot</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-label="1"></a>theta_k <span class="ot">&lt;-</span> <span class="fu">Mod</span>(<span class="fu">fft</span>(y) <span class="sc">/</span> n)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb1-2"><a aria-label="2"></a>theta_init <span class="ot">&lt;-</span> theta_k[<span class="dv">1</span>]  <span class="do">## isolate the zeroeth frequency</span></span>
-<span id="cb1-3"><a aria-label="3"></a>theta_k <span class="ot">&lt;-</span> theta_k[<span class="dv">2</span><span class="sc">:</span>B]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>theta_k <span class="ot">&lt;-</span> <span class="fu">Mod</span>(<span class="fu">fft</span>(y) <span class="sc">/</span> n)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb1-2"><a></a>theta_init <span class="ot">&lt;-</span> theta_k[<span class="dv">1</span>]  <span class="do">## isolate the zeroeth frequency</span></span>
+<span id="cb1-3"><a></a>theta_k <span class="ot">&lt;-</span> theta_k[<span class="dv">2</span><span class="sc">:</span>B]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c20666120626f7865732d737461636b6564203e7d7d-the-model-5" class="slide level2">
+<section id="the-model-10" class="slide level2">
 <h2><i class="fa-solid fa-boxes-stacked" aria-label="boxes-stacked"></i> The Model</h2>
 <h3 id="estimating-the-hyperparameters-1">Estimating the Hyperparameters</h3>
 <div style="font-size:30px">
@@ -678,65 +672,65 @@ MathJax = {
 </ul></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-9" class="slide level2">
+<section id="presidential-approval-ratings-9" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="search-over-bandwidths">Search Over Bandwidths</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-label="1"></a>bw_cand_wn <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.003</span>, <span class="fl">0.006</span>, <span class="at">length =</span> <span class="dv">100</span>)</span>
-<span id="cb2-2"><a aria-label="2"></a>devs_obama_wn <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb2-3"><a aria-label="3"></a></span>
-<span id="cb2-4"><a aria-label="4"></a><span class="cf">for</span>(bw <span class="cf">in</span> bw_cand_wn){</span>
-<span id="cb2-5"><a aria-label="5"></a>  S_k <span class="ot">&lt;-</span> bw <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> (<span class="dv">2</span><span class="sc">:</span>B <span class="sc">*</span> bw)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span>(<span class="sc">-</span><span class="dv">3</span>)</span>
-<span id="cb2-6"><a aria-label="6"></a>  glm.temp <span class="ot">&lt;-</span> <span class="fu">glm</span>(theta_k <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> S_k, <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span>
-<span id="cb2-7"><a aria-label="7"></a>  </span>
-<span id="cb2-8"><a aria-label="8"></a>  devs_obama_wn <span class="ot">&lt;-</span> <span class="fu">c</span>(devs_obama_wn, glm.temp<span class="sc">$</span>deviance)</span>
-<span id="cb2-9"><a aria-label="9"></a>}</span>
-<span id="cb2-10"><a aria-label="10"></a></span>
-<span id="cb2-11"><a aria-label="11"></a>bw_opt_wn <span class="ot">&lt;-</span> bw_cand_wn[<span class="fu">which.min</span>(devs_obama_wn)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>bw_cand_wn <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.003</span>, <span class="fl">0.006</span>, <span class="at">length =</span> <span class="dv">100</span>)</span>
+<span id="cb2-2"><a></a>devs_obama_wn <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb2-3"><a></a></span>
+<span id="cb2-4"><a></a><span class="cf">for</span>(bw <span class="cf">in</span> bw_cand_wn){</span>
+<span id="cb2-5"><a></a>  S_k <span class="ot">&lt;-</span> bw <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> (<span class="dv">2</span><span class="sc">:</span>B <span class="sc">*</span> bw)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span>(<span class="sc">-</span><span class="dv">3</span>)</span>
+<span id="cb2-6"><a></a>  glm.temp <span class="ot">&lt;-</span> <span class="fu">glm</span>(theta_k <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> S_k, <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span>
+<span id="cb2-7"><a></a>  </span>
+<span id="cb2-8"><a></a>  devs_obama_wn <span class="ot">&lt;-</span> <span class="fu">c</span>(devs_obama_wn, glm.temp<span class="sc">$</span>deviance)</span>
+<span id="cb2-9"><a></a>}</span>
+<span id="cb2-10"><a></a></span>
+<span id="cb2-11"><a></a>bw_opt_wn <span class="ot">&lt;-</span> bw_cand_wn[<span class="fu">which.min</span>(devs_obama_wn)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-10" class="slide level2">
+<section id="presidential-approval-ratings-10" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="optimal-spectral-fit">Optimal Spectral Fit</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-label="1"></a>S_k <span class="ot">&lt;-</span> bw_opt_wn <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> (<span class="dv">2</span><span class="sc">:</span>B <span class="sc">*</span> bw_opt_wn)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span>(<span class="sc">-</span><span class="dv">3</span>)</span>
-<span id="cb3-2"><a aria-label="2"></a>glm.opt_wn <span class="ot">&lt;-</span> <span class="fu">glm</span>(theta_k <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> S_k, <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>S_k <span class="ot">&lt;-</span> bw_opt_wn <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> (<span class="dv">2</span><span class="sc">:</span>B <span class="sc">*</span> bw_opt_wn)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span>(<span class="sc">-</span><span class="dv">3</span>)</span>
+<span id="cb3-2"><a></a>glm.opt_wn <span class="ot">&lt;-</span> <span class="fu">glm</span>(theta_k <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> S_k, <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-11" class="slide level2">
+<section id="presidential-approval-ratings-11" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="optimal-time-domain-fit">Optimal Time-Domain Fit</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-label="1"></a>theta_k_hat <span class="ot">&lt;-</span> glm.opt_wn<span class="sc">$</span>fitted.values</span>
-<span id="cb4-2"><a aria-label="2"></a>v_k_hat <span class="ot">&lt;-</span> theta_k_hat <span class="sc">-</span> <span class="fu">coef</span>(glm.opt_wn)[<span class="dv">1</span>]</span>
-<span id="cb4-3"><a aria-label="3"></a></span>
-<span id="cb4-4"><a aria-label="4"></a>wk <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, v_k_hat <span class="sc">/</span> theta_k_hat, <span class="dv">0</span>, <span class="fu">rev</span>(v_k_hat <span class="sc">/</span> theta_k_hat))</span>
-<span id="cb4-5"><a aria-label="5"></a>y.hat <span class="ot">&lt;-</span> <span class="fu">Re</span>(<span class="fu">fft</span>(wk <span class="sc">*</span> <span class="fu">fft</span>(y) <span class="sc">/</span> n, <span class="at">inverse =</span> T))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>theta_k_hat <span class="ot">&lt;-</span> glm.opt_wn<span class="sc">$</span>fitted.values</span>
+<span id="cb4-2"><a></a>v_k_hat <span class="ot">&lt;-</span> theta_k_hat <span class="sc">-</span> <span class="fu">coef</span>(glm.opt_wn)[<span class="dv">1</span>]</span>
+<span id="cb4-3"><a></a></span>
+<span id="cb4-4"><a></a>wk <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, v_k_hat <span class="sc">/</span> theta_k_hat, <span class="dv">0</span>, <span class="fu">rev</span>(v_k_hat <span class="sc">/</span> theta_k_hat))</span>
+<span id="cb4-5"><a></a>y.hat <span class="ot">&lt;-</span> <span class="fu">Re</span>(<span class="fu">fft</span>(wk <span class="sc">*</span> <span class="fu">fft</span>(y) <span class="sc">/</span> n, <span class="at">inverse =</span> T))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-12" class="slide level2">
+<section id="presidential-approval-ratings-12" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="kernel-smoothing-fit">Kernel Smoothing Fit</h3>
 
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-19-1.png" width="960" class="r-stretch"></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-13" class="slide level2">
+<section id="presidential-approval-ratings-13" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="clarification">Clarification</h3>
 
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-20-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Approval Ratings for President Obama across his two terms in office. Points represent <b>three-day averages</b>.</p></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c20666120626f7865732d737461636b6564203e7d7d-the-model-6" class="slide level2">
+<section id="the-model-11" class="slide level2">
 <h2><i class="fa-solid fa-boxes-stacked" aria-label="boxes-stacked"></i> The Model</h2>
 <h3 id="accounting-for-correlated-noise">Accounting for Correlated Noise</h3>
 <ul>
@@ -760,7 +754,7 @@ MathJax = {
 <p><span class="math display">\[ \underbrace{\frac{\|\eta_k + \xi_k\|^2}{2}}_{:= \theta_k} \sim \mathrm{Exponential}\left[ \tau^2 h \left( 1 + k^2 h^2 \right)^{-3} + \frac{\sigma^2}{n} b_0 +  \sum_{j=1}^{q} \frac{\sigma^2}{n} b_j \cos\left( j \cdot \frac{2 \pi k }{n} \right) \right] \]</span></p>
 </div>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c20666120626f7865732d737461636b6564203e7d7d-the-model-7" class="slide level2">
+<section id="the-model-12" class="slide level2">
 <h2><i class="fa-solid fa-boxes-stacked" aria-label="boxes-stacked"></i> The Model</h2>
 <h3 id="accounting-for-correlated-noise-1">Accounting for Correlated Noise</h3>
 <div style="font-size:30px">
@@ -776,76 +770,76 @@ MathJax = {
 <li class="fragment">We can still use a grid-search to find the optimal bandwidth.</li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-14" class="slide level2">
+<section id="presidential-approval-ratings-14" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="spectral-plot-1">Spectral Plot</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-label="1"></a>theta_k <span class="ot">&lt;-</span> <span class="fu">Mod</span>(<span class="fu">fft</span>(y) <span class="sc">/</span> n)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb5-2"><a aria-label="2"></a>theta_init <span class="ot">&lt;-</span> theta_k[<span class="dv">1</span>]  <span class="do">## isolate the zeroeth frequency</span></span>
-<span id="cb5-3"><a aria-label="3"></a>theta_k <span class="ot">&lt;-</span> theta_k[<span class="dv">2</span><span class="sc">:</span>B]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>theta_k <span class="ot">&lt;-</span> <span class="fu">Mod</span>(<span class="fu">fft</span>(y) <span class="sc">/</span> n)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb5-2"><a></a>theta_init <span class="ot">&lt;-</span> theta_k[<span class="dv">1</span>]  <span class="do">## isolate the zeroeth frequency</span></span>
+<span id="cb5-3"><a></a>theta_k <span class="ot">&lt;-</span> theta_k[<span class="dv">2</span><span class="sc">:</span>B]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-23-1.png" width="960" class="r-stretch"></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-15" class="slide level2">
+<section id="presidential-approval-ratings-15" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="bandwidth-optimization">Bandwidth Optimization</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-label="1"></a>bw_cand <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.05</span>, <span class="fl">0.15</span>, <span class="at">length =</span> <span class="dv">100</span>)</span>
-<span id="cb6-2"><a aria-label="2"></a>devs_obama <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb6-3"><a aria-label="3"></a></span>
-<span id="cb6-4"><a aria-label="4"></a><span class="cf">for</span>(bw <span class="cf">in</span> bw_cand){</span>
-<span id="cb6-5"><a aria-label="5"></a>  S_k <span class="ot">&lt;-</span> bw <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> (<span class="dv">2</span><span class="sc">:</span>B <span class="sc">*</span> bw)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span>(<span class="sc">-</span><span class="dv">3</span>)</span>
-<span id="cb6-6"><a aria-label="6"></a>  S_noise1 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> (<span class="dv">2</span><span class="sc">:</span>B) <span class="sc">/</span> n)</span>
-<span id="cb6-7"><a aria-label="7"></a>  S_noise2 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">4</span> <span class="sc">*</span> pi <span class="sc">*</span> (<span class="dv">2</span><span class="sc">:</span>B) <span class="sc">/</span> n)</span>
-<span id="cb6-8"><a aria-label="8"></a>  glm.temp <span class="ot">&lt;-</span> <span class="fu">glm</span>(theta_k <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> S_k <span class="sc">+</span> S_noise1 <span class="sc">+</span> S_noise2, </span>
-<span id="cb6-9"><a aria-label="9"></a>      <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span>
-<span id="cb6-10"><a aria-label="10"></a>  </span>
-<span id="cb6-11"><a aria-label="11"></a>  devs_obama <span class="ot">&lt;-</span> <span class="fu">c</span>(devs_obama, glm.temp<span class="sc">$</span>deviance)</span>
-<span id="cb6-12"><a aria-label="12"></a>}</span>
-<span id="cb6-13"><a aria-label="13"></a></span>
-<span id="cb6-14"><a aria-label="14"></a>bw_opt <span class="ot">&lt;-</span> bw_cand[<span class="fu">which.min</span>(devs_obama)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>bw_cand <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.05</span>, <span class="fl">0.15</span>, <span class="at">length =</span> <span class="dv">100</span>)</span>
+<span id="cb6-2"><a></a>devs_obama <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb6-3"><a></a></span>
+<span id="cb6-4"><a></a><span class="cf">for</span>(bw <span class="cf">in</span> bw_cand){</span>
+<span id="cb6-5"><a></a>  S_k <span class="ot">&lt;-</span> bw <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> (<span class="dv">2</span><span class="sc">:</span>B <span class="sc">*</span> bw)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span>(<span class="sc">-</span><span class="dv">3</span>)</span>
+<span id="cb6-6"><a></a>  S_noise1 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> (<span class="dv">2</span><span class="sc">:</span>B) <span class="sc">/</span> n)</span>
+<span id="cb6-7"><a></a>  S_noise2 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">4</span> <span class="sc">*</span> pi <span class="sc">*</span> (<span class="dv">2</span><span class="sc">:</span>B) <span class="sc">/</span> n)</span>
+<span id="cb6-8"><a></a>  glm.temp <span class="ot">&lt;-</span> <span class="fu">glm</span>(theta_k <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> S_k <span class="sc">+</span> S_noise1 <span class="sc">+</span> S_noise2, </span>
+<span id="cb6-9"><a></a>      <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span>
+<span id="cb6-10"><a></a>  </span>
+<span id="cb6-11"><a></a>  devs_obama <span class="ot">&lt;-</span> <span class="fu">c</span>(devs_obama, glm.temp<span class="sc">$</span>deviance)</span>
+<span id="cb6-12"><a></a>}</span>
+<span id="cb6-13"><a></a></span>
+<span id="cb6-14"><a></a>bw_opt <span class="ot">&lt;-</span> bw_cand[<span class="fu">which.min</span>(devs_obama)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-25-1.png" width="960" class="r-stretch"></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-16" class="slide level2">
+<section id="presidential-approval-ratings-16" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="optimal-spectral-fit-1">Optimal Spectral Fit</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-label="1"></a>S_k <span class="ot">&lt;-</span> bw_opt <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> (<span class="dv">2</span><span class="sc">:</span>B <span class="sc">*</span> bw_opt)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span>(<span class="sc">-</span><span class="dv">3</span>)</span>
-<span id="cb7-2"><a aria-label="2"></a>S_noise1 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> (<span class="dv">2</span><span class="sc">:</span>B) <span class="sc">/</span> n)</span>
-<span id="cb7-3"><a aria-label="3"></a>S_noise2 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">4</span> <span class="sc">*</span> pi <span class="sc">*</span> (<span class="dv">2</span><span class="sc">:</span>B) <span class="sc">/</span> n)</span>
-<span id="cb7-4"><a aria-label="4"></a>glm.opt <span class="ot">&lt;-</span> <span class="fu">glm</span>(theta_k <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> S_k <span class="sc">+</span> S_noise1 <span class="sc">+</span> S_noise2, </span>
-<span id="cb7-5"><a aria-label="5"></a>    <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>S_k <span class="ot">&lt;-</span> bw_opt <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> (<span class="dv">2</span><span class="sc">:</span>B <span class="sc">*</span> bw_opt)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span>(<span class="sc">-</span><span class="dv">3</span>)</span>
+<span id="cb7-2"><a></a>S_noise1 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> (<span class="dv">2</span><span class="sc">:</span>B) <span class="sc">/</span> n)</span>
+<span id="cb7-3"><a></a>S_noise2 <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">4</span> <span class="sc">*</span> pi <span class="sc">*</span> (<span class="dv">2</span><span class="sc">:</span>B) <span class="sc">/</span> n)</span>
+<span id="cb7-4"><a></a>glm.opt <span class="ot">&lt;-</span> <span class="fu">glm</span>(theta_k <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> S_k <span class="sc">+</span> S_noise1 <span class="sc">+</span> S_noise2, </span>
+<span id="cb7-5"><a></a>    <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-27-1.png" width="960" class="r-stretch"></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661207468756d62732d7570203e7d7d-presidential-approval-ratings-17" class="slide level2">
+<section id="presidential-approval-ratings-17" class="slide level2">
 <h2><i class="fa-solid fa-thumbs-up" aria-label="thumbs-up"></i> Presidential Approval Ratings</h2>
 <h3 id="optimal-time-domain-fit-1">Optimal Time-Domain Fit</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-label="1"></a>theta_k_hat <span class="ot">&lt;-</span> glm.opt<span class="sc">$</span>fitted.values</span>
-<span id="cb8-2"><a aria-label="2"></a>v_k_hat <span class="ot">&lt;-</span> theta_k_hat <span class="sc">-</span> </span>
-<span id="cb8-3"><a aria-label="3"></a>  (<span class="fu">coef</span>(glm.opt)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">coef</span>(glm.opt)[<span class="dv">3</span>] <span class="sc">*</span> S_noise1 <span class="sc">+</span> </span>
-<span id="cb8-4"><a aria-label="4"></a>     <span class="fu">coef</span>(glm.opt)[<span class="dv">4</span>] <span class="sc">*</span> S_noise2)</span>
-<span id="cb8-5"><a aria-label="5"></a></span>
-<span id="cb8-6"><a aria-label="6"></a>wk <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, v_k_hat <span class="sc">/</span> theta_k_hat, <span class="dv">0</span>, <span class="fu">rev</span>(v_k_hat <span class="sc">/</span> theta_k_hat))</span>
-<span id="cb8-7"><a aria-label="7"></a>y.hat <span class="ot">&lt;-</span> <span class="fu">Re</span>(<span class="fu">fft</span>(wk <span class="sc">*</span> <span class="fu">fft</span>(y) <span class="sc">/</span> n, <span class="at">inverse =</span> T))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>theta_k_hat <span class="ot">&lt;-</span> glm.opt<span class="sc">$</span>fitted.values</span>
+<span id="cb8-2"><a></a>v_k_hat <span class="ot">&lt;-</span> theta_k_hat <span class="sc">-</span> </span>
+<span id="cb8-3"><a></a>  (<span class="fu">coef</span>(glm.opt)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">coef</span>(glm.opt)[<span class="dv">3</span>] <span class="sc">*</span> S_noise1 <span class="sc">+</span> </span>
+<span id="cb8-4"><a></a>     <span class="fu">coef</span>(glm.opt)[<span class="dv">4</span>] <span class="sc">*</span> S_noise2)</span>
+<span id="cb8-5"><a></a></span>
+<span id="cb8-6"><a></a>wk <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, v_k_hat <span class="sc">/</span> theta_k_hat, <span class="dv">0</span>, <span class="fu">rev</span>(v_k_hat <span class="sc">/</span> theta_k_hat))</span>
+<span id="cb8-7"><a></a>y.hat <span class="ot">&lt;-</span> <span class="fu">Re</span>(<span class="fu">fft</span>(wk <span class="sc">*</span> <span class="fu">fft</span>(y) <span class="sc">/</span> n, <span class="at">inverse =</span> T))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-29-1.png" width="960" class="r-stretch"></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661206c617965722d67726f7570203e7d7d-the-algorithm" class="slide level2" style="font-size:30px">
+<section id="the-algorithm" class="slide level2" style="font-size:30px">
 <h2><i class="fa-solid fa-layer-group" aria-label="layer-group"></i> The Algorithm</h2>
 <ol type="1">
 <li class="fragment"><p>Obtain the coefficients <span class="math inline">\(\check{y}_k\)</span> of the Discrete Fourier Transform of the <span class="math inline">\(y_t\)</span> values, and use this to compute <span class="math inline">\(\tilde{\theta}_k :=  \|\check{y}_k\|^2 / 2\)</span> for <span class="math inline">\(k = 0, \cdots, B\)</span> where <span class="math inline">\(B = \lfloor (n - 1) / 2 \rfloor\)</span> if <span class="math inline">\(n\)</span> is odd and <span class="math inline">\(B = n / 2\)</span> if <span class="math inline">\(n\)</span> is even.</p></li>
@@ -853,7 +847,7 @@ MathJax = {
 <li class="fragment"><p>Utilizing the optimal bandwidth from step (2) above, refit the Gamma GLM and obtain fitted values <span class="math inline">\(\widehat{\theta}_k\)</span>, <span class="math inline">\(k = 1, \cdots, B\)</span> for <span class="math inline">\(\theta_k\)</span>. Estimates for <span class="math inline">\(v_k\)</span> are computed as <span class="math display">\[\widehat{v}_k := \widehat{\theta}_k - \sum_{j=0}^{q} \widehat{\beta_j} \cos( 2 \pi j k / n )\]</span></p></li>
 </ol>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661206c617965722d67726f7570203e7d7d-the-algorithm-contd" class="slide level2" style="font-size:30px">
+<section id="the-algorithm-contd" class="slide level2" style="font-size:30px">
 <h2><i class="fa-solid fa-layer-group" aria-label="layer-group"></i> The Algorithm (cont’d)</h2>
 <ol start="4" type="1">
 <li>Multiply the <span class="math inline">\(\check{y}_k\)</span> terms from step 1 by weights <span class="math display">\[ \widehat{w}_k := \widehat{\left( \frac{v_k}{v_k + u_k} \right)} = \left( \frac{\widehat{v}_k}{\widehat{\theta}_k} \right) \]</span> to obtain estimates <span class="math inline">\(\widehat{\eta}_k := \widehat{w} \check{y}_k\)</span>.</li>
@@ -862,7 +856,7 @@ MathJax = {
 <li class="fragment">Apply the inverse Fourier transform to the <span class="math inline">\(\widehat{\eta}_k\)</span> values from step (4) above to obtain fitted values <span class="math inline">\(\hvect{y}\)</span>.</li>
 </ol>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661206172726f772d7472656e642d7570203e7d7d-trends" class="slide level2">
+<section id="trends" class="slide level2">
 <h2><i class="fa-solid fa-arrow-trend-up" aria-label="arrow-trend-up"></i> Trends</h2>
 <h3 id="an-overview">An Overview</h3>
 <ul>
@@ -876,17 +870,17 @@ MathJax = {
 </ul></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661206d6f756e7461696e203e7d7d-co2-dataset" class="slide level2">
+<section id="co2-dataset" class="slide level2">
 <h2><i class="fa-solid fa-mountain" aria-label="mountain"></i> CO<sub>2</sub> Dataset</h2>
 <h3 id="visualization-1">Visualization</h3>
 
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-30-1.png" width="960" class="r-stretch"></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661206d6f756e7461696e203e7d7d-co2-dataset-1" class="slide level2">
+<section id="co2-dataset-1" class="slide level2">
 <h2><i class="fa-solid fa-mountain" aria-label="mountain"></i> CO<sub>2</sub> Dataset</h2>
 <h3 id="initial-fit">Initial Fit</h3>
 
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-32-1.png" width="960" class="r-stretch"></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661206172726f772d7472656e642d7570203e7d7d-trends-1" class="slide level2">
+<section id="trends-1" class="slide level2">
 <h2><i class="fa-solid fa-arrow-trend-up" aria-label="arrow-trend-up"></i> Trends</h2>
 <h3 id="our-approach">Our Approach</h3>
 <ul>
@@ -898,12 +892,12 @@ MathJax = {
 </ul></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c206661206d6f756e7461696e203e7d7d-co2-dataset-2" class="slide level2">
+<section id="co2-dataset-2" class="slide level2">
 <h2><i class="fa-solid fa-mountain" aria-label="mountain"></i> CO<sub>2</sub> Dataset</h2>
 <h3 id="optimal-fit">Optimal Fit</h3>
 
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-34-1.png" width="960" class="r-stretch"></section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c2066612074696d656c696e65203e7d7d-credible-intervals" class="slide level2">
+<section id="credible-intervals" class="slide level2">
 <h2><i class="fa-solid fa-timeline" aria-label="timeline"></i> Credible Intervals</h2>
 <h3 id="a-work-in-progress">A Work In Progress</h3>
 <ul>
@@ -915,7 +909,7 @@ MathJax = {
 <li class="fragment"><p>We have results for the white noise case (which show that the variance contributed by parameter estimation is negligible), and are working to extend them to the more general moving-average case.</p></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c20666120636c6970626f6172642d6c697374203e7d7d-conclusion" class="slide level2">
+<section id="conclusion" class="slide level2">
 <h2><i class="fa-solid fa-clipboard-list" aria-label="clipboard-list"></i> Conclusion</h2>
 <h3 id="summary">Summary</h3>
 <ul>
@@ -928,7 +922,7 @@ MathJax = {
 <li class="fragment"><p>In cases where a noticeable trend is present, our algorithm can be applied to the residuals resulting from a Simple Linear Regression.</p></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c20666120636c6970626f6172642d6c697374203e7d7d-conclusion-1" class="slide level2">
+<section id="conclusion-1" class="slide level2">
 <h2><i class="fa-solid fa-clipboard-list" aria-label="clipboard-list"></i> Conclusion</h2>
 <h3 id="future-work">Future Work</h3>
 <ul>
@@ -941,7 +935,7 @@ MathJax = {
 <li class="fragment"><p>I would also like to explore whether it is feasible to extend our algorithm to <em>bivariate</em> data (though it is unclear whether this is feasible or not).</p></li>
 </ul>
 </section>
-<section id="b58fc729-690b-4000-b19f-365a4093b2ff7b7b3c2066612068616e647368616b65203e7d7d-acknowledgments" class="slide level2">
+<section id="acknowledgments" class="slide level2">
 <h2><i class="fa-solid fa-handshake" aria-label="handshake"></i> Acknowledgments</h2>
 <div style="font-size:24px">
 <ul>
@@ -1262,14 +1256,13 @@ MathJax = {
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-          const outerScaffold = trigger.parentElement.cloneNode(true);
-          const codeEl = outerScaffold.querySelector('code');
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
             }
-          }
-          return codeEl.innerText;
+            return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
