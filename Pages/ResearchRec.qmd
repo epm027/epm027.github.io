@@ -1,0 +1,133 @@
+---
+title: "Research and Recommendation Letters"
+page-layout: custom
+toc: false
+linkcolor: "#e0af3a"
+---
+
+<style>
+#title-block-header {
+    display: none;
+}
+
+.quarto-title > h1.title {
+  opacity: 0 !important;
+  font-size: 0 !important
+}
+
+body {
+  color: white;
+}
+.bg2 {
+  background: url(../Images/Backgrounds/sunset.jpg) no-repeat center;
+  background-size: cover;
+  height: 24vh;
+  position: relative;
+  color: white;
+}
+
+ul.timeline {
+    list-style-type: none;
+    position: relative;
+}
+ul.timeline:before {
+    content: ' ';
+    background: #d4d9df;
+    display: inline-block;
+    position: absolute;
+    left: 29px;
+    width: 2px;
+    height: 100%;
+    z-index: 400;
+}
+ul.timeline > li {
+    margin: 20px 0;
+    padding-left: 20px;
+}
+ul.timeline > li:before {
+    content: ' ';
+    background: white;
+    display: inline-block;
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid #22c0e8;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    z-index: 400;
+}
+
+.welcomebg2 {
+  background-color: #E69F00;
+}
+</style>
+
+
+::: {class="bg2"}
+
+:::
+
+::: {class="welcomebg"}
+::: {class="welcometext"}
+{{< fa chalkboard-user >}} **Reccomendation Letters**
+:::
+:::
+
+
+::: {class="maintext1"}
+[**Thinking about asking me for a Recommendation Letter?**]{style="font-size:35px"}
+
+I'm always thrilled and honored to be asked to write a recommendation letter! However, kindly note that, in order for me to agree to write you a letter, we need to have established a working relationship beyond just "you attended my lectures." At minimum, I ask that you have regularly attended my office hours and engaged with me; if we have worked on a project together, that is even better (though not required). I also ask that you please do not put my name down as a recommender until you have received written confirmation from me, and that you please inform me at least two months before the deadline; thank you!
+
+If I do decline to write you a letter of recommendation, please do not take it personally! Some semesters tend to be busier for me, leading me to have to place a cap on the number of recommendation letters I write. As much as I would love to write a letter for everyone who asks me, I am (alas) but one person.
+:::
+
+
+::: {class="welcomebg2"}
+::: {class="welcometext"}
+{{< fa chalkboard-user >}} **Research**
+:::
+:::
+::: {class="maintext1"}
+[**Thinking about asking me for research opportunities?**]{style="font-size:35px"}
+
+I am currently trying to grow my research group, and am seeking a wide array of interested students! Please see the following FAQ:
+
+-   **_Do I need to have taken a class with you?_**
+    -   Not necessarily, though I do prioritize students I already have a working relationship with (which typically means you have taken a class with me at some point)
+    
+-   **_Are there any classes I should take before asking you?_**
+    -   My primary research tends to be a bit more on the theoretical side, so having taken Mathematical Statistics (Stats 4620) is preferred; having taken a course in Linear Models is also a plus. However, even if you haven't taken both or either of these courses, please feel free to reach out to me! (I should also note that I do all of my programming in R, and will likely not be able to help you too much with Python-heavy research.) 
+
+-   **_Do I need to have a clear research question/project in mind before reaching out?_**
+    -   Not necessarily! Though, kindly note that if you come without a prior project in mind it may take a little longer to get to a final end-product.
+    -   With that said, if you'd like some ideas, here are a few topics/questions I have been pondering:
+        -   **Gaussian Process Regression.** This topic holds a special place in my heart, as it is the main topic of my own research from back in graduate school! My dissertation established a novel way to perform univariate Gaussian Process Regression (GPR), and explored some basic properties of our estimator. Some questions that still remain are:
+            -   Can this generalize to higher dimensional data?
+            -   Can we make the implementation of the coding more efficient (perhaps even developing an R package down the line)?
+        -   **Statistics Education.** I am always interested in furthering effective, ethical, and equitable education practices. Some questions in this arena are:
+            -   What is the role of AI in statistics education?
+            -   How can we increase the accessibility of statistics curricula?
+            -   How (if at all) are different minority groups catered to in a standard statistics classroom? How can we do better?
+
+-   **_Does your research tend to be in larger groups, or one-on-one?_**
+    -   As I grow my research group, I'd like to prioritize group research projects. This means, should you choose to work with me, I'll likely have you working with at least one other person. I am also hoping to start off with weekly (or biweekly) group research meetings, as opposed to one-on-one meetings. However, if you feel strongly about working one-on-one I am happy to discuss.
+    
+    
+-   **_Can I reach out to you partway through the quarter?_**
+    -   Given my previous point about starting off with group meetings, I'd prefer you reach out to me closer to the start of the quarter (as it will be a little difficult adding you into a research project once others on the project have gotten started). As I establish myself further, however, my timeline should become more flexible.
+
+  
+-   **_How should I reach out to you?_**
+    -   Email is the best place to start! Once you email me, I'll try and set up a time for us to meet (I'm available to meet over Zoom or in-person). 
+
+
+Here is some general advice I can offer as well:
+
+-   **It's okay to "shop around".** I will not be offended if you want to simultaneously work with me and another professor on two projects, nor will I be offended if you choose to work with another professor after working with me for a bit! In fact, I encourage you to try different advisors before landing on one you want to work with long-term. Research should be productive and feel good to you, and I totally understand if another professor is able to provide a research environment better-catered to your needs.
+
+-   **Research looks different for everyone.** Try not to compare yourself with others! Just because your friend has published X papers, or gone to Y conferences, doesn't mean you're doing research "wrong." Different projects inherently lend themselves to different end-products and different timelines.
+
+-   **Research is equal parts rewarding and frustrating.** It is completely natural to, at times, feel frustrated with your research progress. 
+
+:::

@@ -12,6 +12,8 @@ website:
         text: "{{< fa house >}} Home"
       - href: "Pages/Teaching.qmd"
         text: "{{< fa chalkboard-user >}} Teaching"
+      - href: "Pages/ResearchRec.qmd"
+        text: "{{< fa envelope >}} Research/Rec Letters"
       - href: "Pages/Service.qmd"
         text: "{{< fa user-group >}} Service"
       - href: "Pages/Miscellaneous.qmd"
